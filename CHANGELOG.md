@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0
+
+* Project renamed to generator-rebirth
+* Starters are now in external repo
+
 ## 0.4.3x (2016-12-21)
 
 * TYPO3: Remove the bloated boilerplate and use simpler Docker approach

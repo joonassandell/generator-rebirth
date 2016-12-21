@@ -1,39 +1,29 @@
-# My Web Starter Kit ([generator-my](https://bitbucket.org/mediasignal/generator-my.git))
+# Rebirth Yeoman generator
 
-> My combined styleguide, starter kit and Yeoman generator for new web projects (TYPO3/WordPress/Html).
-
-This starter kit contains methods and ideas from various sources such as [BEM](https://bem.info/), [HTML5BP](http://html5boilerplate.com/), [Bootstrap](http://getbootstrap.com), [Foundation](http://foundation.zurb.com/), [INUITCSS](https://github.com/inuitcss), [SMACSS](https://smacss.com/), [OOCSS](http://oocss.org/) and [SUIT CSS](https://github.com/suitcss/suit). By default this template supports IE10+, Mobile first -ideology and progressive enhancement.
-
-This starter kit is **not a framework** but it contains predefined components and helpers that are meant to be modified based on your project needs.
-
-## WORK IN PROGRESS!
-
-Use only if you know what you are doing or you are working together with the author. Docs are currently very much outdated.
+Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold a new theme (or extension) and install Docker development environment automatically.
 
 ## Features
 
-* Choose between TYPO3, WordPress or html project types
+* Choose between TYPO3, WordPress or Html project types
 * CSS Autoprefixing
 * Livereloading with Browsersync
-* Automatically compile Sass
-* Image Optimization
+* Automatical Sass compilation
+* Image optimization
 * Combine media queries
 * Browserify
-* Development environment
+* Docker development environment
 
 ## Requirements
-
-Install all the requirements before installing the generator.
 
 * [Node.js](http://nodejs.org/) & [Npm](https://www.npmjs.org/)
 * [Yeoman](http://yeoman.io/) `npm install -g yo`
 * [Bower](http://bower.io/) `npm install -g bower`
-* [Git](https://git-scm.com/) (optional)
+* [Git](https://git-scm.com/)
 
-My Web Starter Kit also provides Docker development environment. Requirements for TYPO3 and WordPress project types:
+Docker (TYPO3 and WordPress):
 
 * GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker or [native Linux with Docker](http://docs.docker.com/linux/step_one/)). Could also work in [Windows](https://docs.docker.com/docker-for-windows/#/what-to-know-before-you-install) but not tested just yet.
-* [Docker-compose](https://github.com/docker/compose)
+* [docker-compose](https://github.com/docker/compose)
 * [make](https://www.gnu.org/software/make/manual/make.html) (GNU/Linux/Unix, optional)
 
 ### TYPO3 requirements
@@ -52,11 +42,6 @@ My Web Starter Kit also provides Docker development environment. Requirements fo
 
 Please read and understand all of the following before doing anything. All of these documents will be converted to html docs later on.
 
-### Styleguide
-
-* [CSS styleguide](https://bitbucket.org/mediasignal/my-web-starter-kit/src/master/docs/css/)
-* [JS styleguide](docs/js)
-
 ### Project instructions
 
 * [TYPO3](docs/project/typo)
@@ -66,7 +51,7 @@ Please read and understand all of the following before doing anything. All of th
 
 **1.** Install generator:
 
-    npm install -g generator-my
+    npm install -g generator-rebirth
 
 **2.** Run the generator in your desired location, pass install directory and your project type (`typo3`, `html` or `wordpress`):
 
@@ -81,31 +66,16 @@ If you are building a *Typo3 project* all special characters are removed from th
 | `--docker`  | Boolean | true    | Set to false if you want to install extension/theme only. <br> Before install run docker-machine if you need to and stop all your other containers. |
 | `--project` | String  | typo3   | Choose between `typo3`, `html` and `wordpress` project types                                                                   |
 
-## Contribute
-
-Please discuss about new ideas and things that you think should be modified. Currently all the styleguiding, components (CSS/JS) and generator logic has been made by Joonas Ylitalo [@joonasy](https://twitter.com/joonasy).
-
-[Learn more about contributing](https://bitbucket.org/mediasignal/my-web-starter-kit/src/master/docs/contribute.md)
-
 ## Todo (in random order)
 
-* Apply new structural changes to docs
-* Figure out some useful name for this project
 * WordPress project guide
-* Separate starters, docs and the yeoman generator
 * Publish and finish the documentation
-* Consider Capistrano for WordPress projects
 * Typo3 content element starters
 * WordPress content element (ACF) starters
-* All necessary CSS components
 * Sub generators for starters
-* CSS modular scale
 * Browserify -> Webpack (?)
-* Maybe some sort of integration/forking with [generator-typo3](https://github.com/Milanowicz/generator-typo3)
-* Testing for JavaScript
-* Consider removing jQuery
-* Dockerfile for Typo3
+* Testing
 
 ## License
 
-Copyright (c) 2016 Joonas Ylitalo (Twitter: @joonasy) Licensed under the MIT license.
+Copyright (c) 2017 Joonas Ylitalo (Twitter: @joonasy) Licensed under the MIT license.
