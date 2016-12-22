@@ -12,7 +12,7 @@ var mkdirp = require('mkdirp')
 var path = require('path')
 var yosay = require('yosay')
 
-var MyGenerator = generator.extend({
+var Rebirth = generator.extend({
   constructor: function () {
     generator.apply(this, arguments)
     this.pkg = require('../package.json')
@@ -88,7 +88,7 @@ var MyGenerator = generator.extend({
    */
   prompts: function () {
     this.log(yosay(
-      'Hi! Welcome to ' + chalk.blue('My Web Starter Kit')+'. ' +
+      'Hi! Welcome to ' + chalk.blue('Rebirth')+'. ' +
       'Let\'s create a ' + chalk.green(this.name()) + ' project!'
     ))
 
@@ -565,4 +565,4 @@ var MyGenerator = generator.extend({
   }
 })
 
-module.exports = MyGenerator
+module.exports = Rebirth

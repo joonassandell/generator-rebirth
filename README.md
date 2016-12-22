@@ -20,13 +20,13 @@ Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold
 * [Bower](http://bower.io/) `npm install -g bower`
 * [Git](https://git-scm.com/)
 
-Docker (TYPO3 and WordPress):
+### Docker
 
 * GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker or [native Linux with Docker](http://docs.docker.com/linux/step_one/)). Could also work in [Windows](https://docs.docker.com/docker-for-windows/#/what-to-know-before-you-install) but not tested just yet.
 * [docker-compose](https://github.com/docker/compose)
 * [make](https://www.gnu.org/software/make/manual/make.html) (GNU/Linux/Unix, optional)
 
-### TYPO3 requirements
+### TYPO3
 
 * [TYPO3 v^7.6.0](http://typo3.org)
 * [Flux](http://typo3.org/extensions/repository/view/flux)
@@ -34,20 +34,11 @@ Docker (TYPO3 and WordPress):
 * [Fluid Content Engine](http://typo3.org/extensions/repository/view/fluidcontent)
 * [Vhs](http://typo3.org/extensions/repository/view/vhs)
 
-### WordPress requirements
+### WordPress
 
-* [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/) (if using components)
+* [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/) (recommended)
 
 ## Getting started
-
-Please read and understand all of the following before doing anything. All of these documents will be converted to html docs later on.
-
-### Project instructions
-
-* [TYPO3](docs/project/typo)
-* [Html](docs/project)
-
-## Installing
 
 **1.** Install generator:
 
@@ -58,6 +49,14 @@ Please read and understand all of the following before doing anything. All of th
     yo my [my-new-project-directory] --project=typo3
 
 If you are building a *Typo3 project* all special characters are removed from the extension directory name e.g. `my-project_name` -> `myprojectname`.
+
+**3.** Learn about the generated project structure:
+
+* [TYPO3](docs/project/typo)
+* [Html](docs/project)
+
+All of these documents will be converted to html docs later on.
+
 
 ### Options
 

@@ -6,8 +6,6 @@
  * @url <%= (generatorRepository) %>
  */
 
-'use strict'
-
 var assemble = require('assemble')
 var app = assemble()
 var fs = require('fs')

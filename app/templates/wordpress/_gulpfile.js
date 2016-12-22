@@ -6,8 +6,6 @@
  * @url <%= (generatorRepository) %>
  */
 
-'use strict'
-
 var fs = require('fs')
 var browserify = require('browserify')
 var browserSync = require('browser-sync').create()
