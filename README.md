@@ -1,10 +1,10 @@
 # Rebirth Yeoman generator
 
-Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold a new theme (or extension) and install Docker development environment automatically.
+Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold a new project and install Docker development environment automatically.
 
 ## Features
 
-* Choose between TYPO3, WordPress or Html project types
+* Choose between TYPO3, WordPress or HTML project types
 * CSS Autoprefixing
 * Livereloading with Browsersync
 * Automatical Sass compilation
@@ -53,7 +53,7 @@ If you are building a *Typo3 project* all special characters are removed from th
 **3.** Learn about the generated project structure:
 
 * [TYPO3](docs/project/typo)
-* [Html](docs/project)
+* [HTML](docs/project)
 
 All of these documents will be converted to html docs later on.
 
