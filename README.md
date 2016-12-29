@@ -50,13 +50,13 @@ Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold
 
 If you are building a *Typo3 project* all special characters are removed from the extension directory name e.g. `my-project_name` -> `myprojectname`.
 
-**3.** Learn about the generated project structure:
+### Documentation 
 
-* [TYPO3](docs/project/typo)
-* [HTML](docs/project)
+Learn about the generated project structure. All of these documents will be converted to html docs later on.
 
-All of these documents will be converted to html docs later on.
-
+* [General structure](docs/project)
+* [TYPO3 structure](docs/typo3/)
+* [Rebirth structure](https://github.com/joonasy/rebirth/tree/master/docs/markdown) (Front-end assets)
 
 ### Options
 

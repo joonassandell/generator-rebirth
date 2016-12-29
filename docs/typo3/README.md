@@ -9,44 +9,45 @@ For all the shared files and structure see [shared files across project types](.
 ```
 extension/                        # [1]
 |
-|── Classes/                      # [2]
-|── Configuration/                # [3]
-|── Resources/                    # [4]
+|── Assets/                       # [2]
+|── Classes/                      # [3]
+|── Configuration/                # [4]
+|── Resources/                    # [5]
 |   |
-|   |── Private/                  # [5]
+|   |── Private/                  # [6]
 |   |   |── Layouts/
-|   |   |   `── App.html          # [6]
+|   |   |   `── App.html          # [7]
 |   |   |── Partials/
-|   |   |   `── Bottom.html       # [7]
-|   |   |   `── Top.html          # [8]
-|   |   |   `── Bottom.dist.html  # [9]
-|   |   |   `── Top.dist.html     # [10]
+|   |   |   `── Bottom.html       # [8]
+|   |   |   `── Top.html          # [9]
+|   |   |   `── Bottom.dist.html  # [10]
+|   |   |   `── Top.dist.html     # [11]
 |   |   |── Templates/ 
-|   |   |   `── HomePage.html     # [11]
-|   |── Public/                   # [12]
+|   |   |   `── HomePage.html     # [12]
+|   |── Public/                   # [13]
 |
-|── Media/                        # [13]
-|── typo3/                        # [14]
-    `── composer.json             # [15]
-`── ext_emconf.php                # [16]
-`── ext_tables.php                # [17]
+|── Media/                        # [14]
+|── typo3/                        # [15]
+    `── composer.json             # [16]
+`── ext_emconf.php                # [17]
+`── ext_tables.php                # [18]
 ```
 
 * **1.** Extension folder
-* **2.** Typo3 settings
-* **3.** Typo3 settings
-* **4.** Public and private files
-* **5.** Site layouts, partials and templates
-* **6.** Default application layout
-* **7.** This file contains all the JavaScripts and material that are located in the bottom of the HTML document 
-* **8.** This file contains all the CSS, JavaScripts and material that are located in the top of the HTML document
-* **9. / 10.** These are the build process made files which contain the new references to the build assets. These should be ignored from git
-* **11.** HomePage template
-* **12.** Public folder where build assets are placed
-* **13.** This folder contains temporary material that are used mainly in Html templates
-* **14.** Typo3 installation folder
-* **15.** Contains all Typo3 dependencies
-* **16. / 17.** Typo extension configuration
+* **2.** This folder contains all assets which follow the [Rebirth project structure](https://github.com/joonasy/rebirth/tree/master/docs/markdown), [Rebirth CSS styleguide](https://github.com/joonasy/rebirth/tree/master/docs/markdown/css) and [Rebirth JavaScript styleguide](https://github.com/joonasy/rebirth/tree/master/docs/markdown/js)
+* **3. / 4.** Typo3 settings
+* **5.** Public and private files
+* **6.** Site layouts, partials and templates
+* **7.** Default application layout
+* **8.** This file contains all the JavaScripts and material that are located in the bottom of the HTML document 
+* **9.** This file contains all the CSS, JavaScripts and material that are located in the top of the HTML document
+* **10. / 11.** These are the build process made files which contain the new references to the build assets. These should be ignored from git
+* **12.** HomePage template
+* **13.** Public folder where build assets are placed
+* **14.** This folder contains temporary material that are used mainly in Html templates
+* **15.** Typo3 installation folder
+* **16.** Contains all Typo3 dependencies
+* **17. / 18.** Typo extension configuration
 
 ## Docker folder structure
 

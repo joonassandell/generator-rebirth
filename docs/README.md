@@ -6,7 +6,7 @@ Please read Rebirth [CSS Styleguide](https://github.com/joonasy/rebirth/tree/mas
 
 Project specific instructions: 
 
-* [Typo3](typo3)
+* [TYPO3](typo3/)
 
 ## Gulp tasks
 
