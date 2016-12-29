@@ -75,4 +75,4 @@ mysql:
 
 ---
 
-Learn more about the project structure in [My Web Starter Kit](https://bitbucket.org/mediasignal/my-web-starter-kit/src/master/docs/project/README.md)
+Learn more about the project structure in [Docs](https://github.com/joonasy/generator-rebirth/tree/master/docs)

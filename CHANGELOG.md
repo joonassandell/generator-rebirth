@@ -5,7 +5,9 @@
 * **Do not use versions below this**
 * Applied new Rebirth component structure and naming
 * Gulpfile:
+  * New Rebirth component structure
   * `open=false` -> `--disable_open`
+  * `['objectfit']` always part of custom modernizr
 
 ## 0.5.0
 
