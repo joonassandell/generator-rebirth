@@ -54,7 +54,7 @@ If you are building a *Typo3 project* all special characters are removed from th
 
 Learn about the generated project structure. All of these documents will be converted to html docs later on.
 
-* [General structure](docs/project)
+* [General structure](docs/)
 * [TYPO3 structure](docs/typo3/)
 * [Rebirth structure](https://github.com/joonasy/rebirth/tree/master/docs/markdown) (Front-end assets)
 
