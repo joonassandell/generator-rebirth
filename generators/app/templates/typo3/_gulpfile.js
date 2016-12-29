@@ -21,7 +21,7 @@ var $ = require('gulp-load-plugins')()
 
 var production = process.env.NODE_ENV === 'production'
 var host = process.env.npm_config_host
-var open = process.env.npm_config_open
+var open = process.env.npm_config_disable_open ? false : 'external'
 
 
 /* ======
@@ -29,24 +29,22 @@ var open = process.env.npm_config_open
  * ====== */
 
 var config = {
-  ext: '<%= dir %>/',
-  host: '<%= dir %>.dev',
+  ext: 'typo3conf/ext/<%= dir %>/',
+  host: '<%= dir %>.dev:8000',
   src: 'Resources/Private/',
   dest: 'Resources/Public/',
   stylesheets: {
-    src: 'Assets/stylesheets/app.scss',
-    dest: 'Resources/Public/Assets/stylesheets/',
-    watch: 'Assets/stylesheets/**/**/*.scss'
+    src: 'Assets/app.scss',
+    dest: 'Resources/Public/Assets/',
+    watch: 'Assets/**/**/*.scss'
   },
   javascripts: {
-    src: 'Assets/javascripts/',
-    dest: 'Resources/Public/Assets/javascripts/',
+    src: 'Assets/',
+    dest: 'Resources/Public/Assets/',
     bundle: [{
-      src: 'Assets/javascripts/app.js',
-      file_name: 'app.js'
+      fileName: 'app.js'
     }, {
-      src: 'Assets/javascripts/head.js',
-      file_name: 'head.js'
+      fileName: 'app.head.js'
     }]
   },
   images: {
@@ -83,9 +81,9 @@ gulp.task('stylesheets', function() {
 
   if (production) {
     return pipeline = pipeline
-      .pipe($.replace('../', '/' + config.ext + config.dest))
+      .pipe($.replace('./', '/' + config.ext + config.dest + 'Assets/'))
       .pipe($.combineMq({ beautify: false }))
-      .pipe($.cssnano({ mergeRules: false }))
+      .pipe($.cssnano({ mergeRules: false, zindex: false }))
       .pipe(gulp.dest(config.stylesheets.dest))
   } else {
     return pipeline = pipeline
@@ -107,17 +105,17 @@ gulp.task('javascripts', ['modernizr'], function(callback) {
       cache: {},
       packageCache: {},
       fullPaths: false,
-      entries: bundleConfig.src,
+      entries: config.javascripts.src + bundleConfig.fileName,
       debug: !production
     })
 
     var bundle = function() {
-      bundleLogger.start(bundleConfig.file_name)
+      bundleLogger.start(bundleConfig.fileName)
 
       var collect = pipeline
         .bundle()
         .on('error', handleError)
-        .pipe(source(bundleConfig.file_name))
+        .pipe(source(bundleConfig.fileName))
 
       if (!production) {
         collect = collect.pipe(browserSync.stream())
@@ -135,7 +133,7 @@ gulp.task('javascripts', ['modernizr'], function(callback) {
     }
 
     var reportFinished = function() {
-      bundleLogger.end(bundleConfig.file_name)
+      bundleLogger.end(bundleConfig.fileName)
 
       if (bundleQueue) {
         bundleQueue--
@@ -181,7 +179,7 @@ gulp.task('fonts', function() {
  */
 gulp.task('server', function() {
   browserSync.init({
-    open: open === undefined ? 'external' : open,
+    open: open,
     port: 9001,
     proxy: host ? host : config.host,
     notify: false,
@@ -197,7 +195,6 @@ gulp.task('watch', function(callback) {
   gulp.watch(config.stylesheets.watch, ['stylesheets'])
   gulp.watch(config.fonts.watch, ['fonts'])
   gulp.watch(config.images.watch, ['images'])
-  gulp.watch('gulpfile.js', ['default'])
 })
 
 /**
@@ -220,7 +217,7 @@ gulp.task('modernizr', ['stylesheets'], function() {
   ])
     .pipe($.modernizr({
       excludeTests: ['hidden'],
-      tests: [''],
+      tests: ['objectfit'],
       options: [
         'setClasses',
         'addTest',
@@ -250,8 +247,8 @@ gulp.task('createDistPartials', tasks, function() {
     .pipe($.replace(inline({ matchFile: 'app.css' }), function() {
       return inline({ file: 'app.css' })
     }))
-    .pipe($.replace(inline({ matchFile: 'head.js' }), function() {
-      return inline({ file: 'head.js' })
+    .pipe($.replace(inline({ matchFile: 'app.head.js' }), function() {
+      return inline({ file: 'app.head.js' })
     }))
     .pipe($.rename({ suffix: '.dist' }))
     .pipe(gulp.dest(config.src))
@@ -261,12 +258,13 @@ gulp.task('createDistPartials', tasks, function() {
  * Revision
  */
 gulp.task('rev', tasks.concat(['createDistPartials']), function() {
-  rimraf.sync(config.stylesheets.dest)
-  rimraf.sync(config.javascripts.dest + 'head.js')
-  rimraf.sync(config.javascripts.dest + 'vendors')
+  rimraf.sync(config.stylesheets.dest + '*.css')
+  rimraf.sync(config.javascripts.dest + 'app.head.js')
+  rimraf.sync(config.javascripts.dest + 'vendors/')
 
   return gulp.src([
-    config.dest + 'Assets/{images,fonts,javascripts}/**'
+    config.dest + 'Assets/*.js',
+    config.dest + 'Assets/{images,fonts}/**'
   ])
     .pipe($.rev())
     .pipe(gulp.dest(config.dest + 'Assets/'))
@@ -374,7 +372,7 @@ function rmOriginalFiles() {
   return through.obj(function(file, enc, cb) {
 
     if (file.revOrigPath) {
-      fs.unlink(file.revOrigPath)
+      fs.unlinkSync(file.revOrigPath)
     }
 
     this.push(file)

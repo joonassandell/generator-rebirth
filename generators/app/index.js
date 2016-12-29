@@ -1,5 +1,5 @@
 /* ========================================
- * My Web Starter Kit generator
+ * Rebirth - Install
  * ======================================== */
 
 'use strict'
@@ -15,7 +15,7 @@ var yosay = require('yosay')
 var Rebirth = generator.extend({
   constructor: function () {
     generator.apply(this, arguments)
-    this.pkg = require('../package.json')
+    this.pkg = require('../../package.json')
     this.generatorDate = moment().format('D.M.YYYY')
     this.generatorRepository = this.pkg.repository
 
@@ -171,17 +171,6 @@ var Rebirth = generator.extend({
           return 'Website for '+ _.humanize(props.name)
         }.bind(this)
       }, {
-        type: 'checkbox',
-        name: 'assets',
-        message: 'What starters do you want?',
-        choices: [
-          {
-            name: 'Default stylesheets and JavaScripts',
-            value: 'assets',
-            checked: true
-          }
-        ]
-      }, {
         when: function (props) {
           if (this.wp && this.docker) {
             this.log(
@@ -228,7 +217,6 @@ var Rebirth = generator.extend({
     ]
 
     return this.prompt(prompts).then(function (props) {
-      this.assets = props.assets.indexOf('assets') !== -1
       this.appName = props.name
       this.appNameDasherize = _.dasherize(_.slugify(props.name))
       this.appNameHumanize = _.humanize(this.appNameDasherize)
@@ -283,59 +271,48 @@ var Rebirth = generator.extend({
   },
 
   /**
-   * Setup default assets
+   * Install default assets
    */
   assets: function() {
-    if (this.assets) {
-      var _this = this
-      var startersDir = this.templatePath('starters/src/assets/')
+    var _this = this
+    var assetsDir = this.templatePath('../../../node_modules/rebirth-ui/src/')
 
-      var cssAssets = [
-        'components/Component/',
-        'components/Container/',
-        'components/Grid/_Grid.config.scss',
-        'components/Grid/_Grid.scss',
-        'components/Grid/_index.scss',
-        'components/Heading/',
-        'components/Icon/',
-        'components/IeFrame/',
-        'components/Text/',
-        'components/Width/',
-        'components/Wrap/',
-        'generic/',
-        'helpers/_helper.scss',
-        'layout/Footer/',
-        'layout/Header/',
-        'layout/Page/',
-        'mixins/',
-        'vendors/_normalize.scss',
-        '_config.scss',
-        'app.scss'
-      ].forEach(function(file) {
-        _this.fs.copy(
-          startersDir + 'stylesheets/' + file,
-          _this.destinationPath(_this.config.get('assetsPath') + 'stylesheets/' + file)
-        )
-      })
+    var assets = [
+      'components/elements/Container/',
+      'components/elements/Heading/',
+      'components/elements/Icon/',
+      'components/elements/IeFrame/',
+      'components/elements/Text/',
+      'components/elements/Width/',
+      'components/elements/Wrap/',
+      'components/collections/Grid/_Grid.scss',
+      'components/layouts/Footer/',
+      'components/layouts/Header/',
+      'components/layouts/Page/',
+      'stylesheets/generic/',
+      'stylesheets/helpers/_helper.scss',
+      'stylesheets/mixins/',
+      'stylesheets/vendors/_normalize.scss',
+      '_config.scss',
+      'config.js'
+    ].forEach(function(file) {
+      _this.fs.copy(
+        assetsDir + file,
+        _this.destinationPath(_this.config.get('assetsPath') + file)
+      )
+    })
 
-      var jsAssets = [
-        'app.js',
-        'config.js',
-        'lib/fixes.js',
-        'components/Component.js'
-      ].forEach(function(file) {
-        _this.fs.copy(
-          startersDir + 'javascripts/' + file,
-          _this.destinationPath(_this.config.get('assetsPath') + 'javascripts/' + file)
-        )
-      })
+    this.fs.copy(this.templatePath('shared/assets/components/collections/Grid/'),
+      _this.config.get('assetsPath') + 'components/collections/Grid/', this)
+    this.fs.copyTpl(this.templatePath('shared/assets/_app.head.js'),
+      _this.config.get('assetsPath') + 'app.head.js', this)
+    this.fs.copy(this.templatePath('shared/assets/app.js'),
+      _this.config.get('assetsPath') + 'app.js')
+    this.fs.copy(this.templatePath('shared/assets/app.scss'),
+      _this.config.get('assetsPath') + 'app.scss')
 
-      this.fs.copyTpl(startersDir + 'javascripts/_head.js',
-        _this.config.get('assetsPath') + 'javascripts/head.js', this)
-
-      mkdirp(this.config.get('assetsPath')+'images')
-      mkdirp(this.config.get('assetsPath')+'fonts')
-    }
+    mkdirp(this.config.get('assetsPath')+'images')
+    mkdirp(this.config.get('assetsPath')+'fonts')
   },
 
   /**

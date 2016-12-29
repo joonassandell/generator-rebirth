@@ -1,8 +1,14 @@
 # Changelog
 
-## 0.5.0
+## 0.5.1
 
 * **Do not use versions below this**
+* Applied new Rebirth component structure and naming
+* Gulpfile:
+  * `open=false` -> `--disable_open`
+
+## 0.5.0
+
 * Project renamed to generator-rebirth
 * Starters are now in [Rebirth](https://github.com/joonasy/rebirth.git)
 * Old npm package deprecated
