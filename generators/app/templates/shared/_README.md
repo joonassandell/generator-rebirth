@@ -3,10 +3,12 @@
 > <%= appDescription %>. Generated on <%= (generatorDate) %> with [<%= pkg.name %> v<%= pkg.version %>](<%= (generatorRepository) %>).
 
 ## Project information<% if (typo3) { %> 
+
 * Extension key: `<%= dir %>`
 * Flux extension key: `<%= appNameSpace %>.<%= dirCapitalize %>`<% } %>
 
 ## Requirements
+
 <% if (typo3) { %>* [Typo3](http://typo3.org)
 * [Flux](http://typo3.org/extensions/repository/view/flux)
 * [Fluid Pages Engine](http://typo3.org/extensions/repository/view/fluidpages)
@@ -36,14 +38,14 @@
 * `npm run build`: Build the application
 * `npm run deploy`: Build the application and deploy it to the server<% if (html) { %>* `npm run dist`: Build the application and start a local server for testing purposes<% } %>
 * `npm run dev`: Watches files and sets up development environment.
-    *  `--host=yourlocalhost.app`: Assign your custom host for the BrowserSync<% if (docker) { %>
+    * `--host=yourlocalhost.app`: Assign your custom host for the BrowserSync
+    * `--disable_open`: Disables automatic browser opening<% if (docker) { %>
 
 ## Docker development environment 
 
 If you are using GNU/Linux/Unix and Docker you are in luck! Could also work in Windows but not tested just yet (Author, please make sure the following link is correct).
 
 [<%= appNameHumanize %> - TYPO3 Docker](https://bitbucket.org/<%= appAuthorDasherize %>/<%= dir %>-docker)
-
 <% } %>
 ---
 
