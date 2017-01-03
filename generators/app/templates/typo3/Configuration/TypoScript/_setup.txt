@@ -6,6 +6,7 @@ plugin.tx_<%= dir %>.view {
 
 [globalString = ENV:HTTP_HOST = <%= dir %>.dev:8000]
   plugin.tx_<%= dir %>.settings.dev = 1
+  config.contentObjectExceptionHandler = 0
 [END]
 
 config.htmlTag_setParams = class="no-js"
