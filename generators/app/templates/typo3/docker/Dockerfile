@@ -9,9 +9,9 @@ RUN apt-get update && apt-get install -y \
   imagemagick php5-imagick libjpeg62-turbo-dev libmcrypt-dev libpng12-dev
 
 # Install php extensions
-RUN docker-php-ext-install -j$(nproc) iconv mcrypt soap zip mcrypt mysqli pdo pdo_mysql xml mbstring tokenizer \
+RUN docker-php-ext-install iconv mcrypt soap zip mcrypt mysqli pdo pdo_mysql xml mbstring tokenizer \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
+    && docker-php-ext-install gd
 
 # Xdebug
 RUN pecl install xdebug
