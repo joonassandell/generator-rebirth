@@ -1,9 +1,11 @@
 # Changelog
 
-## 0.5.1
+## 0.5.1x
 
 * **Do not use versions below this**
 * Applied new Rebirth component structure and naming
+* Fix TYPO3 install errors and show errors in development
+* Updated documentation
 * Gulpfile:
   * New Rebirth component structure
   * `open=false` -> `--disable_open`
