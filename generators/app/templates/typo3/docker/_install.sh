@@ -21,11 +21,6 @@ else
   docker-compose run --rm app bash -c "cd typo3 && composer update"
 fi
 
-# Symlink main extension
-docker-compose run --rm app bash -c "cd typo3/typo3conf/ext/ \
-  && rm -f <%= dir %> \
-  && ln -s ../../../<%= dir %> <%= dir %>"
-
 # Add write permissions
 docker-compose run --rm app bash -c "chmod a+w typo3 typo3/typo3conf typo3/typo3conf/ext"
 

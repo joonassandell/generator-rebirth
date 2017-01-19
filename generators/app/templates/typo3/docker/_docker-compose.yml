@@ -9,6 +9,7 @@ app:
     - 8000:80
     - 9000:9000
   volumes:
+    - ./<%= dir %>/:/var/www/html/typo3/typo3conf/<%= dir %>/
     - ./<%= dir %>/typo3/composer.json:/var/www/html/typo3/composer.json
     - ./:/var/www/html/
 
