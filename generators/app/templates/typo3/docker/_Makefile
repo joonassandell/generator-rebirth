@@ -26,6 +26,7 @@ rebuild:
 	docker-compose up -d
 
 reinstall:
+	rm -rf typo3/
 	docker-compose stop
 	docker-compose rm -f app
 	docker-compose rm -f mysql
