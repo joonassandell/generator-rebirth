@@ -62,7 +62,7 @@ var Rebirth = generator.extend({
 
       if (this.docker) {
         mkdirp(this.dir)
-        this.destinationRoot(this.dir + '/' + extension)
+        this.destinationRoot(this.dir + '-docker/' + extension)
       } else {
         this.destinationRoot(extension)
       }
@@ -72,7 +72,7 @@ var Rebirth = generator.extend({
 
     if (this.wp) {
       if (this.docker) {
-        this.destinationRoot(this.dir + '/' + this.dir)
+        this.destinationRoot(this.dir + '-docker/' + this.dir)
       } else {
         this.destinationRoot(this.dir)
       }
@@ -100,11 +100,7 @@ var Rebirth = generator.extend({
         default: path.basename(process.cwd())
       }, {
         when: function (props) {
-          var deeperDir = ''
-
-          if (this.docker) {
-            deeperDir = this.docker ? this.dirOrig + '/' : ''
-          }
+          var deeperDir = this.docker ? this.dirOrig + '-docker/' : ''
 
           if (this.typo3) {
             var extension =  _.underscored(this.dir).replace(/_/g, '')
@@ -118,7 +114,7 @@ var Rebirth = generator.extend({
             )
           } else if (this.wp) {
             this.log(
-              chalk.green('  ❯'), 'Install path:', chalk.cyan('./' + this.dir), '\n' +
+              chalk.green('  ❯'), 'Install path:', chalk.cyan('./' + deeperDir + this.dir), '\n' +
               chalk.green('  ❯'), 'Theme path:', chalk.cyan('./' + deeperDir + this.dir),
               this.docker ? '\n' + chalk.green('  ❯ ') + 'WordPress path:' + chalk.cyan('./' +
               deeperDir + 'wp') : ''
