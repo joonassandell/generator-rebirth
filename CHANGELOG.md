@@ -5,6 +5,8 @@
 * **Do not use versions below this**
 * Applied new Rebirth component structure and naming
 * Fix TYPO3 install errors and show errors in development
+* Set automatically docker suffix for the generated development repo
+* Use the composer installed wp instead (easier to change wp versions)
 * Updated documentation
 * Gulpfile:
   * New Rebirth component structure
