@@ -8,7 +8,7 @@ app:
   volumes:
     - ./<%= dir %>:/var/www/html/wp-content/themes/<%= dir %>
     - ./<%= dir %>/wp/composer.json:/var/www/html/composer.json
-    - ./wp/wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
+    - ./wp/wp:/var/www/html/wp
     - ./wp/wp-content/plugins:/var/www/html/wp-content/plugins
     - ./wp/wp-content/uploads:/var/www/html/wp-content/uploads
     - ./wp-config.development.php:/var/www/html/wp-config.development.php

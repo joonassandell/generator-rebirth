@@ -1,6 +1,6 @@
 # <%= appNameHumanize %> - WordPress Docker
 
-> Docker development environment for `<%= dir %>`. Generated on <%= (generatorDate) %> with [<%= pkg.name %> v<%= pkg.version %>](<%= (generatorRepository) %>).
+> Docker development environment for `<%= dir %>`. Generated on <%= (generatorDate) %> with [<%= pkg.name %> v<%= pkg.version %>](<%= (generatorRepository) %>). Currently using [joonasy/wordpress](https://github.com/joonasy/wordpress) as the main image.
 
 # Requirements
 
