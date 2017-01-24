@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# ========================================
-# Install WordPress
-# ========================================
-
 # Make sure submodules are up to date
 if [ ! "$(ls -A <%= dir %>)" ]
 then
@@ -14,7 +10,7 @@ fi
 docker-compose up -d
 
 # Run composer install
-if [ ! -d "wp/vendor" ]
+if [ ! -d "wp/wp-content/plugins" ]
 then
   docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/ \
     composer/composer:alpine install
