@@ -39,6 +39,7 @@ Otherwise run [install.sh](install.sh) or run the commands manually.
 All the commands are near equivalents to docker / docker-compose commands. If you are not able to run these please refer to the [Makefile](Makefile), [Docker compose reference](https://docs.docker.com/compose/reference) and [ Docker CLI](https://docs.docker.com/engine/reference/commandline/). 
 
 * `make install`: Kickstart your project and/or update all dependencies
+* `make update`: Update all dependencies
 * `make start`: Start containers
 * `make stop`: Stop containers
 * `make up`: Build, create and start your containers if not already build

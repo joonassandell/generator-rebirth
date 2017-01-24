@@ -20,6 +20,9 @@ mysql:
 install:
 	bash ./install.sh
 
+update:
+	bash ./install.sh
+
 rebuild:
 	docker-compose stop
 	docker-compose rm -f app
