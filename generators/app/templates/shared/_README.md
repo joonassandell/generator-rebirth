@@ -2,11 +2,6 @@
 
 > <%= appDescription %>. Generated on <%= (generatorDate) %> with [<%= pkg.name %> v<%= pkg.version %>](<%= (generatorRepository) %>).
 
-## Project information<% if (typo3) { %> 
-
-* Extension key: `<%= dir %>`
-* Flux extension key: `<%= appNameSpace %>.<%= dirCapitalize %>`<% } %>
-
 ## Requirements
 
 <% if (typo3) { %>* [Typo3](http://typo3.org)
