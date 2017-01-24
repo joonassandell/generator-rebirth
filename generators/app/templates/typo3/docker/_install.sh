@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# ========================================
-# Install TYPO3
-# ========================================
-
 # Make sure submodules are up to date
 if [ ! "$(ls -A <%= dir %>)" ]
 then

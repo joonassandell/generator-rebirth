@@ -27,7 +27,7 @@ Otherwise run [install.sh](install.sh) or run the commands manually.
 **3.** Map your localhost to the development address in your host machine's hosts-file (/etc/hosts in linux/osx, somewhere in sys files in windows). For example:
 
 ```
-192.168.10.10 <%= dir %>.dev
+192.168.99.100 <%= dir %>.dev
 ```
 
 **4.** Locate to [<%= dir %>.dev:8000](http://<%= dir %>.dev:8000) and setup WordPress
