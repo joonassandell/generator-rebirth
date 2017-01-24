@@ -18,3 +18,7 @@ insert_final_newline = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+# Makefiles require tabs
+[{_Makefile,Makefile,**.mk}]
+indent_style = tab
