@@ -13,7 +13,7 @@
 **1.** Clone this repository recursively:
 
 ```
-$ git clone git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>.git --recursive
+$ git clone git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>.git --recurse-submodules
 ```
 
 **2.** If you are able to run make / shell scripts you are in luck (first, start your docker-machine if you need to): 
