@@ -1,10 +1,7 @@
 #!/bin/bash
 
 # Make sure submodules are up to date
-if [ ! "$(ls -A <%= dir %>)" ]
-then
-  git submodule update --init --recursive
-fi
+git submodule update --recursive --remote
 
 # Start docker containers
 docker-compose up -d
