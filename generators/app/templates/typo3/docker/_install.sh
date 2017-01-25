@@ -6,7 +6,18 @@ git submodule update --recursive --remote
 # Start docker containers
 docker-compose up -d
 
-# Run composer install
+# Install extension dependencies
+if [ ! -d "<%= dir %>/node_modules" ]
+  then
+    (cd <%= dir %> && npm install)
+fi
+
+if [ ! -d "<%= dir %>/bower_components" ]
+  then
+    (cd <%= dir %> && bower install)
+fi
+
+# Run composer
 if [ ! -d "typo3/vendor" ]
 then
   docker-compose run --rm app bash -c "cd typo3 && composer install"
