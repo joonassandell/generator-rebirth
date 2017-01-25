@@ -76,4 +76,4 @@ mysql:
 
 ---
 
-Learn more about the project structure in [Docs](https://github.com/joonasy/generator-rebirth/tree/master/docs)
+Learn about the project structure in [Rebirth docs](https://github.com/joonasy/generator-rebirth/tree/master/docs)
