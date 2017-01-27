@@ -1,2 +1,13 @@
+# ======
+# Basic
+# ======
+
+.DS_Store
+
+
+# ======
+# Build and deployment
+# ======
+
 /wp
 docker-compose.override.yml

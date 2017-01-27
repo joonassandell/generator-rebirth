@@ -1,2 +1,13 @@
+# ======
+# Basic
+# ======
+
+.DS_Store
+
+
+# ======
+# Build and deployment
+# ======
+
 /typo3
 docker-compose.override.yml
