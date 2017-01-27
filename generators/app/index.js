@@ -61,7 +61,6 @@ var Rebirth = generator.extend({
       var extension = _.underscored(this.dir).replace(/_/g, '')
 
       if (this.docker) {
-        mkdirp(this.dir)
         this.destinationRoot(this.dir + '-docker/' + extension)
       } else {
         this.destinationRoot(extension)
