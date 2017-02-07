@@ -8,22 +8,47 @@
     }, {
       "type": "composer",
       "url": "https://packagist.org"
-    }<% if (pluginWPMLuserID) { %>, {
+    }<% if (pluginWPML) { %>, {
       "type": "package",
       "package": {
         "name": "wpml/sitepress-multilingual-cms",
         "version": "3.6.2",
         "type": "wordpress-plugin",
-        "dist": {
-          "type": "zip",
-          "url": "https://wpml.org/?download=6088&user_id=<%= pluginWPMLuserID %>&subscription_key=<%= pluginWPMLkey %>"
+        "source": {
+          "type": "git",
+          "url": "https://github.com/wp-premium/sitepress-multilingual-cms.git",
+          "reference": "master"
+        }
+      }
+    }, {
+      "type": "package",
+      "package": {
+        "name": "wpml/wpml-translation-management",
+        "version": "2.2.6",
+        "type": "wordpress-plugin",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/wp-premium/wpml-translation-management.git",
+          "reference": "master"
+        }
+      }
+    }, {
+      "type": "package",
+      "package": {
+        "name": "wpml/wpml-string-translation",
+        "version": "2.5.1",
+        "type": "wordpress-plugin",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/wp-premium/wpml-string-translation.git",
+          "reference": "master"
         }
       }
     }<% } if (pluginACFkey) { %>, {
       "type": "package",
       "package": {
         "name": "advanced-custom-fields/advanced-custom-fields-pro",
-        "version": "5.5.2",
+        "version": "5.5.6",
         "type": "wordpress-plugin",
         "dist": {
           "type": "zip",
@@ -34,11 +59,13 @@
   ],
   "require": {
     "php": ">=5.4",
-    "johnpbloch/wordpress": "4.7.1",
+    "johnpbloch/wordpress": "4.7.2",
     "wpackagist-plugin/w3-total-cache": "*",
-    "wpackagist-plugin/wordpress-seo": "*"<% if (pluginWPMLuserID) { %>,
-    "wpml/sitepress-multilingual-cms": "3.6.2"<% } if (pluginACFkey) { %>,
-    "advanced-custom-fields/advanced-custom-fields-pro": "5.5.2"<% } %>
+    "wpackagist-plugin/wordpress-seo": "*"<% if (pluginWPML) { %>,
+    "wpml/sitepress-multilingual-cms": "3.6.2",
+    "wpml/wpml-translation-management": "2.2.6",
+    "wpml/wpml-string-translation": "2.5.1"<% } if (pluginACFkey) { %>,
+    "advanced-custom-fields/advanced-custom-fields-pro": "5.5.6"<% } %>
   },
   "extra": {
     "wordpress-install-dir": "wp"

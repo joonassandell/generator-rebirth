@@ -164,30 +164,12 @@ var Rebirth = generator.extend({
           return 'Website for '+ _.humanize(props.name)
         }.bind(this)
       }, {
-        when: function (props) {
-          if (this.wp && this.docker) {
-            this.log(
-              chalk.green('  !'), 'WPML user id and subscription key can be found from the download link in \n' +
-              chalk.green('  !'), chalk.underline.yellow('https://wpml.org/account/downloads/'), '\n' +
-              chalk.green('  !'), '?download=6088&user_id='+chalk.bold.yellow('YOUR_USER_ID')+'&subscription_key='+chalk.bold.yellow('YOUR_KEY')
-            )
-          }
-        }.bind(this)
-      }, {
-        type: 'input',
-        name: 'pluginWPMLuserID',
-        message: 'WPML user ID (leave empty for not installing):',
+        type: 'confirm',
+        name: 'pluginWPML',
+        message: 'Install WPML?:',
         default: false,
         when: function() {
           return this.wp && this.docker
-        }.bind(this)
-      }, {
-        type: 'input',
-        name: 'pluginWPMLkey',
-        message: 'WPML subscription key:',
-        default: false,
-        when: function(props) {
-          return props.pluginWPMLuserID
         }.bind(this)
       }, {
         when: function (props) {
@@ -222,8 +204,7 @@ var Rebirth = generator.extend({
       this.appDescription = props.description
       this.dirCapitalize = _.capitalize(this.dir)
       this.git = props.git
-      this.pluginWPMLuserID = props.pluginWPMLuserID
-      this.pluginWPMLkey = props.pluginWPMLkey
+      this.pluginWPML = props.pluginWPML
       this.pluginACFkey = props.pluginACFkey
     }.bind(this))
   },

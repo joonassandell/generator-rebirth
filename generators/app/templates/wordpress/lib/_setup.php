@@ -27,7 +27,7 @@ function register_navs() {
   ));
 }
 
-add_action('init', __NAMESPACE__ . '\\register_navs');<% if (pluginWPMLuserID) { %>
+add_action('init', __NAMESPACE__ . '\\register_navs');<% if (pluginWPML) { %>
 
 /**
  * Make theme available for translation
