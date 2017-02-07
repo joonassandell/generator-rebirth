@@ -55,13 +55,12 @@ var Rebirth = generator.extend({
      * Setup proper install directory
      */
     this.dir = this.options.dir.toLowerCase()
-    this.dirOrig = this.options.dir
 
     if (this.typo3) {
       var extension = _.underscored(this.dir).replace(/_/g, '')
 
       if (this.docker) {
-        this.destinationRoot(this.dir + '-docker/' + extension)
+        this.destinationRoot(extension  + '-docker/' + extension)
       } else {
         this.destinationRoot(extension)
       }
@@ -99,21 +98,20 @@ var Rebirth = generator.extend({
         default: path.basename(process.cwd())
       }, {
         when: function (props) {
-          var deeperDir = this.docker ? this.dirOrig + '-docker/' : ''
+          var deeperDir = this.docker ? this.dir + '-docker/' : ''
+          var installPath = this.docker ? this.dir + '-docker/' : this.dir
 
           if (this.typo3) {
-            var extension =  _.underscored(this.dir).replace(/_/g, '')
-
             this.log(
-              chalk.green('  ❯'), 'Install path:', chalk.cyan('./' + deeperDir + extension), '\n' +
-              chalk.green('  ❯'), 'Extension key:', chalk.cyan(extension), '\n' +
-              chalk.green('  ❯'), 'Extension path:', chalk.cyan('./' + deeperDir + extension),
+              chalk.green('  ❯'), 'Install path:', chalk.cyan('./' + installPath), '\n' +
+              chalk.green('  ❯'), 'Extension key:', chalk.cyan(this.dir), '\n' +
+              chalk.green('  ❯'), 'Extension path:', chalk.cyan('./' + deeperDir + this.dir),
               this.docker ? '\n' + chalk.green('  ❯ ') + 'TYPO3 path:' + chalk.cyan('./' +
               deeperDir + 'typo3') : ''
             )
           } else if (this.wp) {
             this.log(
-              chalk.green('  ❯'), 'Install path:', chalk.cyan('./' + deeperDir + this.dir), '\n' +
+              chalk.green('  ❯'), 'Install path:', chalk.cyan('./' + installPath), '\n' +
               chalk.green('  ❯'), 'Theme path:', chalk.cyan('./' + deeperDir + this.dir),
               this.docker ? '\n' + chalk.green('  ❯ ') + 'WordPress path:' + chalk.cyan('./' +
               deeperDir + 'wp') : ''
@@ -306,6 +304,7 @@ var Rebirth = generator.extend({
     this.fs.copy(this.templatePath('shared/assets/app.scss'),
       _this.config.get('assetsPath') + 'app.scss')
 
+    mkdirp(this.config.get('assetsPath')+'javascripts')
     mkdirp(this.config.get('assetsPath')+'images')
     mkdirp(this.config.get('assetsPath')+'fonts')
   },
