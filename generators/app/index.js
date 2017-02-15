@@ -238,10 +238,10 @@ var Rebirth = generator.extend({
       this.destinationPath('.gitignore'), this)
     this.fs.copy(this.templatePath('shared/editorconfig'), this.destinationPath('.editorconfig'))
     this.fs.copy(this.templatePath('shared/eslintrc'), this.destinationPath('.eslintrc'))
-    this.fs.copyTpl(this.templatePath('shared/_dploy.example.yml'),
-      this.destinationPath('dploy.example.yml'), this)
-    this.fs.copyTpl(this.templatePath('shared/_dploy.example.yml'),
-      this.destinationPath('dploy.yml'), this)
+    this.fs.copyTpl(this.templatePath('shared/_dploy.example.yaml'),
+      this.destinationPath('dploy.example.yaml'), this)
+    this.fs.copyTpl(this.templatePath('shared/_dploy.example.yaml'),
+      this.destinationPath('dploy.yaml'), this)
   },
 
   /**

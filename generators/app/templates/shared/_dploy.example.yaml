@@ -1,6 +1,6 @@
 production:
   branch: master
-  exclude: ["*.ini", "*.json", ".editorconfig", ".jscsrc", "bower.json", "gulpfile.js", "package.json", "README.md", "rev-manifest.json", <% if (typo3) { %>"Assets/**/*"<% } if (wp) { %>"assets/**/*"<% } if (html) { %>"src/**/*"<% } %>, ".gitignore"]
+  exclude: ["*.ini", "*.json", "dploy.yaml", "dploy.example.yaml", ".editorconfig", ".eslintrc", "bower.json", "gulpfile.js", "package.json", "README.md", "rev-manifest.json", <% if (typo3) { %>"Assets/**/*"<% } if (wp) { %>"assets/**/*"<% } if (html) { %>"src/**/*"<% } %>, ".gitignore"]
   host: ""
   include:<% if (typo3) { %>
     "Resources/Public/**": "Resources/Public"
