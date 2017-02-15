@@ -1,6 +1,6 @@
 {
   "name": "generator-rebirth",
-  "version": "0.5.16",
+  "version": "0.5.17",
   "description": "Rebirth Yeoman generator for new TYPO3, WordPress or Html projects.",
   "license": "MIT",
   "main": "generators/app/index.js",
