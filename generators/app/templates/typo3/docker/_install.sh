@@ -58,4 +58,5 @@ fi
 # Add write permissions
 docker-compose run --rm app bash -c "chmod 777 -R typo3/uploads/ \
   && chmod 777 -R typo3/typo3conf/l10n/ \
-  && chmod 777 -R typo3/fileadmin/"
+  && chmod 777 -R typo3/fileadmin/ \
+  && cp typo3/vendor/typo3/cms/_.htaccess typo3/.htaccess"
