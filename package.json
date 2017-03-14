@@ -17,7 +17,7 @@
     "chalk": "^1.1.1",
     "mkdirp": "^0.5.1",
     "moment": "^2.9.0",
-    "rebirth-ui": "^0.5.11",
+    "rebirth-ui": "^0.5.2",
     "underscore.string": "^3.3.4",
     "yeoman-generator": "^1.0.1",
     "yosay": "^1.2.1"
