@@ -60,10 +60,11 @@ Learn about the generated project structure. All of these documents will be conv
 
 ### Options
 
-| Option      | Type    | Default | Description                                                                                                                    |
-|-------------|---------|---------|--------------------------------------------------------------------------------------------------------------------------------|
-| `--docker`  | Boolean | true    | Set to false if you want to install extension/theme only. <br> Before install run docker-machine if you need to and stop all your other containers. |
-| `--project` | String  | typo3   | Choose between `typo3`, `html` and `wordpress` project types                                                                   |
+| Option           | Type    | Default | Description                                                                                                                                         |
+|------------------|---------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `--docker`       | Boolean | true    | Set to `false` if you want to install extension/theme only. Before installing, <br> start your docker-machine if you need to and stop all your other containers. |
+| `--project`      | String  | typo3   | Choose between `typo3`, `html` and `wordpress` project types.                                                                                        |
+| `--skip-install` | Boolean | false   | Skip all installations.                                                                      |
 
 ## Todo
 

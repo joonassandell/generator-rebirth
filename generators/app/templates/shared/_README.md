@@ -14,7 +14,11 @@
 * [Composer](https://getcomposer.org/)<% } %>
 * [Node.js](http://nodejs.org/)
 * [Npm](https://www.npmjs.org/)
-* [Bower](http://bower.io/)
+* [Bower](http://bower.io/)<% if (docker) { %>
+
+## Getting started
+
+[<%= appNameHumanize %> - <%= name() %> Docker](https://bitbucket.org/<%= appAuthorDasherize %>/<%= dir %>-docker.git) installs all the required dependencies and builds your development environment. Works with GNU/Linux/Unix and could also work in Windows. Otherwise clone this theme to your themes folder and do the install process.<% } %>
 
 ## Install
 
@@ -34,14 +38,8 @@
 * `npm run deploy`: Build the application and deploy it to the server<% if (html) { %>* `npm run dist`: Build the application and start a local server for testing purposes<% } %>
 * `npm run dev`: Watches files and sets up development environment.
     * `--host=yourlocalhost.app`: Assign your custom host for the BrowserSync
-    * `--disable_open`: Disables automatic browser opening<% if (docker) { %>
+    * `--disable_open`: Disables automatic browser opening
 
-## Docker development environment 
-
-If you are using GNU/Linux/Unix and Docker you are in luck! Could also work in Windows but not tested just yet (Author, please make sure the following link is correct).
-
-[<%= appNameHumanize %> - TYPO3 Docker](https://bitbucket.org/<%= appAuthorDasherize %>/<%= dir %>-docker)
-<% } %>
 ---
 
 Learn about the project structure in [Rebirth docs](https://github.com/joonasy/generator-rebirth/tree/master/docs)

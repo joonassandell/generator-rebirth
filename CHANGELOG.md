@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.2x
+
+* TYPO3: Copy .htaccess file 91dfe37
+* TYPO3: Add automatic database (`typo3.sql`) import b828f87
+
 ## 0.5.1x
 
 * **Do not use versions below this**

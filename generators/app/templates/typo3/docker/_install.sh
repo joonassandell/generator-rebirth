@@ -55,7 +55,7 @@ then
   fi
 fi
 
-# Add write permissions
+# Add write permissions and copy files
 docker-compose run --rm app bash -c "chmod 777 -R typo3/uploads/ \
   && chmod 777 -R typo3/typo3conf/l10n/ \
   && chmod 777 -R typo3/fileadmin/ \
