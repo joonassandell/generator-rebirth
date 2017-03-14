@@ -65,15 +65,9 @@ Learn about the generated project structure. All of these documents will be conv
 | `--docker`  | Boolean | true    | Set to false if you want to install extension/theme only. <br> Before install run docker-machine if you need to and stop all your other containers. |
 | `--project` | String  | typo3   | Choose between `typo3`, `html` and `wordpress` project types                                                                   |
 
-## Todo (in random order)
+## Todo
 
-* WordPress project guide
-* Publish and finish the documentation
-* Typo3 content element starters
-* WordPress content element (ACF) starters
-* Sub generators for starters
-* Browserify -> Webpack (?)
-* Testing
+[Milestones - v1.0](https://github.com/joonasy/generator-rebirth/milestone/11)
 
 ## License
 
