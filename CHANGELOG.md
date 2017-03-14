@@ -2,8 +2,8 @@
 
 ## 0.5.2x
 
-* TYPO3: Copy .htaccess file 91dfe37
-* TYPO3: Add automatic database (`typo3.sql`) import b828f87
+* TYPO3: Copy .htaccess file #7
+* TYPO3: Add automatic database (`typo3.sql`) import #13
 
 ## 0.5.1x
 
