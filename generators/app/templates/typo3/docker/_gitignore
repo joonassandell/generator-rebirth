@@ -10,4 +10,5 @@
 # ======
 
 /typo3
+/database/typo3.sql
 docker-compose.override.yml

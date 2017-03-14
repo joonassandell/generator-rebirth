@@ -10,19 +10,21 @@
 
 # Installation 
 
-**1.** Clone this repository recursively:
+**1.** Clone this repository recursively
 
 ```
-$ git clone git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>.git --recurse-submodules
+$ git clone git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>-docker.git --recurse-submodules
 ```
 
-**2.** If you are able to run make / shell scripts you are in luck (first, start your docker-machine if you need to): 
+**2.** Run install (start your docker-machine if you need to)
 
 ```
 $ make install
 ```
 
-Otherwise run [install.sh](install.sh) or run the commands manually.
+You can import SQL dump automatically in project startup by placing your dump in `./database` folder with the name `typo3.sql`. Download `fileadmin` folder from the production server and replace it with your local version if you like.
+
+If you can't run shell scripts, run the commands manually from [install.sh](install.sh).
 
 **3.** Map your localhost to the development address in your host machine's hosts-file (/etc/hosts in linux/osx, somewhere in sys files in windows). For example:
 
@@ -32,13 +34,13 @@ Otherwise run [install.sh](install.sh) or run the commands manually.
 
 **4.** Locate to [<%= dir %>.dev:8000/typo3](http://<%= dir %>.dev:8000/typo3) and setup your extension
 
-**5.** See extension development usage in [<%= dir %>](<%= dir %>) 
+**5.** See extension development usage in [<%= dir %>](https://bitbucket.org/<%= appAuthorDasherize %>/<%= dir %>) 
 
 # Usage
 
 All the commands are near equivalents to docker / docker-compose commands. If you are not able to run these please refer to the [Makefile](Makefile), [Docker compose reference](https://docs.docker.com/compose/reference) and [ Docker CLI](https://docs.docker.com/engine/reference/commandline/). 
 
-* `make install`: Kickstart your project and/or update all dependencies
+* `make install`: Kickstart your project and install all dependencies
 * `make update`: Update all dependencies
 * `make start`: Start containers
 * `make stop`: Stop containers
@@ -50,14 +52,16 @@ All the commands are near equivalents to docker / docker-compose commands. If yo
 
 # Information
 
-### Default database credentials
+### Default credentials
 
 ```
+# TYPO3 user
 User: admin
 Password: password
 ```
 
 ```
+# Database
 MYSQL_ROOT_PASSWORD: root
 MYSQL_DATABASE: typo3
 MYSQL_USER: typo3
@@ -66,13 +70,11 @@ MYSQL_PASSWORD: typo3
 
 ### Import SQL dump
 
-You can import SQL dump automatically in project startup. Create docker-compose.override.yml and add the following to the `mysql` section:
+You can import SQL dump automatically in project startup by placing your dump in `./database` folder with the name `typo3.sql`.
 
-```
-mysql:
-  volumes:
-    - /folder-to-local-sql-dump/:/docker-entrypoint-initdb.d/
-```
+### Custom docker settings
+
+If you want to extend existing docker settings, create `docker-compose.override.yml` and add your custom settings there. 
 
 ---
 

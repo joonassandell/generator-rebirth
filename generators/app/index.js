@@ -326,10 +326,9 @@ var Rebirth = generator.extend({
           this.destinationPath('../Makefile'), this)
         this.fs.copyTpl(this.templatePath('typo3/docker/_docker-compose.yml'),
           this.destinationPath('../docker-compose.yml'), this)
-        this.fs.copyTpl(this.templatePath('typo3/docker/_docker-compose.override.yml'),
-          this.destinationPath('../docker-compose.override.yml'), this)
         this.fs.copy(this.templatePath('typo3/docker/Dockerfile'),
           this.destinationPath('../Dockerfile'))
+        this.fs.copy(this.templatePath('shared/gitkeep'), this.destinationPath('../database/.gitkeep'))
       }
     }
   },

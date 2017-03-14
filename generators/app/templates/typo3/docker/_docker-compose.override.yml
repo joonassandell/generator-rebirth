@@ -1,3 +1,0 @@
-mysql:
-  # volumes:
-    # - ./folder-to-local-sql-dump/:/docker-entrypoint-initdb.d/

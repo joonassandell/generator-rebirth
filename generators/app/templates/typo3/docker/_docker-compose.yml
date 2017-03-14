@@ -23,6 +23,8 @@ mysql:
     MYSQL_DATABASE: typo3
     MYSQL_USER: typo3
     MYSQL_PASSWORD: typo3
+  volumes:
+    - ./database/typo3.sql:/typo3.sql
 
 mail:
   container_name: <%= dir %>-mail
