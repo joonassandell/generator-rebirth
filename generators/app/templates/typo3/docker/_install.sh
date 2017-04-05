@@ -19,10 +19,12 @@ fi
 
 # Run composer
 if [ ! -d "typo3/vendor" ]
-then
-  docker-compose run --rm app bash -c "cd typo3 && composer install"
-else
-  docker-compose run --rm app bash -c "cd typo3 && composer update"
+ then
+   docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ \
+     composer/composer:alpine install
+ else
+   docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ \
+     composer/composer:alpine update
 fi
 
 # Add write permissions

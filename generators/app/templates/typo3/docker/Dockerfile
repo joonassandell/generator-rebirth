@@ -25,14 +25,8 @@ RUN echo "xdebug.default_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.max_nesting_level=400" >> /usr/local/etc/php/conf.d/xdebug.ini
 
 # Set php settings
-RUN echo "max_execution_time=240" >> /usr/local/etc/php/conf.d/php-oras.ini \
-    && echo "max_input_vars=1500" >> /usr/local/etc/php/conf.d/php-oras.ini
-
-# Install Composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php \
-    && php -r "unlink('composer-setup.php');" \
-    && mv composer.phar /usr/local/bin/composer
+RUN echo "max_execution_time=240" >> /usr/local/etc/php/conf.d/php.ini \
+    && echo "max_input_vars=1500" >> /usr/local/etc/php/conf.d/php.ini
 
 # Install PHPUnit
 RUN wget https://phar.phpunit.de/phpunit.phar \
