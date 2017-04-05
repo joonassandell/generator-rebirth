@@ -50,7 +50,7 @@ then
   docker-compose run --rm app bash -c "chmod 777 -R typo3/typo3temp"
   docker-compose run --rm app bash -c "chmod a+w typo3/typo3conf/LocalConfiguration.php"
 
-  if [ -e "database/typo3.sql" ]
+  if [ -f "database/typo3.sql" ]
     then
       echo 'Importing database...'
       docker exec -it <%= dir %>-mysql bash -c "mysql -uroot -proot -e 'drop database typo3; create database typo3; use typo3; source typo3.sql;'"
