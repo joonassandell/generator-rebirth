@@ -46,7 +46,7 @@ Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold
 
 **2.** Run the generator in your desired location, pass install directory and your project type (`typo3`, `html` or `wordpress`):
 
-    yo my [my-new-project-directory] --project=typo3
+    yo rebirth [my-new-project-directory] --project=typo3
 
 If you are building a *Typo3 project* all special characters are removed from the extension directory name e.g. `my-project_name` -> `myprojectname`.
 
@@ -57,6 +57,7 @@ Learn about the generated project structure. All of these documents will be conv
 * [General structure](docs/)
 * [TYPO3 structure](docs/typo3/)
 * [Rebirth structure](https://github.com/joonasy/rebirth/tree/master/docs/markdown) (Front-end assets)
+
 
 ### Options
 
