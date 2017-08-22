@@ -21,10 +21,10 @@ fi
 if [ ! -d "typo3/vendor" ]
  then
    docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ \
-     composer/composer:alpine install
+     composer install
  else
    docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ \
-     composer/composer:alpine update
+     composer update
 fi
 
 # Add write permissions
