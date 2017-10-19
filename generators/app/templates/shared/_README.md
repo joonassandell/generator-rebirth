@@ -13,8 +13,7 @@
 * [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/)<% }} if (typo3 || wp) { %>
 * [Composer](https://getcomposer.org/)<% } %>
 * [Node.js](http://nodejs.org/)
-* [Npm](https://www.npmjs.org/)
-* [Bower](http://bower.io/)<% if (docker) { %>
+* [Npm](https://www.npmjs.org/)<% if (docker) { %>
 
 ## Getting started
 
@@ -27,10 +26,6 @@
 **2.** Install node modules
   
     npm install
-
-**3.** Install bower packages
-  
-    bower install
 
 ## Usage
 

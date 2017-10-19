@@ -70,7 +70,7 @@ var config = {
 gulp.task('stylesheets', function() {
   var pipeline = gulp.src(config.stylesheets.src)
     .pipe($.sass({
-      includePaths: ['node_modules', 'bower_components'],
+      includePaths: ['node_modules'],
       outputStyle: 'expanded'
     }))
     .on('error', handleError)

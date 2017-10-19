@@ -12,17 +12,7 @@ if [ ! -d "<%= dir %>" ]
     (cd <%= dir %> && npm install)
 fi
 
-if [ ! -d "<%= dir %>/bower_components" ]
-  then
-    (cd <%= dir %> && bower install)
-fi
-
 # Run composer
-if [ ! -d "wp/wp-content/plugins" ]
-then
-  docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/ \
-    composer/composer:alpine install
-else
-  docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/ \
-    composer/composer:alpine update
-fi
+docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/ \
+  composer/composer:alpine install
+

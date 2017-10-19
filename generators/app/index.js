@@ -194,7 +194,6 @@ class Rebirth extends Generator {
     copy(`shared/_dploy.example.yaml`, `dploy.yaml`, this)
     copy(`shared/editorconfig`, `.editorconfig`, this)
     copy(`shared/eslintrc`, `.eslintrc`, this)
-    copy(`shared/_bower.json`, `bower.json`, this)
   }
 
   assets() {
@@ -331,6 +330,7 @@ class Rebirth extends Generator {
 
   install() {
     this.installDependencies({
+      bower: false,
       skipInstall: this.options['skip-install'],
       callback: () => {
         if (!this.options['skip-install']) {

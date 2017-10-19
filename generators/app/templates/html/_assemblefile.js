@@ -106,7 +106,7 @@ app.task('html', function() {
 app.task('stylesheets', function() {
   var pipeline = app.src(config.stylesheets.src)
     .pipe($.sass({
-      includePaths: ['node_modules', 'bower_components'],
+      includePaths: ['node_modules'],
       outputStyle: 'expanded'
     }))
     .on('error', handleError)
