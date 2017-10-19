@@ -1,4 +1,20 @@
-# Changelog
+# CHANGELOG
+
+## 0.5.3x
+
+* TYPO3: 
+  - Add support for TYPO3 8 (^8.7.8) ([#29](../../issues/29))
+  - Use new docker image ([#42](../../issues/42))
+  - Prompt for the new typo3 version
+  - Simplify install scripts and extension files
+  - Isolate TYPO3 composer and extension installers ([#32](../../issues/32))
+  - Add tests ([#38](../../issues/38))
+* Update to yeoman 1.1, fresh node version, ES2015 ([#33](../../issues/33))
+* Convert index.js to ES6 ([#12](../../issues/12))
+* Remove cross-env ([#30](../../issues/30))
+* Remove bower ([#36](../../issues/36))
+  - [How to migrate away from Bower in older projects](https://bower.io/blog/2017/how-to-migrate-away-from-bower/)
+* Stop ignoring composer.lock ([#26](../../issues/26))
 
 ## 0.5.2x
 
@@ -14,9 +30,9 @@
 * Use the composer installed wp instead (easier to change wp versions)
 * Updated documentation
 * Gulpfile:
-  * New Rebirth component structure
-  * `open=false` -> `--disable_open`
-  * `['objectfit']` always part of custom modernizr
+  - New Rebirth component structure
+  - `open=false` -> `--disable_open`
+  - `['objectfit']` always part of custom modernizr
 
 ## 0.5.0
 
@@ -86,14 +102,14 @@
 
 ## 0.0.5 (2013-10-18)
 * Now I'll be using the preconfigured grunt/bower config for future projects (/joonasy-bp). Yeoman is nice but it think configuring it is unnecesserary step at least for now. I should make some bash script for creating projects.
-  * E.g. mkdir prototype && cp -a joonasy-bp/joonasy-bp/. prototype/ && cd prototype && npm install && bower install 
+  - E.g. mkdir prototype && cp -a joonasy-bp/joonasy-bp/. prototype/ && cd prototype && npm install && bower install 
 * Grunt
-  * Added custom modernizr building task
-  * Jade for default marking
-  * Use autoprefixer always
+  - Added custom modernizr building task
+  - Jade for default marking
+  - Use autoprefixer always
 * Bower 
-  * Enquire, Respond, Fastclick, Normalize
-  * Note: Remember to manually convert normalize.css to _normalize.scss because seems that all the normalize scss versions add some unwanted variables
+  - Enquire, Respond, Fastclick, Normalize
+  - Note: Remember to manually convert normalize.css to _normalize.scss because seems that all the normalize scss versions add some unwanted variables
 
 ## 0.0.5 (2013-07-08)
 
