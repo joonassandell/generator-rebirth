@@ -22,7 +22,7 @@ Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold
 
 ### Docker
 
-* GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker or [native Linux with Docker](http://docs.docker.com/linux/step_one/)). Could also work in [Windows](https://docs.docker.com/docker-for-windows/#/what-to-know-before-you-install) but not tested just yet.
+* GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker, [native Linux with Docker](http://docs.docker.com/linux/step_one/), or [Docker for Mac](https://docs.docker.com/docker-for-mac/)). Could also work in [Windows](https://docs.docker.com/docker-for-windows/#/what-to-know-before-you-install) but not tested just yet.
 * [docker-compose](https://github.com/docker/compose)
 * [make](https://www.gnu.org/software/make/manual/make.html) (GNU/Linux/Unix, optional)
 
