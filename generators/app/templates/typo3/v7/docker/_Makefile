@@ -21,7 +21,7 @@ install:
 	bash ./install.sh
 
 update:
-	bash ./install.sh
+	docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ composer update
 
 rebuild:
 	docker-compose stop
@@ -29,9 +29,13 @@ rebuild:
 	docker-compose up -d
 
 reinstall:
-	rm -rf typo3/
+	rm -rf typo3/fileadmin
+	rm -rf typo3/typo3conf
+	rm -rf typo3/typo3temp
+	rm -rf typo3/uploads
+	rm -rf typo3/vendor
+	rm -rf typo3/index.php
 	docker-compose stop
 	docker-compose rm -f app
 	docker-compose rm -f mysql
-	docker-compose rm -f mail
 	bash ./install.sh

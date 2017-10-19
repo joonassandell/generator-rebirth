@@ -1,16 +1,14 @@
 app:
   container_name: <%= dir %>-app
   build: .
-  dockerfile: Dockerfile
   links:
     - mysql
-    - mail
   ports:
     - 8000:80
     - 9000:9000
   volumes:
     - ./<%= dir %>/:/var/www/html/typo3/typo3conf/ext/<%= dir %>/
-    - ./<%= dir %>/typo3/composer.json:/var/www/html/typo3/composer.json
+    - ./typo3/composer.json:/var/www/html/typo3/composer.json
     - ./:/var/www/html/
 
 mysql:
@@ -19,15 +17,6 @@ mysql:
   ports:
     - 13306:3306
   environment:
+    MYSQL_USER: root
     MYSQL_ROOT_PASSWORD: root
     MYSQL_DATABASE: typo3
-    MYSQL_USER: typo3
-    MYSQL_PASSWORD: typo3
-  volumes:
-    - ./database/typo3.sql:/typo3.sql
-
-mail:
-  container_name: <%= dir %>-mail
-  image: helder/mailcatcher
-  ports:
-    - 1080:80

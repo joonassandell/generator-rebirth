@@ -22,11 +22,7 @@ $ git clone git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>-docker.git --
 $ make install
 ```
 
-You can import SQL dump automatically in project startup by placing your dump in `./database` folder with the name `typo3.sql`. Download `fileadmin` folder from the production server and replace it with your local version if you like.
-
-If you can't run shell scripts, run the commands manually from [install.sh](install.sh).
-
-**3.** Map your localhost to the development address in your host machine's hosts-file (/etc/hosts in linux/osx, somewhere in sys files in windows). For example:
+**3.** Map your localhost to the development address in your host machine's hosts-file (/etc/hosts in linux/osx). For example:
 
 ```
 192.168.99.100 <%= dir %>.dev
@@ -55,22 +51,11 @@ All the commands are near equivalents to docker / docker-compose commands. If yo
 ### Default credentials
 
 ```
-# TYPO3 user
-User: admin
-Password: password
-```
-
-```
 # Database
+MYSQL_USER: root
 MYSQL_ROOT_PASSWORD: root
 MYSQL_DATABASE: typo3
-MYSQL_USER: typo3
-MYSQL_PASSWORD: typo3
 ```
-
-### Import SQL dump
-
-You can import SQL dump automatically in project startup by placing your dump in `./database` folder with the name `typo3.sql`.
 
 ### Custom docker settings
 

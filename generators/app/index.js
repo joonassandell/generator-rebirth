@@ -41,6 +41,7 @@ class Rebirth extends Generator {
       type: String
     })
 
+    this.dir = this.options.dir.toLowerCase()
     this.typo3 = this.options.project === 'typo3'
     this.wp = this.options.project === 'wordpress'
     this.html = this.options.project === 'html'
@@ -52,11 +53,6 @@ class Rebirth extends Generator {
       else if (this.wp) { return 'WordPress' }
       else { return 'Html' }
     }
-
-    /**
-     * Setup proper install directory
-     */
-    this.dir = this.options.dir.toLowerCase()
 
     if (this.typo3) {
       let extension = _.underscored(this.dir).replace(/_/g, '')
@@ -116,6 +112,15 @@ class Rebirth extends Generator {
           }
         }
       }, {
+        type: 'list',
+        name: 'typo3v',
+        message: 'What TYPO3 version you want?',
+        choices: [
+          '^8.7.8',
+          '^7.6.0'
+        ],
+        when: () => this.typo3
+      }, {
         type: 'input',
         name: 'author',
         message: 'Author name:',
@@ -172,6 +177,7 @@ class Rebirth extends Generator {
       this.git = props.git
       this.pluginWPML = props.pluginWPML
       this.pluginACFkey = props.pluginACFkey
+      this.typo3v = props.typo3v
     })
   }
 
@@ -234,18 +240,34 @@ class Rebirth extends Generator {
       copy(`typo3/Resources/Private/Templates/Page/_HomePage.html`, `Resources/Private/Templates/Page/HomePage.html`, this)
       copy(`typo3/Resources/Private/Partials/_Top.html`, `Resources/Private/Partials/Top.html`, this)
       copy(`typo3/Resources/Private/Partials/_Bottom.html`, `Resources/Private/Partials/Bottom.html`, this)
-      copy(`typo3/_ext_emconf.php`, `ext_emconf.php`, this)
       copy(`typo3/_ext_tables.php`, `ext_tables.php`, this)
-      copy(`typo3/typo3/_composer.json`, `typo3/composer.json`, this)
       copy(`typo3/Resources/Private/Layouts/App.html`, `Resources/Private/Layouts/App.html`, this)
+
+      if (this.typo3v === '^7.6.0') {
+        copy(`typo3/v7/_ext_emconf.php`, `ext_emconf.php`, this)
+        copy(`typo3/v7/_composer.json`, `composer.json`, this)
+      } else {
+        copy(`typo3/v8/_ext_emconf.php`, `ext_emconf.php`, this)
+        copy(`typo3/v8/_composer.json`, `composer.json`, this)
+      }
 
       if (this.docker) {
         copy(`typo3/docker/_gitignore`, `../.gitignore`, this)
-        copy(`typo3/docker/_install.sh`, `../install.sh`, this)
-        copy(`typo3/docker/_Makefile`, `../Makefile`, this)
-        copy(`typo3/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
-        copy(`typo3/docker/Dockerfile`, `../Dockerfile`, this)
+        copy(`typo3/docker/_README.md`, `../README.md`, this)
         copy(`shared/gitkeep`, `../database/.gitkeep`, this)
+
+        if (this.typo3v === '^7.6.0') {
+          copy(`typo3/v7/docker/_install.sh`, `../install.sh`, this)
+          copy(`typo3/v7/docker/_Makefile`, `../Makefile`, this)
+          copy(`typo3/v7/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
+          copy(`typo3/v7/docker/Dockerfile`, `../Dockerfile`, this)
+          copy(`typo3/v7/docker/_composer.json`, `../typo3/composer.json`, this)
+        } else {
+          copy(`typo3/v8/docker/_install.sh`, `../install.sh`, this)
+          copy(`typo3/v8/docker/_Makefile`, `../Makefile`, this)
+          copy(`typo3/v8/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
+          copy(`typo3/v8/docker/_composer.json`, `../typo3/composer.json`, this)
+        }
       }
     }
   }
@@ -303,7 +325,7 @@ class Rebirth extends Generator {
   }
 
   _installDocker() {
-    // this.spawnCommandSync('./install.sh', [''], { cwd: '../' })
+    this.spawnCommandSync('./install.sh', [''], { cwd: '../' })
     this._git()
   }
 
@@ -353,8 +375,7 @@ class Rebirth extends Generator {
     this.log(`${chalk.green('  ❯')} Production URL: ${chalk.cyan(this.appURL)}`)
 
     if (this.docker) {
-      this.log(`\n`)
-      this.log(`${chalk.green('  !')} Your Docker containers are up and running. See points ${chalk.bold('3.')} and ${chalk.bold('4.')} in \n ${chalk.cyan('    README.md')} to finish your setup.`)
+      this.log(`\n${chalk.green('  !')} Your Docker containers are up and running. See points ${chalk.bold('3.')} and ${chalk.bold('4.')} in \n ${chalk.cyan('    README.md')} to finish your setup.`)
     }
 
     this.log(`${chalk.green('  !')} Please read every ${chalk.cyan('README.md')} for instructions and available commands.`)

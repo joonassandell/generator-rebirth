@@ -9,6 +9,7 @@ npm-debug.log
 
 node_modules/
 bower_components/
+vendor/
 
 
 # ======
@@ -18,8 +19,6 @@ bower_components/
 rev-manifest.json<% if (typo3) { %>
 Bottom.dist.html
 Top.dist.html
-typo3/*
-!typo3/composer.json
 Resources/Public/Assets
 dploy.yaml
 .rev<% } if (wp) { %>

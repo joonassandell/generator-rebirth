@@ -11,4 +11,5 @@
 
 /typo3
 /database/typo3.sql
+/database/data
 docker-compose.override.yml

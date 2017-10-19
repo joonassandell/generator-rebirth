@@ -1,0 +1,26 @@
+{
+  "name": "<%= appNameDasherize %>/typo3-docker",
+  "description" : "<%= appNameHumanize %> TYPO3 Development Environment",
+  "homepage": "<%= appURL %>",
+  "version": "1.0.0",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.typo3.org"
+    }
+  ],
+  "require": {
+    "typo3/cms": "^7.6.0",
+    "helhum/typo3-console": "^4.0",
+    "fluidtypo3/vhs": "3.1.0",
+    "fluidtypo3/flux": "7.4.0",
+    "fluidtypo3/fluidpages": "3.6.1",
+    "fluidtypo3/fluidcontent": "4.4.1"
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": "./"
+    }
+  }
+}

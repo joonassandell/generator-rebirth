@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  app:
+    container_name: <%= dir %>-app
+    depends_on:
+      - mysql
+    image: mediasignal/typo3-dev
+    volumes:
+      - ./<%= dir %>/:/var/www/html/typo3conf/ext/<%= dir %>/
+      - ./typo3/fileadmin/:/var/www/html/fileadmin
+      - ./typo3/typo3conf/:/var/www/html/typo3conf
+      - ./typo3/typo3temp/:/var/www/html/typo3temp
+      - ./typo3/uploads/:/var/www/html/uploads
+      - ./typo3/composer.json:/var/www/html/composer.json
+    environment:
+      TYPO3_CONTEXT: Development
+    ports:
+      - "8000:80"
+
+  mysql:
+    container_name: <%= dir %>-mysql
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./database/data/:/var/lib/mysql/
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: typo3
