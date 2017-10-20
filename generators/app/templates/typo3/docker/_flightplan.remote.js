@@ -80,7 +80,7 @@ plan.remote('start', remote => {
 
   remote.log('Removing uploaded files...')
   remote.exec(`rm -r ${typo3root}/auth.json`, { failsafe: true })
-  remote.exec(`rm -r ${root}/tmp/typo3-deployments/${tmpDir}`)
+  remote.exec(`rm -rf ${root}/tmp/typo3-deployments/${tmpDir}`)
 })
 
 

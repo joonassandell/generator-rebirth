@@ -1,12 +1,9 @@
 production:
   branch: master
   check: true
-  exclude: ["*.ini", "*.json", "dploy.example.yaml", ".editorconfig", ".eslintrc", "gulpfile.js", "package.json", "README.md", "rev-manifest.json", <% if (typo3) { %>"Assets/**/*"<% } if (wp) { %>"assets/**/*"<% } if (html) { %>"src/**/*"<% } %>, ".gitignore"]
+  exclude: ["*.ini", "*.json", "dploy.example.yaml", ".editorconfig", ".eslintrc", "gulpfile.js", "package.json", "README.md", "rev-manifest.json", <% if (wp) { %>"assets/**/*"<% } if (html) { %>"src/**/*"<% } %>, ".gitignore"]
   host: ""
-  include:<% if (typo3) { %>
-    "Resources/Public/**": "Resources/Public"
-    "Resources/Private/Partials/*.dist.html": "Resources/Private/Partials"<% } if (html || wp) { %>
-    "dist/**/*": "dist"<% } %>
+  include: "dist/**/*": "dist"
   pass: ""
   path:<% if (html) { %>
     local: "dist"<% } %>

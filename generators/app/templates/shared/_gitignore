@@ -8,9 +8,10 @@ rev-manifest.json<% if (typo3) { %>
 Bottom.dist.html
 Top.dist.html
 Resources/Public/Assets
+.env<% } if (wp) { %>
 dploy.yaml
-.rev<% } if (wp) { %>
 wp/*
 !wp/composer.json
 dist/<% } if (html) { %>
+dploy.yaml
 dist/<% } %>

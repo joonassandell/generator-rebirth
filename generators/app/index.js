@@ -190,10 +190,13 @@ class Rebirth extends Generator {
   copySharedFiles() {
     copy(`shared/_README.md`, `README.md`, this)
     copy(`shared/_gitignore`, `.gitignore`, this)
-    copy(`shared/_dploy.example.yaml`, `dploy.example.yaml`, this)
-    copy(`shared/_dploy.example.yaml`, `dploy.yaml`, this)
     copy(`shared/editorconfig`, `.editorconfig`, this)
     copy(`shared/eslintrc`, `.eslintrc`, this)
+
+    if (!this.typo3) {
+      copy(`shared/_dploy.example.yaml`, `dploy.example.yaml`, this)
+      copy(`shared/_dploy.example.yaml`, `dploy.yaml`, this)
+    }
   }
 
   assets() {
@@ -234,6 +237,7 @@ class Rebirth extends Generator {
   typo3() {
     if (this.typo3) {
       copy(`typo3/_package.json`, `package.json`, this)
+      copy(`typo3/_shipitfile.js`, `shipitfile.js`, this)
       copy(`typo3/_gulpfile.js`, `gulpfile.js`, this)
       copy(`typo3/Configuration/TypoScript/_setup.txt`, `Configuration/TypoScript/setup.txt`, this)
       copy(`typo3/Resources/Private/Templates/Page/_HomePage.html`, `Resources/Private/Templates/Page/HomePage.html`, this)
@@ -340,15 +344,15 @@ class Rebirth extends Generator {
       bower: false,
       skipInstall: this.options['skip-install'],
       callback: () => {
-        // if (!this.options['skip-install']) {
-        //   if (this.docker) {
+        if (!this.options['skip-install']) {
+          if (this.docker) {
             this._installDocker()
-          // } else {
-          //   this._git()
-          // }
-        // } else {
-        //   this._git()
-        // }
+          } else {
+            this._git()
+          }
+        } else {
+          this._git()
+        }
       }
     })
   }
@@ -362,8 +366,7 @@ class Rebirth extends Generator {
 
     if (this.docker) {
       this.spawnCommandSync('git', ['init'], { cwd: '../' })
-      this.spawnCommandSync('git', ['submodule', 'add', `git@bitbucket.org:
-        ${this.appAuthorDasherize}/${this.dir}.git`, this.dir], { cwd: '../' })
+      this.spawnCommandSync('git', ['submodule', 'add', `git@bitbucket.org:${this.appAuthorDasherize}/${this.dir}.git`, this.dir], { cwd: '../' })
       this.spawnCommandSync('git', ['add', '-A'], { cwd: '../' })
       this.spawnCommandSync('git', ['commit', '-m', 'init'], { cwd: '../' })
     }
