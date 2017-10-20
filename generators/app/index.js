@@ -236,6 +236,8 @@ class Rebirth extends Generator {
 
   typo3() {
     if (this.typo3) {
+      copy(`typo3/_env`, `.env`, this)
+      copy(`typo3/_env`, `.env.example`, this)
       copy(`typo3/_package.json`, `package.json`, this)
       copy(`typo3/_shipitfile.js`, `shipitfile.js`, this)
       copy(`typo3/_gulpfile.js`, `gulpfile.js`, this)

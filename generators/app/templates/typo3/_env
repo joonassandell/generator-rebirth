@@ -1,0 +1,3 @@
+WORKSPACE=/tmp/<%= dir %>
+
+PRODUCTION_SSH=xxxxx-xxx@gate.fi.cloudplatform.fi:3022
