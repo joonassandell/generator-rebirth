@@ -1,0 +1,48 @@
+# ========================================
+# Common variables
+# ========================================
+
+EXT_DIR=<%= dir %>
+
+
+# ========================================
+# Development
+# ========================================
+
+DEV_URL=http://<%= dir %>:8000
+DEV_WEB_FOLDER=typo3
+
+MYSQL_ROOT_USER=root
+MYSQL_ROOT_PASSWORD=root
+MYSQL_DATABASE=typo3
+
+
+# ========================================
+# Production
+# ========================================
+
+# ======
+# Server
+# ======
+
+PROD_URL=<%= appURL %>
+PROD_ROOT=/var/www/webroot/ROOT
+PROD_TYPO3_ROOT=/var/www/webroot/ROOT
+
+PROD_SSH_HOST=gate.fi.cloudplatform.fi
+PROD_SSH_USER=xxxxx-xxx
+PROD_SSH_PORT=3022
+
+# ======
+# Database server
+# ======
+
+PROD_DB_ROOT=
+
+PROD_DB_SSH_HOST=gate.fi.cloudplatform.fi
+PROD_DB_SSH_USER=xxxxx-xxx
+PROD_DB_SSH_PORT=3022
+
+PROD_DB_NAME=
+PROD_DB_USER=
+PROD_DB_PASSWORD=

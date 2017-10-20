@@ -1,0 +1,137 @@
+/* ========================================
+ * <%= appNameHumanize %> - Local actions
+ * ======================================== */
+
+require('dotenv').config()
+const plan = require('flightplan')
+const cfg = require('./flightplan.config')
+
+
+/* ======
+ * Config
+ * ====== */
+
+/**
+ * Target servers
+ */
+plan.target('local', {})
+plan.target('production', cfg.production, cfg.production.opts)
+plan.target('production-db', cfg.productionDB, cfg.productionDB.opts)
+
+/**
+ * Setup folders, prompts etc. ready for install
+ */
+let sshUser, sshPort, sshHost, root, typo3root, url, dbName, dbUser, dbPw
+let date = `${new Date().getTime()}`
+
+plan.local(['start', 'assets-pull', 'db-pull', 'db-replace'], local => {
+  sshHost = plan.runtime.hosts[0].host
+  sshUser = plan.runtime.hosts[0].username
+  sshPort = plan.runtime.hosts[0].port
+  root = plan.runtime.options.root
+  url = plan.runtime.options.url
+  dbName = plan.runtime.options.dbName
+  dbUser = plan.runtime.options.dbUser
+  dbPw = plan.runtime.options.dbPw
+})
+
+
+/* ======
+ * Start & update
+ * ====== */
+
+plan.local(['start'], local => {
+  local.log('Updating submodules...')
+  local.exec(`
+    if [ -d ".git" ]
+      then
+        git submodule update --rebase --remote
+    fi
+  `, { failsafe: true })
+
+  local.exec(`
+    #if [ ! -d "<%= dir %>/node_modules" ]
+      #then
+        #(cd <%= dir %> && npm install)
+    #fi
+
+    if [ ! -f "database/typo3.sql" ]
+      then
+        touch database/typo3.sql
+    fi
+
+    # Start Docker & run Composer
+    docker-compose up -d
+    docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ composer install
+
+    # Setup TYPO3 install
+    docker-compose run app bash -c "touch typo3/FIRST_INSTALL"
+  `)
+})
+
+
+/* ======
+ * Pull assets
+ * ====== */
+
+plan.local(['assets-pull'], local => {
+  local.log('Downloading uploads folder...')
+  local.exec(`rsync -avz -e "ssh -p ${sshPort}" \
+    ${sshUser}@${sshHost}:${typo3root}/uploads ${process.env.DEV_WEB_FOLDER}`, { failsafe: true })
+})
+
+
+/* ======
+ * Backup database
+ * ====== */
+
+plan.local(['db-backup'], local => {
+  local.log('Creating local backups...')
+  local.exec(`mkdir -p database/local`, { silent: true, failsafe: true })
+  local.exec(`docker-compose exec mysql bash -c "mysqldump -u${process.env.MYSQL_ROOT_USER} \
+      -p${process.env.MYSQL_ROOT_PASSWORD} \
+      ${process.env.MYSQL_DATABASE} > /database/local/typo3-${date}.sql"`)
+})
+
+
+/* ======
+ * Pull database
+ * ====== */
+
+plan.remote(['db-pull'], remote => {
+  remote.log('Creating remote database dump...')
+  remote.exec(`mkdir -p ${root}/tmp/database/remote`, { silent: true, failsafe: true })
+  remote.exec(`mysqldump -u${dbUser} -p${dbPw} ${dbName} > ${root}/tmp/database/remote/${dbName}-${date}.sql`)
+})
+
+plan.local(['db-pull'], local => {
+  local.log('Pulling database and creating local backups...')
+  local.exec(`mkdir -p database/remote`, { silent: true, failsafe: true })
+  local.exec(`rsync -avz -e "ssh -p ${sshPort}" \
+    ${sshUser}@${sshHost}:${root}/tmp/database/remote/${dbName}-${date}.sql ./database/remote`)
+  local.exec(`cp ./database/remote/${dbName}-${date}.sql ./database/typo3.sql`)
+})
+
+plan.remote(['db-pull'], remote => {
+  remote.log('Removing remote database dump...')
+  remote.exec(`rm ${root}/tmp/database/remote/${dbName}-${date}.sql`)
+})
+
+
+/* ======
+ * Replace database
+ * ====== */
+
+plan.local(['db-replace'], local => {
+  local.log('Replacing database...')
+  local.exec(String.raw`
+    if [ -f "database/typo3.sql" ]
+      then
+        docker-compose exec mysql bash -c "mysql -u${process.env.MYSQL_ROOT_USER} \
+          -p${process.env.MYSQL_ROOT_PASSWORD} \
+          -e 'drop database ${process.env.MYSQL_DATABASE}; \
+              create database ${process.env.MYSQL_DATABASE}; \
+              use ${process.env.MYSQL_DATABASE}; source typo3.sql;'"
+    fi
+  `)
+});

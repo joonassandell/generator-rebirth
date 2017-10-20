@@ -1,42 +1,79 @@
 # ========================================
-# Docker compose commands
+# <%= appNameHumanize %> - Local commands
 # ========================================
 
 start:
-	docker-compose start
+	docker-compose up -d
+	npm install
+	npm run --silent start
+
+start-clone:
+	docker-compose up -d
+	npm install
+	npm run --silent start
+	npm run --silent db:pull
+	npm run --silent assets:pul
+	npm run --silent db:replace
+
+dev:
+	docker-compose up -d
 
 stop:
 	docker-compose stop
 
-up:
-	docker-compose up -d
-
-bash:
-	docker exec -it <%= dir %>-app bash
-
-mysql:
-	docker exec -it <%= dir %>-mysql bash
-
-install:
-	bash ./install.sh
-
 update:
-	docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ composer update
+	npm run --silent update
 
 rebuild:
 	docker-compose stop
 	docker-compose rm -f app
 	docker-compose up -d
 
-reinstall:
-	rm -rf typo3/fileadmin
-	rm -rf typo3/typo3conf
-	rm -rf typo3/typo3temp
-	rm -rf typo3/uploads
-	rm -rf typo3/vendor
-	rm -rf typo3/index.php
-	rm -rf typo3/typo3
+restart:
+	@if [ -d "wp" ]; then \
+		rm -r wp/; \
+	fi
 	docker-compose stop
 	docker-compose rm -f app
 	docker-compose rm -f mysql
-	bash ./install.sh
+	make start
+
+bash:
+	docker-compose exec app bash
+
+mysql:
+	docker-compose exec mysql bash
+
+assets-pull:
+	npm run --silent assets:pull
+
+db-backup:
+	npm run --silent db:backup
+
+db-pull:
+	npm run --silent db:pull
+
+db-replace:
+	npm run --silent db:replace
+
+db-replace-clone:
+	npm run --silent db:pull
+	npm run --silent db:replace
+
+
+# ========================================
+# <%= appNameHumanize %> - Remote commands
+# ========================================
+
+production-start:
+	npm run --silent production:start
+
+production-db-replace:
+	npm run --silent production:db:replace
+
+production-update:
+	npm run --silent update
+	npm run --silent production:update
+
+production-assets-push:
+	npm run --silent production:assets:push

@@ -1,15 +1,9 @@
-# ======
-# Basic
-# ======
-
 .DS_Store
-
-
-# ======
-# Build and deployment
-# ======
-
+.env
+node_modules
 /typo3
-/database/typo3.sql
-/database/data
+database/typo3.sql
+database/local
+database/remote
 docker-compose.override.yml
+

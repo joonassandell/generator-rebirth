@@ -251,12 +251,19 @@ class Rebirth extends Generator {
       }
 
       if (this.docker) {
+        copy(`typo3/docker/_package.json`, `../package.json`, this)
+        copy(`typo3/docker/_env`, `../.env`, this)
+        copy(`typo3/docker/_env`, `../.env.example`, this)
+        copy(`typo3/docker/_flightplan.config.js`, `../flightplan.config.js`, this)
+        copy(`typo3/docker/_flightplan.js`, `../flightplan.js`, this)
+        copy(`typo3/docker/_flightplan.remote.js`, `../flightplan.remote.js`, this)
+        copy(`typo3/docker/_package.json`, `../package.json`, this)
         copy(`typo3/docker/_gitignore`, `../.gitignore`, this)
         copy(`typo3/docker/_README.md`, `../README.md`, this)
         copy(`shared/gitkeep`, `../database/.gitkeep`, this)
+        copy(`shared/auth.json`, `../typo3/auth.json`, this)
 
         if (this.typo3v === '^7.6.0') {
-          copy(`typo3/v7/docker/_install.sh`, `../install.sh`, this)
           copy(`typo3/v7/docker/_Makefile`, `../Makefile`, this)
           copy(`typo3/v7/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
           copy(`typo3/v7/docker/Dockerfile`, `../Dockerfile`, this)
@@ -324,7 +331,9 @@ class Rebirth extends Generator {
   }
 
   _installDocker() {
-    this.spawnCommandSync('./install.sh', [''], { cwd: '../' })
+    this.log(`Installing development dependencies...`);
+    this.spawnCommandSync('npm', ['install'], { cwd: '../' })
+    this.spawnCommandSync('npm', ['run', 'start'], { cwd: '../' })
     this._git()
   }
 
@@ -333,15 +342,15 @@ class Rebirth extends Generator {
       bower: false,
       skipInstall: this.options['skip-install'],
       callback: () => {
-        if (!this.options['skip-install']) {
-          if (this.docker) {
+        // if (!this.options['skip-install']) {
+        //   if (this.docker) {
             this._installDocker()
-          } else {
-            this._git()
-          }
-        } else {
-          this._git()
-        }
+          // } else {
+          //   this._git()
+          // }
+        // } else {
+        //   this._git()
+        // }
       }
     })
   }
