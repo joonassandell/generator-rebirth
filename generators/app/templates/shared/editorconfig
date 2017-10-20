@@ -10,3 +10,7 @@ insert_final_newline = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+# Indent PHP files according to PSR-2 standard
+[*.php]
+indent_size = 4
