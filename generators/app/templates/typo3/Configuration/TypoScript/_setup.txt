@@ -4,10 +4,10 @@ plugin.tx_<%= dir %>.view {
   layoutRootPath = {$plugin.tx_<%= dir %>.view.layoutRootPath}
 }
 
-[globalString = ENV:HTTP_HOST = <%= dir %>.dev:8000]
+[applicationContext = Development]
   plugin.tx_<%= dir %>.settings.dev = 1
   config.contentObjectExceptionHandler = 0
-[END]
+[end]
 
 config.htmlTag_setParams = class="no-js"
 config.concatenateJs = 1
