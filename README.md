@@ -22,9 +22,9 @@ Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold
 
 ### Docker
 
-* GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker, [native Linux with Docker](http://docs.docker.com/linux/step_one/), or [Docker for Mac](https://docs.docker.com/docker-for-mac/)). Could also work in [Windows](https://docs.docker.com/docker-for-windows/#/what-to-know-before-you-install) but not tested just yet.
+* GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker, [native Linux with Docker](http://docs.docker.com/linux/step_one/) or [Docker for Mac](https://docs.docker.com/docker-for-mac/)).
 * [docker-compose](https://github.com/docker/compose)
-* [make](https://www.gnu.org/software/make/manual/make.html) (GNU/Linux/Unix, optional)
+* [make](https://www.gnu.org/software/make/manual/make.html) (optional)
 
 ### TYPO3
 
@@ -69,7 +69,8 @@ Learn about the generated project structure. All of these documents will be conv
 
 ## Todo
 
-[Milestones - v1.0](https://github.com/joonasy/generator-rebirth/milestone/11)
+* WordPress and HTML project types are currenly far behind. Fixing them asap.
+*[Milestones - v1.0](https://github.com/joonasy/generator-rebirth/milestone/11)
 
 ## License
 
