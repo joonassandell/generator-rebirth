@@ -29,6 +29,7 @@ plan.local(['start', 'assets-pull', 'db-pull', 'db-replace'], local => {
   sshUser = plan.runtime.hosts[0].username
   sshPort = plan.runtime.hosts[0].port
   root = plan.runtime.options.root
+  typo3root = plan.runtime.options.root
   url = plan.runtime.options.url
   dbName = plan.runtime.options.dbName
   dbUser = plan.runtime.options.dbUser
@@ -60,12 +61,16 @@ plan.local(['start'], local => {
         touch database/typo3.sql
     fi
 
-    # Start Docker & run Composer
+    # Start Docker
     docker-compose up -d
+    <% if (typo3v == '^7.6.0') { %>
+    Run Composer
     docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ composer install
 
     # Setup TYPO3 install
-    docker-compose run app bash -c "touch typo3/FIRST_INSTALL"
+    docker-compose run app bash -c "touch typo3/FIRST_INSTALL"<% } if (typo3v == '^8.7.8') { %>
+    # Update composer dependencies
+    docker-compose exec app composer update<% } %>
   `)
 })
 

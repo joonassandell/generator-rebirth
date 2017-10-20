@@ -262,15 +262,13 @@ class Rebirth extends Generator {
         copy(`typo3/docker/_README.md`, `../README.md`, this)
         copy(`shared/gitkeep`, `../database/.gitkeep`, this)
         copy(`shared/auth.json`, `../typo3/auth.json`, this)
+        copy(`typo3/docker/_Makefile`, `../Makefile`, this)
 
         if (this.typo3v === '^7.6.0') {
-          copy(`typo3/v7/docker/_Makefile`, `../Makefile`, this)
           copy(`typo3/v7/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
           copy(`typo3/v7/docker/Dockerfile`, `../Dockerfile`, this)
           copy(`typo3/v7/docker/_composer.json`, `../typo3/composer.json`, this)
         } else {
-          copy(`typo3/v8/docker/_install.sh`, `../install.sh`, this)
-          copy(`typo3/v8/docker/_Makefile`, `../Makefile`, this)
           copy(`typo3/v8/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
           copy(`typo3/v8/docker/_composer.json`, `../typo3/composer.json`, this)
         }

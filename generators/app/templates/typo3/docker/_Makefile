@@ -12,7 +12,7 @@ start-clone:
 	npm install
 	npm run --silent start
 	npm run --silent db:pull
-	npm run --silent assets:pul
+	npm run --silent assets:pull
 	npm run --silent db:replace
 
 dev:
@@ -30,9 +30,13 @@ rebuild:
 	docker-compose up -d
 
 restart:
-	@if [ -d "wp" ]; then \
-		rm -r wp/; \
-	fi
+	rm -rf typo3/fileadmin
+	rm -rf typo3/typo3conf
+	rm -rf typo3/typo3temp
+	rm -rf typo3/uploads
+	rm -rf typo3/vendor
+	rm -rf typo3/index.php
+	rm -rf typo3/typo3
 	docker-compose stop
 	docker-compose rm -f app
 	docker-compose rm -f mysql
@@ -54,6 +58,7 @@ db-pull:
 	npm run --silent db:pull
 
 db-replace:
+	npm run --silent db:backup
 	npm run --silent db:replace
 
 db-replace-clone:
