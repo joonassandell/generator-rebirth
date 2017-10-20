@@ -51,10 +51,10 @@ plan.local(['start'], local => {
   `, { failsafe: true })
 
   local.exec(`
-    #if [ ! -d "<%= dir %>/node_modules" ]
-      #then
-        #(cd <%= dir %> && npm install)
-    #fi
+    if [ ! -d "<%= dir %>/node_modules" ]
+      then
+        (cd <%= dir %> && npm install)
+    fi
 
     if [ ! -f "database/typo3.sql" ]
       then
