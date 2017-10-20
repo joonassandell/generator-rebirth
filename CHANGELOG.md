@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.5.4x
+
+* Added flightplan and ENV file for handling shell scripts and deployments in dev environments ([#46](../../issues/46), , [#8](../../issues/8))
+* TYPO3 (^8.7.8, ^7.6.0):
+  - You can now deploy local environment to production. See Makefile ([#46](../../issues/46), [#8](../../issues/8))
+  - Use [applicationContext = Development] to determine environment ([#43](../../issues/43))
+  - Added shipit for deploying theme ([#44](../../issues/44))
+  - Remove dploy ([#10](../../issues/10))
+
 ## 0.5.3x
 
 * TYPO3: 
