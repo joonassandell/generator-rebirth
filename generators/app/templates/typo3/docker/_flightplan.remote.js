@@ -20,7 +20,7 @@ plan.target('production-db', cfg.productionDB, cfg.productionDB.opts)
 /**
  * Setup folders etc. ready for files
  */
-let sshUser, sshPort, sshHost, root, typo3root, url, dbName, dbUser, dbPw, extDir
+let sshUser, sshPort, sshHost, root, typo3root, dbName, dbUser, dbPw
 const date = new Date().getTime()
 const tmpDir = `typo3-update-${date}`
 
@@ -38,11 +38,9 @@ plan.local(['start', 'assets-push', 'db-replace'], local => {
   sshPort = plan.runtime.hosts[0].port
   root = plan.runtime.options.root
   typo3root = plan.runtime.options.typo3root
-  url = plan.runtime.options.url
   dbName = plan.runtime.options.dbName
   dbUser = plan.runtime.options.dbUser
   dbPw = plan.runtime.options.dbPw
-  extDir = plan.runtime.options.extDir
 })
 
 
@@ -56,8 +54,8 @@ plan.remote('start', remote => {
 
 plan.local('start', local => {
   const filesToCopy = [
-    `${process.env.DEV_WEB_FOLDER}/composer.json`,
-    `${process.env.DEV_WEB_FOLDER}/auth.json`
+    `typo3/composer.json`,
+    `typo3/auth.json`
   ]
 
   local.log('Transferring local files ready for remote installation...')
@@ -91,7 +89,7 @@ plan.remote('start', remote => {
  plan.local(['assets-push'], local => {
   local.log('Deploying uploads folder...')
   local.exec(`rsync -avz -e "ssh -p ${sshPort}" \
-    ${process.env.DEV_WEB_FOLDER}/uploads ${sshUser}@${sshHost}:${typo3root}/uploads`, { failsafe: true })
+    typo3/uploads ${sshUser}@${sshHost}:${typo3root}/uploads`, { failsafe: true })
  })
 
 
@@ -102,9 +100,8 @@ plan.remote('start', remote => {
 plan.local(['db-replace'], local => {
   local.log('Creating local database dump..')
   local.exec(`mkdir -p database/local`, { silent: true, failsafe: true })
-  local.exec(`docker-compose exec mysql bash -c "mysqldump -u${process.env.MYSQL_ROOT_USER} \
-    -p${process.env.MYSQL_ROOT_PASSWORD} \
-    ${process.env.MYSQL_DATABASE} > database/local/typo3-${date}.sql"`)
+  local.exec(`docker-compose exec mysql bash -c "mysqldump -uroot -proot \
+    typo3 > database/local/typo3-${date}.sql"`)
 
   local.log('Pushing local database dump to remote...')
   local.transfer([

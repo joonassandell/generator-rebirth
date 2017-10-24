@@ -21,7 +21,7 @@ plan.target('production-db', cfg.productionDB, cfg.productionDB.opts)
 /**
  * Setup folders, prompts etc. ready for install
  */
-let sshUser, sshPort, sshHost, root, typo3root, url, dbName, dbUser, dbPw
+let sshUser, sshPort, sshHost, root, typo3root, dbName, dbUser, dbPw
 let date = `${new Date().getTime()}`
 
 plan.local(['start', 'assets-pull', 'db-pull', 'db-replace'], local => {
@@ -30,7 +30,6 @@ plan.local(['start', 'assets-pull', 'db-pull', 'db-replace'], local => {
   sshPort = plan.runtime.hosts[0].port
   root = plan.runtime.options.root
   typo3root = plan.runtime.options.root
-  url = plan.runtime.options.url
   dbName = plan.runtime.options.dbName
   dbUser = plan.runtime.options.dbUser
   dbPw = plan.runtime.options.dbPw
@@ -50,6 +49,7 @@ plan.local(['start'], local => {
     fi
   `, { failsafe: true })
 
+  local.log('Installing dependencies...')
   local.exec(`
     if [ ! -d "<%= dir %>/node_modules" ]
       then
@@ -65,7 +65,7 @@ plan.local(['start'], local => {
     docker-compose up -d
     <% if (typo3v == '^7.6.0') { %>
     Run Composer
-    docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ composer install
+    docker run --rm --volumes-from=<%= dir %>-app --workdir=/var/www/html/typo3/ composer update
 
     # Setup TYPO3 install
     docker-compose run app bash -c "touch typo3/FIRST_INSTALL"<% } if (typo3v == '^8.7.8') { %>
@@ -82,7 +82,7 @@ plan.local(['start'], local => {
 plan.local(['assets-pull'], local => {
   local.log('Downloading uploads folder...')
   local.exec(`rsync -avz -e "ssh -p ${sshPort}" \
-    ${sshUser}@${sshHost}:${typo3root}/uploads ${process.env.DEV_WEB_FOLDER}`, { failsafe: true })
+    ${sshUser}@${sshHost}:${typo3root}/uploads typo3`, { failsafe: true })
 })
 
 
@@ -93,9 +93,8 @@ plan.local(['assets-pull'], local => {
 plan.local(['db-backup'], local => {
   local.log('Creating local backups...')
   local.exec(`mkdir -p database/local`, { silent: true, failsafe: true })
-  local.exec(`docker-compose exec mysql bash -c "mysqldump -u${process.env.MYSQL_ROOT_USER} \
-      -p${process.env.MYSQL_ROOT_PASSWORD} \
-      ${process.env.MYSQL_DATABASE} > /database/local/typo3-${date}.sql"`)
+  local.exec(`docker-compose exec mysql bash -c "mysqldump -uroot -proot \
+    typo3 > /database/local/typo3-${date}.sql"`)
 })
 
 
@@ -132,11 +131,11 @@ plan.local(['db-replace'], local => {
   local.exec(String.raw`
     if [ -f "database/typo3.sql" ]
       then
-        docker-compose exec mysql bash -c "mysql -u${process.env.MYSQL_ROOT_USER} \
-          -p${process.env.MYSQL_ROOT_PASSWORD} \
-          -e 'drop database ${process.env.MYSQL_DATABASE}; \
-              create database ${process.env.MYSQL_DATABASE}; \
-              use ${process.env.MYSQL_DATABASE}; source typo3.sql;'"
+        docker-compose exec mysql bash -c "mysql -uroot \
+          -proot \
+          -e 'drop database typo3; \
+              create database typo3; \
+              use typo3; source typo3.sql;'"
     fi
   `)
 });
