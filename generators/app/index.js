@@ -386,11 +386,11 @@ class Rebirth extends Generator {
     this.log(`${chalk.green('  ❯')} Type: ${chalk.cyan(this.name())}`)
     this.log(`${chalk.green('  ❯')} Production URL: ${chalk.cyan(this.appURL)}`)
 
-    if (this.docker) {
-      this.log(`\n${chalk.green('  !')} Your Docker containers are up and running. See points ${chalk.bold('3.')} and ${chalk.bold('4.')} in \n ${chalk.cyan('    README.md')} to finish your setup.`)
+    if (this.docker && !this.options['skip-install']) {
+      this.log(`\n${chalk.green('  !')} Your Docker containers are up and running. See installation process in \n ${chalk.cyan('    README.md')} to finish your setup.`)
     }
 
-    this.log(`${chalk.green('  !')} Please read every ${chalk.cyan('README.md')} for instructions and available commands.`)
+    this.log(`${chalk.green('  !')} Please read  ${chalk.cyan('README.md')} for instructions and available commands.`)
     this.log(`${chalk.green('  !')} Make sure all the settings such as git urls are correctly generated.`)
     this.log(`${chalk.green('  ! Happy developing! :)')}`)
     this.log(`\n  ====================================================================== \n`)
