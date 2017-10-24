@@ -11,8 +11,7 @@ const config = {
     readyTimeout: 999999,
     opts: {
       root: '/var/www/webroot/ROOT',
-      typo3root: '/var/www/webroot/ROOT',
-      extDir: '<%= dir %>',
+      typo3root: '/var/www/webroot/ROOT'
     }
   },
   productionDB: {
