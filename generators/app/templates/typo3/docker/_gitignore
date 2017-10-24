@@ -1,7 +1,9 @@
 .DS_Store
 .env
 node_modules
-/typo3
+typo3/*
+!typo3/composer.json
+!typo3/auth.json
 database/typo3.sql
 database/local
 database/remote
