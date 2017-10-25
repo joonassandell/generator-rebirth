@@ -109,7 +109,7 @@ plan.remote(['db-pull'], remote => {
 })
 
 plan.local(['db-pull'], local => {
-  local.log('Pulling database and creating local backups...')
+  local.log('Pulling database...')
   local.exec(`mkdir -p database/remote`, { silent: true, failsafe: true })
   local.exec(`rsync -avz -e "ssh -p ${sshPort}" \
     ${sshUser}@${sshHost}:${root}/tmp/database/remote/${dbName}-${date}.sql ./database/remote`)

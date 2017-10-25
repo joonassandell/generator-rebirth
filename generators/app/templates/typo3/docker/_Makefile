@@ -30,13 +30,6 @@ rebuild:
 	docker-compose up -d
 
 restart:
-	rm -rf typo3/fileadmin
-	rm -rf typo3/typo3conf
-	rm -rf typo3/typo3temp
-	rm -rf typo3/uploads
-	rm -rf typo3/vendor
-	rm -rf typo3/index.php
-	rm -rf typo3/typo3
 	docker-compose stop
 	docker-compose rm -f app
 	docker-compose rm -f mysql
