@@ -4,7 +4,7 @@
 
 # Requirements
 
-* GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker, [native Linux with Docker](http://docs.docker.com/linux/step_one/) or [Docker for Mac](https://docs.docker.com/docker-for-mac/))).
+* GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker, [native Linux with Docker](http://docs.docker.com/linux/step_one/) or [Docker for Mac](https://docs.docker.com/docker-for-mac/)).
 * [docker-compose](https://github.com/docker/compose)
 * [make](https://www.gnu.org/software/make/manual/make.html) (optional)
 * VPN, SSH access and [rsync](https://linux.die.net/man/1/rsync) (Optional but required for syncing assets and databases)
@@ -42,7 +42,7 @@ Login to TYPO3 and setup your newly created site if you kickstarted the project,
 
 **5. Start extension development**
 
-Head to [`<%= dir %>./`](https://bitbucket.org/<%= appAuthor %>/<%= dir %>./) to learn about the extension development. Finally, start your extension development: 
+Head to [`<%= dir %>`](https://bitbucket.org/<%= appAuthorDasherize %>/<%= dir %>/) to learn about the extension development. Finally, start your extension development: 
 
 ```
 $ npm run dev
@@ -114,16 +114,16 @@ Backups local database, runs `$ make db-pull` and replaces local database with `
 
 ## Remote commands
 
-**:warning: Be extremely careful with the remote commands or you may break the server configuration! You need SSH access for the remote commands.**. Make sure all the production server credentials are set in the `.env` file.
+**:warning: Be extremely careful with the remote commands or you may break the server configuration! You need SSH access for the remote commands.** Make sure all the production server credentials are set in the `.env` file.
 
 #### `$ make production-start`
 
 Install TYPO3 to the production server. This is most likely **required only once**, so be careful not to reinstall accidentally. After TYPO3 is installed, head to your remote url and setup TYPO3.
 
 * If you want to replace remote database with your local one make sure the database name matches with the remote in `.env` (`PROD_DB_NAME`).
-* You may want to run `$ make production-db-replace` and `$ make production-assets-push` to sync your local material to the server.
+* You may want to run `$ make production-db-replace` and `$ make production-assets-push` to sync your local materials to the server.
 
-If you want to add new new server environments you need to modify [flightplan.remote.js](flightplan.remote.js), [flightplan.config.js](flightplan.config.js), [Makefile](Makefile), [package.json](package.json), [.env](.env) and [.env.example](.env.example) files. 
+If you want to add new new server environments (e.g. stage) you need to modify [flightplan.remote.js](flightplan.remote.js), [flightplan.config.js](flightplan.config.js), [Makefile](Makefile), [package.json](package.json), [.env](.env) and [.env.example](.env.example) files. 
 
 #### `$ make production-db-replace`
 
