@@ -10,9 +10,9 @@ namespace <%= appNameSpace %>\Setup;
  */
 if(function_exists('acf_add_options_page')) {
   acf_add_options_page(array(
-    'page_title'  => __('Global settings', 'app'),
-    'menu_title'  => __('Global settings', 'app'),
-    'menu_slug'   => 'global-settings',
+    'page_title'  => __('Sitewide settings', 'app'),
+    'menu_title'  => __('Sitewide settings', 'app'),
+    'menu_slug'   => 'sitewide-settings',
     'capability'  => 'edit_posts',
     'redirect'    => false
   ));

@@ -1,6 +1,6 @@
 {
   "name": "<%= dir %>/wp",
-  "description" : "<%= appNameHumanize %> WordPress Installer",
+  "description" : "<%= appNameHumanize %> WordPress dependencies",
   "repositories": [
     {
       "type": "composer",
@@ -58,9 +58,13 @@
     }<% } %>
   ],
   "require": {
-    "php": ">=5.4",
-    "johnpbloch/wordpress": "4.7.2",
+    "johnpbloch/wordpress": "^4.9.1",
     "wpackagist-plugin/w3-total-cache": "*",
+    "wpackagist-plugin/contact-form-7": "*",
+    "wpackagist-plugin/flamingo": "*",
+    "wpackagist-plugin/duplicate-post": "*",
+    "wpackagist-plugin/simple-custom-post-order": "*",
+    "wpackagist-plugin/timber-library": "^1.2",
     "wpackagist-plugin/wordpress-seo": "*"<% if (pluginWPML) { %>,
     "wpml/sitepress-multilingual-cms": "3.6.2",
     "wpml/wpml-translation-management": "2.2.6",
@@ -68,6 +72,9 @@
     "advanced-custom-fields/advanced-custom-fields-pro": "5.5.6"<% } %>
   },
   "extra": {
-    "wordpress-install-dir": "wp"
+    "wordpress-install-dir": "wp",
+    "installer-paths": {
+      "wp-content/plugins/{$name}/": ["type:wordpress-plugin"]
+    }
   }
 }

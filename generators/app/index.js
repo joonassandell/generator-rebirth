@@ -224,7 +224,10 @@ class Rebirth extends Generator {
       copy(`${assetsDir}${file}`, `${this.config.get('assetsPath')}${file}`, this)
     })
 
-    copy(`shared/assets/components/collections/Grid/`, `${this.config.get('assetsPath')}components/collections/Grid/`, this)
+    /**
+     * 1. Temporary
+     */
+    copy(`shared/assets/components/collections/Grid/`, `${this.config.get('assetsPath')}components/collections/Grid/`, this) /* [1] */
     copy(`shared/assets/_app.head.js`, `${this.config.get('assetsPath')}app.head.js`, this)
     copy(`shared/assets/app.js`, `${this.config.get('assetsPath')}app.js`, this)
     copy(`shared/assets/app.scss`, `${this.config.get('assetsPath')}app.scss`, this)
@@ -267,7 +270,7 @@ class Rebirth extends Generator {
         copy(`typo3/docker/_gitignore`, `../.gitignore`, this)
         copy(`typo3/docker/_README.md`, `../README.md`, this)
         copy(`shared/gitkeep`, `../database/.gitkeep`, this)
-        copy(`shared/auth.json`, `../typo3/auth.json`, this)
+        copy(`shared/auth.json`, `../typo3/auth.example.json`, this)
         copy(`typo3/docker/_Makefile`, `../Makefile`, this)
 
         if (this.typo3v === '^7.6.0') {
@@ -291,7 +294,7 @@ class Rebirth extends Generator {
       copy(`html/src/partials/bottom.hbs`, `src/partials/bottom.hbs`, this)
       copy(`html/src/helpers/assets.js`, `src/helpers/assets.js`, this)
       copy(`html/src/layouts/default.hbs`, `src/layouts/default.hbs`, this)
-      copy(`'html/src/partials/top.hbs`, `src/partials/top.hbs`, this)
+      copy(`html/src/partials/top.hbs`, `src/partials/top.hbs`, this)
     }
   }
 
@@ -308,7 +311,6 @@ class Rebirth extends Generator {
       copy(`wordpress/lib/_utils.php`, `lib/utils.php`, this)
       copy(`wordpress/_index.php`, `index.php`, this)
       copy(`wordpress/_style.css`, `style.css`, this)
-      copy(`wordpress/wp/_composer.json`, `wp/composer.json`, this)
       copy(`wordpress/header.php`, `header.php`, this)
       copy(`wordpress/footer.php`, `footer.php`, this)
       copy(`wordpress/partials`, `partials`, this)
@@ -323,13 +325,24 @@ class Rebirth extends Generator {
       }
 
       if (this.docker) {
-        copy(`wordpress/docker/_README.md`, `../README.md`, this)
+        copy(`shared/gitkeep`, `../database/.gitkeep`, this)
+        copy(`shared/auth.json`, `../wp/auth.example.json`, this)
+        copy(`wordpress/docker/_env`, `../.env`, this)
+        copy(`wordpress/docker/_env`, `../.env.example`, this)
+        copy(`wordpress/docker/_flightplan.config.js`, `../flightplan.config.js`, this)
+        copy(`wordpress/docker/_flightplan.js`, `../flightplan.js`, this)
+        copy(`wordpress/docker/_flightplan.remote.js`, `../flightplan.remote.js`, this)
+        copy(`wordpress/docker/_package.json`, `../package.json`, this)
+        copy(`wordpress/docker/_composer.json`, `../wp/composer.json`, this)
         copy(`wordpress/docker/_gitignore`, `../.gitignore`, this)
+        copy(`wordpress/docker/_README.md`, `../README.md`, this)
         copy(`wordpress/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
-        copy(`wordpress/docker/_docker-compose.override.yml`, `../docker-compose.override.yml`, this)
-        copy(`wordpress/docker/_wp-config.development.php`, `../wp-config.development.php`, this)
-        copy(`wordpress/docker/_install.sh`, `../install.sh`, this)
+        copy(`wordpress/docker/_wp-config.development.php`, `../wp/wp-config.development.php`, this)
+        copy(`wordpress/docker/_wp-config.php`, `../wp/wp-config.php`, this)
+        copy(`wordpress/docker/register-theme-directory.php`, `../wp/wp-content/mu-plugins/register-theme-directory.php`, this)
         copy(`wordpress/docker/_Makefile`, `../Makefile`, this)
+        copy(`wordpress/docker/migrate.remote.txt`, `../database/migrate.remote.txt`, this)
+        copy(`wordpress/docker/migrate.txt`, `../database/migrate.txt`, this)
       }
     }
   }

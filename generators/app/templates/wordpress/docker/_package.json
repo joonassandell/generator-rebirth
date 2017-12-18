@@ -1,0 +1,29 @@
+{
+  "name": "<%= appNameDasherize %>-docker",
+  "author": "<%= appAuthor %>",
+  "homepage": "<%= appURL %>",
+  "description": "<%= appDescription %>",
+  "main": "flightplan.js",
+  "scripts": {
+    "assets:pull": "fly assets-pull:production",
+    "db:backup": "fly db-backup:local",
+    "db:pull": "fly db-pull:production-db",
+    "db:replace": "fly db-replace:production-db",
+    "start": "fly start:local",
+    "production:assets:push": "fly assets-push:production --flightplan flightplan.remote.js",
+    "production:db:replace": "fly db-replace:production-db --flightplan flightplan.remote.js",
+    "production:start": "fly start:production --flightplan flightplan.remote.js",
+    "production:update": "fly update:production --flightplan flightplan.remote.js"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "flightplan": "^0.6.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>.git"
+  },
+  "engines": {
+    "node": ">=7.3.0"
+  }
+}
