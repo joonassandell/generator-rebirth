@@ -1,5 +1,5 @@
 /* ========================================
- * Coxa - Flightplan  config
+ * Config
  * ======================================== */
 
 const config = {
@@ -11,7 +11,6 @@ const config = {
     readyTimeout: 999999,
     opts: {
       root: '/var/www/webroot/ROOT',
-      typo3root: '/var/www/webroot/ROOT'
     }
   },
   productionDB: {

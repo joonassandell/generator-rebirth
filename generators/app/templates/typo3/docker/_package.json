@@ -13,8 +13,7 @@
     "start": "fly start:local",
     "production:assets:push": "fly assets-push:production --flightplan flightplan.remote.js",
     "production:db:replace": "fly db-replace:production-db --flightplan flightplan.remote.js",
-    "production:start": "fly start:production --flightplan flightplan.remote.js",
-    "production:update": "npm run production:start"
+    "production:start": "fly start:production --flightplan flightplan.remote.js"
   },
   "devDependencies": {
     "dotenv": "^4.0.0",

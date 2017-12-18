@@ -1,5 +1,5 @@
 # ========================================
-# <%= appNameHumanize %> - Local commands
+# Local commands
 # ========================================
 
 start:
@@ -62,7 +62,7 @@ db-replace-clone:
 
 
 # ========================================
-# <%= appNameHumanize %> - Remote commands
+# Remote commands
 # ========================================
 
 production-start:

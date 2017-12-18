@@ -1,5 +1,5 @@
 /* ========================================
- * <%= appNameHumanize %> - Local actions
+ * Local actions
  * ======================================== */
 
 require('dotenv').config()

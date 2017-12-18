@@ -1,5 +1,5 @@
 /* ========================================
- * <%= appNameHumanize %> - Remote
+ * Remote actions
  * ======================================== */
 
 require('dotenv').config()
@@ -20,7 +20,7 @@ plan.target('production-db', cfg.productionDB, cfg.productionDB.opts)
 /**
  * Setup folders etc. ready for files
  */
-let sshUser, sshPort, sshHost, root, typo3root, dbName, dbUser, dbPw
+let sshUser, sshPort, sshHost, root, dbName, dbUser, dbPw
 const date = new Date().getTime()
 const tmpDir = `typo3-update-${date}`
 
@@ -37,7 +37,6 @@ plan.local(['start', 'assets-push', 'db-replace'], local => {
   sshUser = plan.runtime.hosts[0].username
   sshPort = plan.runtime.hosts[0].port
   root = plan.runtime.options.root
-  typo3root = plan.runtime.options.typo3root
   dbName = plan.runtime.options.dbName
   dbUser = plan.runtime.options.dbUser
   dbPw = plan.runtime.options.dbPw
@@ -64,20 +63,21 @@ plan.local('start', local => {
 
 plan.remote('start', remote => {
   remote.log('Installing Composer...')
-  remote.exec(`curl -sS https://getcomposer.org/installer | php && mv composer.phar ${typo3root}`)
+  remote.exec(`curl -sS https://getcomposer.org/installer | php && mv composer.phar ${root}`)
 
   remote.log('Copying files...')
-  remote.exec(`cp ${root}/tmp/typo3-deployments/${tmpDir}/typo3/composer.json ${typo3root}`)
-  remote.exec(`cp ${root}/tmp/typo3-deployments/${tmpDir}/typo3/auth.json ${typo3root}`, { failsafe: true })
+  remote.exec(`cp ${root}/tmp/typo3-deployments/${tmpDir}/typo3/composer.json ${root}`)
+  remote.exec(`cp ${root}/tmp/typo3-deployments/${tmpDir}/typo3/auth.json ${root}`, { failsafe: true })
 
   remote.log('Installing Composer dependencies...')
-  remote.with(`cd ${typo3root}`, () => { remote.exec(`
+  remote.with(`cd ${root}`, () => { remote.exec(`
     php composer.phar update \
     && touch FIRST_INSTALL
   `)})
 
   remote.log('Removing uploaded files...')
-  remote.exec(`rm -r ${typo3root}/auth.json`, { failsafe: true })
+  remote.exec(`rm -r ${root}/auth.json`, { failsafe: true })
+  remote.exec(`rm -r ${root}/composer.json`, { failsafe: true })
   remote.exec(`rm -rf ${root}/tmp/typo3-deployments/${tmpDir}`)
 })
 
@@ -89,7 +89,7 @@ plan.remote('start', remote => {
  plan.local(['assets-push'], local => {
   local.log('Deploying uploads folder...')
   local.exec(`rsync -avz -e "ssh -p ${sshPort}" \
-    typo3/uploads ${sshUser}@${sshHost}:${typo3root}/uploads`, { failsafe: true })
+    typo3/uploads ${sshUser}@${sshHost}:${root}/uploads`, { failsafe: true })
  })
 
 
