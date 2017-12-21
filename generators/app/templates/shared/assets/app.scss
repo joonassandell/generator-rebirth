@@ -34,17 +34,17 @@
 @import 'stylesheets/helpers/helper';
 
 // Elements
-@import 'components/elements/Container/index';
-@import 'components/elements/Heading/index';
-@import 'components/elements/Ieframe/index';
-@import 'components/elements/Icon/index';
-@import 'components/elements/Text/index';
-@import 'components/elements/Width/index';
-@import 'components/elements/Wrap/index';
+@import 'components/Container/index';
+@import 'components/Heading/index';
+@import 'components/Ieframe/index';
+@import 'components/Icon/index';
+@import 'components/Text/index';
+@import 'components/Width/index';
+@import 'components/Wrap/index';
 
 // Collections
-@import 'components/collections/Grid/index';
+@import 'components/Grid/index';
 
 // Layouts
-@import 'components/layouts/Header/index';
-@import 'components/layouts/Footer/index';
+@import 'components/Header/index';
+@import 'components/Footer/index';
