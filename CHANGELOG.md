@@ -1,12 +1,29 @@
 # CHANGELOG
 
+## 0.5.5x
+
+* Updated to Rebirth 0.5.3 ([Rebirth CHANGELOG]([https://github.com/joonasy/rebirth/blob/master/CHANGELOG.md))
+* Add iconfile for referencing SVG icons ([#55]([../../issues/55) [#28]([../../issues/28))
+* Use localhost (127.0.0.1:8000) rather than generated dev address ([#48]([../../issues/48))
+* Simplify gulpfile ([#28]([../../issues/28))
+  - Use real env variables
+  - Remove unnecessary config
+* WordPress
+  - Added flightplan and ENV file for handling shell scripts and deployments in dev environments ([#9]([../../issues/9))
+    + You can now deploy local environment to production. See Makefile
+  - Switch to official wordpress Docker image ([#15]([../../issues/15))
+  - Added shipit for deploying theme ([#47]([../../issues/47), [#11]([../../issues/11))
+  - Added Timber ([#24]([../../issues/24))
+  - Block WordPress xmlrpc.php requests ([#50]([../../issues/50))
+  - Switch WPML composer sources to the official ones ([#52]([../../issues/52))
+
 ## 0.5.4x
 
 * Added flightplan and ENV file for handling shell scripts and deployments in dev environments ([#46](../../issues/46), , [#8](../../issues/8))
 * TYPO3 (^8.7.8, ^7.6.0):
   - You can now deploy local environment to production. See Makefile ([#46](../../issues/46), [#8](../../issues/8))
   - Use [applicationContext = Development] to determine environment ([#43](../../issues/43))
-  - Added shipit for deploying theme ([#44](../../issues/44))
+  - Added shipit for deploying extension ([#44](../../issues/44))
   - Remove dploy ([#10](../../issues/10))
 
 ## 0.5.3x
