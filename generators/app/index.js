@@ -326,6 +326,7 @@ class Rebirth extends Generator {
       copy(`wordpress/footer.php`, `footer.php`, this)
       copy(`wordpress/index.php`, `index.php`, this)
       copy(`wordpress/page.php`, `page.php`, this)
+      copy(`wordpress/template-home.php`, `template-home.php`, this)
       copy(`wordpress/single.php`, `single.php`, this)
       copy(`wordpress/partials`, `partials`, this)
       copy(`wordpress/templates`, `templates`, this)
