@@ -6,12 +6,13 @@
 
 * GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker, [native Linux with Docker](http://docs.docker.com/linux/step_one/) or [Docker for Mac](https://docs.docker.com/docker-for-mac/)).
 * [docker-compose](https://github.com/docker/compose)
-* [make](https://www.gnu.org/software/make/manual/make.html) (optional)
-* VPN, SSH access and [rsync](https://linux.die.net/man/1/rsync) (Optional but required for syncing assets and databases)
+* [Node.js](http://nodejs.org/)
+* [make](https://www.gnu.org/software/make/manual/make.html) (Optional but recommended for simpler CLI commands)
+* SSH access (RSA Key Pair) and [rsync](https://linux.die.net/man/1/rsync) (Optional but required for syncing assets and databases)
 
 # Installation 
 
-**1.** Clone this repository recursively
+**1. Clone this repository recursively**
 
 ```
 $ git clone git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>-docker.git --recurse-submodules
@@ -21,7 +22,7 @@ $ git clone git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>-docker.git --
 
 1.  Copy [`.env.example`](.env.example) to `.env` file and set your environment variables. Most of the vars should already be set by the creator of the project. Especially make sure that all the `PROD_*` vars are set (e.g `PROD_DB_PASSWORD`). 
 
-2. Map your localhost to the development address in your host machine's hosts-file (`/etc/hosts` in linux/osx). For example with Docker machine: `192.168.99.100 <%= dir %>.dev` or native `127.0.0.1 <%= dir %>.dev`.
+2. Start your docker-machine if you need to and make sure there aren't any conflicting containers/ports running.
 
 **3. Install**
 
@@ -35,7 +36,7 @@ $ git clone git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>-docker.git --
 
 Crab a cup of :coffee: as the installation process may take a while. If you are not able to run these please refer to the [Makefile](Makefile) and run the commands manually.
 
-**4. Navigate to [<%= dir %>.dev:8000](<%= dir %>.dev:8000)**
+**4. Navigate to [127.0.0.1:8000](http://127.0.0.1:8000)**
 
 Login to TYPO3 and setup your newly created site if you kickstarted the project, otherwise just login with the production credentials and verify everything works properly. 
 

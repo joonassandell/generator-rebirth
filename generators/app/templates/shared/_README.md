@@ -13,11 +13,12 @@
 * [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/)<% }} if (typo3 || wp) { %>
 * [Composer](https://getcomposer.org/)<% } %>
 * [Node.js](http://nodejs.org/)
-* [Npm](https://www.npmjs.org/)<% if (docker) { %>
+* [Npm](https://www.npmjs.org/)
+* SSH access (RSA Key Pair) for deployments<% if (docker) { %>
 
 ## Getting started
 
-[<%= appNameHumanize %> - <%= name() %> Docker](https://bitbucket.org/<%= appAuthorDasherize %>/<%= dir %>-docker.git) installs all the required dependencies and builds your development environment. Works with GNU/Linux/Unix and could also work in Windows. Otherwise clone this theme to your themes folder and do the install process.<% } %>
+[<%= appNameHumanize %> - <%= name() %> Docker](https://bitbucket.org/<%= appAuthorDasherize %>/<%= dir %>-docker.git) installs all the required dependencies and builds your development environment. Works with GNU/Linux/Unix and could also work in Windows. Otherwise clone this <% if (typo3) { %>extension to your `ext` folder<% } if (wp) %>theme to your `themes` folder<% } %> and do the install process.
 
 ## Install
 
@@ -30,10 +31,12 @@
 ## Usage
 
 * `npm run build`: Build the application
-* `npm run deploy`: Build the application and deploy it to the server<% if (html) { %>* `npm run dist`: Build the application and start a local server for testing purposes<% } %>
+* `npm run deploy`: Build the application and deploy it to the server. <% if (html) { %>* `npm run dist`: Build the application and start a local server for testing purposes<% } %><% if (typo3 || wp) { %>
+  - Copy [`.env.example`](.env.example) to `.env` file and set your environment variables first
+  - Make sure [`shipitfile.js`](shipitfile.js) has correct root and [`package.json`](package.json) has correct `repository` set<% } %>
 * `npm run dev`: Watches files and sets up development environment.
-    * `--host=yourlocalhost.app`: Assign your custom host for the BrowserSync
-    * `--disable_open`: Disables automatic browser opening
+    * `HOST=yourlocalhost.app`: Assign your custom host for the BrowserSync
+    * `DISABLE_OPEN=true`: Disables automatic browser opening
 
 ---
 
