@@ -142,12 +142,6 @@ class Rebirth extends Generator {
         message: 'Project description:',
         default: props => `Website for ${_.humanize(props.name)}`
       }, {
-        type: 'confirm',
-        name: 'pluginWPML',
-        message: 'Install WPML?:',
-        default: false,
-        when: () => this.wp && this.docker
-      }, {
         when: () => {
           if (this.wp && this.docker) {
             this.log(`${chalk.green('!')} ACF subscription key can be found from ${chalk.underline.yellow('https://www.advancedcustomfields.com/my-account/')}`)
@@ -156,9 +150,29 @@ class Rebirth extends Generator {
       }, {
         type: 'input',
         name: 'pluginACFkey',
-        message: 'ACF key (leave empty for not installing):',
+        message: 'ACF key (leave empty to not install):',
         default: false,
         when: () => this.wp && this.docker
+      }, {
+        when: props => {
+          if (this.wp && this.docker) {
+            this.log(`${chalk.green('  !')} WPML user id and subscription key can be found from the download url in`)
+            this.log(`${chalk.green('  !')} ${chalk.underline.yellow('https://wpml.org/account/downloads/')}`)
+            this.log(`${chalk.green('  !')} ?download=6088&user_id=${chalk.bold.yellow('YOUR_USER_ID')}&subscription_key=${chalk.bold.yellow('YOUR_KEY')}`)
+          }
+        }
+      }, {
+        type: 'input',
+        name: 'pluginWPMLuserID',
+        message: 'WPML user ID (leave empty to not install):',
+        default: false,
+        when: () => this.wp && this.docker
+      }, {
+        type: 'input',
+        name: 'pluginWPMLkey',
+        message: 'WPML subscription key:',
+        default: false,
+        when: props => props.pluginWPMLuserID
       }
     ]
 
@@ -175,7 +189,8 @@ class Rebirth extends Generator {
       this.appDescription = props.description
       this.dirCapitalize = _.capitalize(this.dir)
       this.git = props.git
-      this.pluginWPML = props.pluginWPML
+      this.pluginWPMLuserID = props.pluginWPMLuserID
+      this.pluginWPMLkey = props.pluginWPMLkey
       this.pluginACFkey = props.pluginACFkey
       this.typo3v = props.typo3v
     })
@@ -193,7 +208,7 @@ class Rebirth extends Generator {
     copy(`shared/editorconfig`, `.editorconfig`, this)
     copy(`shared/eslintrc`, `.eslintrc`, this)
 
-    if (!this.typo3) {
+    if (this.html) {
       copy(`shared/_dploy.example.yaml`, `dploy.example.yaml`, this)
       copy(`shared/_dploy.example.yaml`, `dploy.yaml`, this)
     }
@@ -203,17 +218,17 @@ class Rebirth extends Generator {
     const assetsDir = this.templatePath('../../../node_modules/rebirth-ui/src/')
 
     const assets = [
-      'components/elements/Container/',
-      'components/elements/Heading/',
-      'components/elements/Icon/',
-      'components/elements/IeFrame/',
-      'components/elements/Text/',
-      'components/elements/Width/',
-      'components/elements/Wrap/',
-      'components/collections/Grid/_Grid.scss',
-      'components/layouts/Footer/',
-      'components/layouts/Header/',
-      'components/layouts/Page/',
+      'components/Container/',
+      'components/Heading/',
+      'components/Icon/',
+      'components/IeFrame/',
+      'components/Text/',
+      'components/Width/',
+      'components/Wrap/',
+      'components/Grid/_Grid.scss',
+      'components/Footer/',
+      'components/Header/',
+      'components/Page/',
       'stylesheets/generic/',
       'stylesheets/helpers/_helper.scss',
       'stylesheets/mixins/',
@@ -227,7 +242,7 @@ class Rebirth extends Generator {
     /**
      * 1. Temporary
      */
-    copy(`shared/assets/components/collections/Grid/`, `${this.config.get('assetsPath')}components/collections/Grid/`, this) /* [1] */
+    copy(`shared/assets/components/Grid/`, `${this.config.get('assetsPath')}components/Grid/`, this)
     copy(`shared/assets/_app.head.js`, `${this.config.get('assetsPath')}app.head.js`, this)
     copy(`shared/assets/app.js`, `${this.config.get('assetsPath')}app.js`, this)
     copy(`shared/assets/app.scss`, `${this.config.get('assetsPath')}app.scss`, this)
@@ -271,7 +286,7 @@ class Rebirth extends Generator {
         copy(`typo3/docker/_README.md`, `../README.md`, this)
         copy(`shared/gitkeep`, `../database/.gitkeep`, this)
         copy(`shared/auth.json`, `../typo3/auth.example.json`, this)
-        copy(`typo3/docker/_Makefile`, `../Makefile`, this)
+        copy(`typo3/docker/Makefile`, `../Makefile`, this)
 
         if (this.typo3v === '^7.6.0') {
           copy(`typo3/v7/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
@@ -304,24 +319,24 @@ class Rebirth extends Generator {
       copy(`wordpress/_gulpfile.js`, `gulpfile.js`, this)
       copy(`wordpress/_functions.php`, `functions.php`, this)
       copy(`wordpress/lib/_clean-up.php`, `lib/clean-up.php`, this)
-      copy(`wordpress/lib/_cpt-name.php`, `lib/cpt-name.php`, this)
-      copy(`wordpress/lib/_NavWalker.php`, `lib/NavWalker.php`, this)
-      copy(`wordpress/lib/_sc-name.php`, `lib/sc-name.php`, this)
-      copy(`wordpress/lib/_setup.php`, `lib/setup.php`, this)
-      copy(`wordpress/lib/_utils.php`, `lib/utils.php`, this)
-      copy(`wordpress/_index.php`, `index.php`, this)
+      copy(`wordpress/lib/_cpt-name.php`, `lib/custom-post-types/cpt-name.php`, this)
+      copy(`wordpress/lib/_sc-name.php`, `lib/shortcodes/sc-name.php`, this)
       copy(`wordpress/_style.css`, `style.css`, this)
       copy(`wordpress/header.php`, `header.php`, this)
       copy(`wordpress/footer.php`, `footer.php`, this)
+      copy(`wordpress/index.php`, `index.php`, this)
+      copy(`wordpress/page.php`, `page.php`, this)
+      copy(`wordpress/single.php`, `single.php`, this)
       copy(`wordpress/partials`, `partials`, this)
+      copy(`wordpress/templates`, `templates`, this)
+      copy(`shared/gitkeep`, `languages/.gitkeep`, this)
+      copy(`shared/gitkeep`, `components/.gitkeep`, this)
+      copy(`wordpress/_shipitfile.js`, `shipitfile.js`, this)
+      copy(`wordpress/_env`, `.env`, this)
+      copy(`wordpress/_env`, `.env.example`, this)
 
       if (this.pluginACFkey) {
-        mkdirp('acf-json')
-        copy(`wordpress/lib/_utils-acf.php`, `lib/utils-acf.php`, this)
-      }
-
-      if (this.pluginWPMLuserID) {
-        mkdirp('languages')
+        copy(`shared/gitkeep`, `acf-json/.gitkeep`, this)
       }
 
       if (this.docker) {
@@ -337,10 +352,11 @@ class Rebirth extends Generator {
         copy(`wordpress/docker/_gitignore`, `../.gitignore`, this)
         copy(`wordpress/docker/_README.md`, `../README.md`, this)
         copy(`wordpress/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
-        copy(`wordpress/docker/_wp-config.development.php`, `../wp/wp-config.development.php`, this)
+        copy(`wordpress/docker/wp-config.development.php`, `../wp/wp-config.development.php`, this)
         copy(`wordpress/docker/_wp-config.php`, `../wp/wp-config.php`, this)
+        copy(`wordpress/docker/index.php`, `../wp/index.php`, this)
         copy(`wordpress/docker/register-theme-directory.php`, `../wp/wp-content/mu-plugins/register-theme-directory.php`, this)
-        copy(`wordpress/docker/_Makefile`, `../Makefile`, this)
+        copy(`wordpress/docker/Makefile`, `../Makefile`, this)
         copy(`wordpress/docker/migrate.remote.txt`, `../database/migrate.remote.txt`, this)
         copy(`wordpress/docker/migrate.txt`, `../database/migrate.txt`, this)
       }
