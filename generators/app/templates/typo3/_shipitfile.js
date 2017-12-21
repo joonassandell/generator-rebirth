@@ -14,7 +14,7 @@ module.exports = shipit => {
     default: {
       workspace: WORKSPACE,
       repositoryUrl: pkg.repository,
-      ignores: [".*", "gulpfile.js", "package.json", "README.md", "rev-manifest.json", "shipitfile.js", "./Assets/", "node_modules/", "selection.json", "yarn.lock", "config.md"],
+      ignores: [".*", "gulpfile.js", "package.json", "README.md", "rev-manifest.json", "shipitfile.js", "./Assets/", "node_modules/", "selection.json", "yarn.lock"],
       keepReleases: 5,
       deleteOnRollback: false,
       rsync: ['--include="dist/**/*"'],
