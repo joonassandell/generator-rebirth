@@ -1,6 +1,6 @@
 {
   "name": "<%= dir %>/wp",
-  "description" : "<%= appNameHumanize %> WordPress dependencies",
+  "description" : "<%= appDescription %>",
   "repositories": [
     {
       "type": "composer",
@@ -8,68 +8,65 @@
     }, {
       "type": "composer",
       "url": "https://packagist.org"
-    }<% if (pluginWPML) { %>, {
+    }<% if (pluginWPMLuserID) { %>, {
       "type": "package",
       "package": {
         "name": "wpml/sitepress-multilingual-cms",
-        "version": "3.6.2",
+        "version": "3.8.4",
         "type": "wordpress-plugin",
-        "source": {
-          "type": "git",
-          "url": "https://github.com/wp-premium/sitepress-multilingual-cms.git",
-          "reference": "master"
-        }
-      }
-    }, {
-      "type": "package",
-      "package": {
-        "name": "wpml/wpml-translation-management",
-        "version": "2.2.6",
-        "type": "wordpress-plugin",
-        "source": {
-          "type": "git",
-          "url": "https://github.com/wp-premium/wpml-translation-management.git",
-          "reference": "master"
+        "dist": {
+          "type": "zip",
+          "url": "https://wpml.org/?download=6088&user_id=<%= pluginWPMLuserID %>&subscription_key=<%= pluginWPMLkey %>"
         }
       }
     }, {
       "type": "package",
       "package": {
         "name": "wpml/wpml-string-translation",
-        "version": "2.5.1",
+        "version": "2.6.3",
         "type": "wordpress-plugin",
-        "source": {
-          "type": "git",
-          "url": "https://github.com/wp-premium/wpml-string-translation.git",
-          "reference": "master"
+        "dist": {
+          "type": "zip",
+          "url": "https://wpml.org/?download=6092&user_id=<%= pluginWPMLuserID %>&subscription_key=<%= pluginWPMLkey %>"
+        }
+      }
+    }, {
+      "type": "package",
+      "package": {
+        "name": "wpml/wpml-translation-management",
+        "version": "2.4.3",
+        "type": "wordpress-plugin",
+        "dist": {
+          "type": "zip",
+          "url": "https://wpml.org/?download=6094&user_id=<%= pluginWPMLuserID %>&subscription_key=<%= pluginWPMLkey %>"
         }
       }
     }<% } if (pluginACFkey) { %>, {
       "type": "package",
       "package": {
         "name": "advanced-custom-fields/advanced-custom-fields-pro",
-        "version": "5.5.6",
+        "version": "5.5.7",
         "type": "wordpress-plugin",
         "dist": {
           "type": "zip",
-          "url": "http://connect.advancedcustomfields.com/index.php?p=pro&a=download&k=<%= pluginACFkey %>"
+          "url": "https://connect.advancedcustomfields.com/index.php?p=pro&a=download&k=<%= pluginACFkey %>"
         }
       }
     }<% } %>
   ],
   "require": {
     "johnpbloch/wordpress": "^4.9.1",
-    "wpackagist-plugin/w3-total-cache": "*",
-    "wpackagist-plugin/contact-form-7": "*",
-    "wpackagist-plugin/flamingo": "*",
-    "wpackagist-plugin/duplicate-post": "*",
-    "wpackagist-plugin/simple-custom-post-order": "*",
-    "wpackagist-plugin/timber-library": "^1.2",
-    "wpackagist-plugin/wordpress-seo": "*"<% if (pluginWPML) { %>,
-    "wpml/sitepress-multilingual-cms": "3.6.2",
-    "wpml/wpml-translation-management": "2.2.6",
-    "wpml/wpml-string-translation": "2.5.1"<% } if (pluginACFkey) { %>,
-    "advanced-custom-fields/advanced-custom-fields-pro": "5.5.6"<% } %>
+    "wpackagist-plugin/w3-total-cache": "^0.9.6",
+    "wpackagist-plugin/contact-form-7": "^4.9.2",
+    "wpackagist-plugin/flamingo": "^1.6",
+    "wpackagist-plugin/duplicate-post": "^3.2.1",
+    "wpackagist-plugin/simple-custom-post-order": "^2.3.2",
+    "wpackagist-plugin/timber-library": "^1.5.2",
+    "wpackagist-plugin/wordpress-seo": "^5.9.3"<% if (pluginWPMLuserID) { %>,
+    "wpml/sitepress-multilingual-cms": "^3.8.4",
+    "wpml/wpml-string-translation": "^2.6.3",
+    "wpml/wpml-translation-management": "^2.4.3"<% } if (pluginACFkey) { %>,
+    "advanced-custom-fields/advanced-custom-fields-pro": "^5.5.7"<% } %>
   },
   "extra": {
     "wordpress-install-dir": "wp",

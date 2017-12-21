@@ -1,8 +1,8 @@
 {
   "name": "<%= appNameDasherize %>-docker",
   "author": "<%= appAuthor %>",
-  "homepage": "<%= appURL %>",
   "description": "<%= appDescription %>",
+  "homepage": "<%= appURL %>",
   "main": "flightplan.js",
   "scripts": {
     "assets:pull": "fly assets-pull:production",
@@ -18,10 +18,6 @@
   "devDependencies": {
     "dotenv": "^4.0.0",
     "flightplan": "^0.6.15"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>.git"
   },
   "engines": {
     "node": ">=7.3.0"

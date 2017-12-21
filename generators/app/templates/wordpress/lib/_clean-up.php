@@ -38,7 +38,7 @@ function remove_dashboard_widgets() {
   remove_meta_box('dashboard_recent_comments', 'dashboard', 'normal');
   remove_meta_box('dashboard_quick_press', 'dashboard', 'normal');
   remove_meta_box('dashboard_primary', 'dashboard', 'normal');
-  remove_meta_box('dashboard_secondary', 'dashboard', 'normal'); /
+  remove_meta_box('dashboard_secondary', 'dashboard', 'normal');
 }
 
 add_action('admin_init', __NAMESPACE__ . '\\remove_dashboard_widgets');
@@ -53,8 +53,7 @@ function disable_x_pingback($headers) {
     return $headers;
 }
 
-add_filter('wp_headers', 'disable_x_pingback');
-
+add_filter('wp_headers', __NAMESPACE__ . '\\disable_x_pingback');<% if (pluginWPMLuserID) { %>
 
 /**
  * WPML
@@ -70,4 +69,4 @@ if (!empty($GLOBALS['sitepress'])) {
 
 define('ICL_DONT_LOAD_NAVIGATION_CSS', true);
 define('ICL_DONT_LOAD_LANGUAGE_SELECTOR_CSS', true);
-define('ICL_DONT_LOAD_LANGUAGES_JS', true);
+define('ICL_DONT_LOAD_LANGUAGES_JS', true);<% } %>

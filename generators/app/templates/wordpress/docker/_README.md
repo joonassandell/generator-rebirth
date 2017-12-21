@@ -4,11 +4,11 @@
 
 # Requirements
 
-- GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker or [native Linux with Docker](http://docs.docker.com/linux/step_one/)).
-- [docker-compose](https://github.com/docker/compose)
-- [Node.js](http://nodejs.org/)
-- [make](https://www.gnu.org/software/make/manual/make.html) (Optional but recommended for simpler CLI commands)
-- SSH access (RSA Key Pair) and [rsync](https://linux.die.net/man/1/rsync) (Optional but required for syncing assets and databases)
+* GNU/Linux/Unix with Docker ([Docker toolbox](https://www.docker.com/products/docker-toolbox), [Vagrant](https://www.vagrantup.com/downloads.html) VM with Docker, [native Linux with Docker](http://docs.docker.com/linux/step_one/) or [Docker for Mac](https://docs.docker.com/docker-for-mac/)).
+* [docker-compose](https://github.com/docker/compose)
+* [Node.js](http://nodejs.org/)
+* [make](https://www.gnu.org/software/make/manual/make.html) (Optional but recommended for simpler CLI commands)
+* SSH access (RSA Key Pair) and [rsync](https://linux.die.net/man/1/rsync) (Optional but required for syncing assets and databases)
 
 # Installation 
 
@@ -20,9 +20,7 @@
 
 1.  Copy [`.env.example`](.env.example) to `.env` file and set your environment variables. Most of the vars should already be set by the creator of the project. Especially make sure that all the `PROD_*` vars are set (e.g `PROD_PASSWORD`). 
 
-2. Map your localhost to the development address in your host machine's hosts-file (`/etc/hosts` in linux/osx). For example with Docker machine: `192.168.99.100 <%= dir %>.dev` or native Linux `localhost <%= dir %>.dev`.
-
-3. Start your docker-machine if you need to and make sure there aren't any conflicting containers/ports running.
+2. Start your docker-machine if you need to and make sure there aren't any conflicting containers/ports running.
 
 **3. Install**
 
@@ -36,7 +34,7 @@
 
 Crab a cup of :coffee: as the installation process may take a while. If you are not able to run these please refer to the [Makefile](Makefile) and run the commands manually.
 
-**4. Navigate to [<%= dir %>.dev:8000](http://<%= dir %>.dev:8000) and setup WordPress**
+**4. Navigate to [127.0.0.1:8000](http://127.0.0.1:8000) and setup WordPress**
 
 Login to WordPress, activate plugins and theme if you kickstarted the project, otherwise just login to WordPress with the production credentials and verify everything works properly. 
 
@@ -80,7 +78,7 @@ Rebuild WordPress (`app`) container.
 
 Rebuild and reinstall _everything_ (excluding `node_modules/` folder), including your MySQL container (Note that you will lose your current data) and run `$ make start-sync`.
 
-#### `$ make bash`
+#### `$ make app`
 
 Connect to WordPress (`app`) container.
 
@@ -111,7 +109,7 @@ Install WordPress and plugins to the production server. This is most likely **re
 You may want to:
 
 * Deploy your theme first
-* Add production database defines temporarily in `wp/wp-config.php` so they can copied to the server (Do not commit!)
+* Add production database creadentials temporarily in [`wp/wp-config.php`](wp/wp-config.php) so they can copied to the server (Do not commit!)
 * `$ make production-db-replace`: Replace remote database with your local one. Make sure the database name matches with the remote in `.env` (`PROD_DB_NAME`).
 * `$ make production-assets-push` to sync your local materials to the server
 
