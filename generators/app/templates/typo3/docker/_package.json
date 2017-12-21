@@ -1,8 +1,7 @@
 {
   "name": "<%= appNameDasherize %>-docker",
-  "version": "1.0.0",
   "author": "<%= appAuthor %>",
-  "description": "Development environment for <%= appNameHumanize %>",
+  "description": "<%= appDescription %>",
   "homepage": "<%= appURL %>",
   "main": "flightplan.js",
   "scripts": {

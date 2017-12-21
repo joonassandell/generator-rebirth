@@ -35,7 +35,7 @@ restart:
 	docker-compose rm -f mysql
 	make start
 
-bash:
+app:
 	docker-compose exec app bash
 
 mysql:

@@ -79,7 +79,7 @@ Rebuild TYPO3 (`app`) container.
 
 Rebuild and reinstall _everything_ (excluding `node_modules/` folder) including your MySQL container (Note that you will lose your data).
 
-#### `$ make bash`
+#### `$ make app`
 
 Connect to TYPO3 (`app`) container.
 

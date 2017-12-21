@@ -1,10 +1,10 @@
 /* ========================================
- * <%= appNameHumanize %> - Deployment
+ * Deployment
  * ======================================== */
 
 require('dotenv').config()
 const pkg = require('./package.json')
-const PROD_TYPO3_ROOT = '/var/www/webroot/ROOT'
+const ROOT = '/var/www/webroot/ROOT'
 const WORKSPACE = process.env.WORKSPACE || '/tmp/<%= dir %>'
 
 module.exports = shipit => {
@@ -21,12 +21,12 @@ module.exports = shipit => {
     },
     production: {
       branch: 'master',
-      deployTo: `${PROD_TYPO3_ROOT}/typo3conf/releases/<%= dir %>`,
+      deployTo: `${ROOT}/typo3conf/releases/<%= dir %>`,
       servers: process.env.PRODUCTION_SSH,
     }
   })
 
-  shipit.blTask('npm', (e) => {
+  shipit.blTask('npm', () => {
     shipit.log('Installing dependencies...')
     return shipit.local('npm install', { cwd: WORKSPACE })
       .then(() => shipit.log('Successfully installed dependencies'))
@@ -49,11 +49,11 @@ module.exports = shipit => {
   shipit.blTask('setup', () => {
     shipit.log('Running setup...')
     shipit.remote(`
-      if [ ! -d "${PROD_TYPO3_ROOT}/typo3conf/ext/<%= dir %>" ]
+      if [ ! -d "${ROOT}/typo3conf/ext/<%= dir %>" ]
         then
-          mkdir -p ${PROD_TYPO3_ROOT}/typo3conf/releases/<%= dir %> \
-          && ln -s ${PROD_TYPO3_ROOT}/typo3conf/releases/<%= dir %>/current \
-            ${PROD_TYPO3_ROOT}/typo3conf/ext/<%= dir %>
+          mkdir -p ${ROOT}/typo3conf/releases/<%= dir %> \
+          && ln -s ${ROOT}/typo3conf/releases/<%= dir %>/current \
+            ${ROOT}/typo3conf/ext/<%= dir %>
       fi
     `)
   })

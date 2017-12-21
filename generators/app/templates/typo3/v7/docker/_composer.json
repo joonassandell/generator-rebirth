@@ -1,5 +1,5 @@
 {
-  "name": "<%= appNameDasherize %>/typo3-docker",
+  "name": "<%= dir %>/typo3-docker",
   "description" : "<%= appNameHumanize %> TYPO3 Development Environment",
   "homepage": "<%= appURL %>",
   "version": "1.0.0",
