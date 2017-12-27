@@ -6,7 +6,7 @@
 @import 'config';
 
 // Vendors
-@import 'stylesheets/vendors/normalize';
+@import 'normalize.css/normalize';
 @import 'sass-mq/mq';
 
 // Mixins
@@ -33,6 +33,14 @@
 // Helpers
 @import 'stylesheets/helpers/helper';
 
+// Layouts
+@import 'components/Header/index';
+@import 'components/Page/index';
+@import 'components/Footer/index';
+
+// Collections
+@import 'components/Grid/index';
+
 // Elements
 @import 'components/Container/index';
 @import 'components/Heading/index';
@@ -41,10 +49,3 @@
 @import 'components/Text/index';
 @import 'components/Width/index';
 @import 'components/Wrap/index';
-
-// Collections
-@import 'components/Grid/index';
-
-// Layouts
-@import 'components/Header/index';
-@import 'components/Footer/index';

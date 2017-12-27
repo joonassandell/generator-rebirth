@@ -10,11 +10,11 @@ const mkdirp = require('mkdirp')
 const path = require('path')
 const yosay = require('yosay')
 
-function copy(source, destination, generator) {
-  generator.fs.copyTpl(
-    generator.templatePath(source),
-    generator.destinationPath(destination),
-    generator
+function copy(source, destination, gen) {
+  gen.fs.copyTpl(
+    gen.templatePath(source),
+    gen.destinationPath(destination),
+    gen
   )
 }
 
@@ -232,7 +232,6 @@ class Rebirth extends Generator {
       'stylesheets/generic/',
       'stylesheets/helpers/_helper.scss',
       'stylesheets/mixins/',
-      'stylesheets/vendors/_normalize.scss',
       '_config.scss',
       'config.js'
     ].forEach(file => {
@@ -330,8 +329,8 @@ class Rebirth extends Generator {
       copy(`wordpress/single.php`, `single.php`, this)
       copy(`wordpress/partials`, `partials`, this)
       copy(`wordpress/templates`, `templates`, this)
+      copy(`wordpress/components`, `components`, this)
       copy(`shared/gitkeep`, `languages/.gitkeep`, this)
-      copy(`shared/gitkeep`, `components/.gitkeep`, this)
       copy(`wordpress/_shipitfile.js`, `shipitfile.js`, this)
       copy(`wordpress/_env`, `.env`, this)
       copy(`wordpress/_env`, `.env.example`, this)

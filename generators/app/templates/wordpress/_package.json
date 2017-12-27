@@ -6,7 +6,8 @@
   "description": "<%= appDescription %>",
   "dependencies": {
     "fastclick": "^1.0.6",
-    "jquery": "^2.2.1"
+    "jquery": "^2.2.1",
+    "normalize.css": "^7.0.0"
   },
   "main": "gulpfile.js",
   "repository": "git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>.git",
