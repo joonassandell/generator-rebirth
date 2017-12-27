@@ -1,11 +1,9 @@
-wp/*
-!wp/composer.json
-!wp/composer.lock
-!wp/.htaccess.example
-!wp/auth.json
-!wp/index.php
-!wp/wp-config.development.php
-!wp/wp-config.php
+wp/wp
+wp/vendor
+wp/.htaccess
+wp/wp-content/*
+!wp/wp-content/themes
+!wp/wp-content/mu-plugins
 docker-compose.override.yml
 .idea
 .DS_Store
