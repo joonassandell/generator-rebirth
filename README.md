@@ -10,14 +10,13 @@ Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold
 * Automatical Sass compilation
 * Image optimization
 * Combine media queries
-* Browserify
+* Browserify, Babel, ES2015 support
 * Docker development environment
 
 ## Requirements
 
 * [Node.js](http://nodejs.org/) & [Npm](https://www.npmjs.org/)
 * [Yeoman](http://yeoman.io/) `npm install -g yo`
-* [Bower](http://bower.io/) `npm install -g bower`
 * [Git](https://git-scm.com/)
 
 ### Docker
@@ -28,15 +27,15 @@ Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold
 
 ### TYPO3
 
-* [TYPO3 v^7.6.0](http://typo3.org)
-* [Flux](http://typo3.org/extensions/repository/view/flux)
-* [Fluid Pages Engine](http://typo3.org/extensions/repository/view/fluidpages)
-* [Fluid Content Engine](http://typo3.org/extensions/repository/view/fluidcontent)
+* [TYPO3 v^7.6.0 / ^8.7.8](http://typo3.org)
+* [Fluid Pages Engine](http://typo3.org/extensions/repository/view/fluidpages) (v^7.6.0)
+* [Fluid Content Engine](http://typo3.org/extensions/repository/view/fluidcontent) (v^7.6.0)
 * [Vhs](http://typo3.org/extensions/repository/view/vhs)
 
 ### WordPress
 
 * [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/) (recommended)
+* [Timber](https://www.upstatement.com/timber)
 
 ## Getting started
 
@@ -69,9 +68,9 @@ Learn about the generated project structure. All of these documents will be conv
 
 ## Todo
 
-* WordPress and HTML project types are currenly far behind. Fixing them asap.
+* HTML project type is currenly far behind. Fixing them asap.
 *[Milestones - v1.0](https://github.com/joonasy/generator-rebirth/milestone/11)
 
 ## License
 
-Copyright (c) 2017 Joonas Ylitalo (Twitter: @joonasy) Licensed under the MIT license.
+Copyright (c) 2018 Joonas Ylitalo (Twitter: @joonasy) Licensed under the MIT license.
