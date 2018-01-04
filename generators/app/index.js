@@ -45,7 +45,6 @@ class Rebirth extends Generator {
     this.typo3 = this.options.project === 'typo3'
     this.wp = this.options.project === 'wordpress'
     this.html = this.options.project === 'html'
-    this.cms = this.typo3 || this.wp
     this.docker = (this.options.docker === true || this.options.docker === 'true') && !this.html
 
     this.name = () => {
@@ -67,8 +66,11 @@ class Rebirth extends Generator {
     }
 
     if (this.wp) {
-      if (this.docker) { this.destinationRoot(`${this.dir}-docker/${this.dir}`) }
-      else { this.destinationRoot(this.dir) }
+      if (this.docker) {
+        this.destinationRoot(`${this.dir}-docker/${this.dir}`)
+      } else {
+        this.destinationRoot(this.dir)
+      }
     }
 
     if (this.html) {
@@ -130,7 +132,7 @@ class Rebirth extends Generator {
           name: 'appNameSpace',
           message: 'Project namespace:',
           default: 'App',
-          when: () => this.cms
+          when: () => this.typo3 || this.wp
       }, {
         type: 'input',
         name: 'url',
@@ -350,6 +352,8 @@ class Rebirth extends Generator {
         copy(`wordpress/docker/_package.json`, `../package.json`, this)
         copy(`wordpress/docker/_composer.json`, `../wp/composer.json`, this)
         copy(`wordpress/docker/_gitignore`, `../.gitignore`, this)
+        copy(`wordpress/docker/_htaccess`, `../wp/.htaccess`, this)
+        copy(`wordpress/docker/_htaccess`, `../wp/.htaccess.example`, this)
         copy(`wordpress/docker/_README.md`, `../README.md`, this)
         copy(`wordpress/docker/_docker-compose.yml`, `../docker-compose.yml`, this)
         copy(`wordpress/docker/wp-config.development.php`, `../wp/wp-config.development.php`, this)
