@@ -18,7 +18,7 @@ function copy(source, destination, gen) {
   )
 }
 
-class Rebirth extends Generator {
+export default class Rebirth extends Generator {
   constructor(args, opts) {
     super(args, opts)
     this.pkg = require('../../package.json')
@@ -411,7 +411,7 @@ class Rebirth extends Generator {
   }
 
   _end() {
-    this.log(`\n  ====================================================================== \n`)
+    this.log(`\n  ===================================================================== \n`)
     this.log(`${chalk.green('  !')} ${chalk.bold('Project details')}`)
     this.log(`${chalk.green('  ❯')} Name: ${chalk.cyan(this.appName)}`)
     this.log(`${chalk.green('  ❯')} Description: ${chalk.cyan(this.appDescription)}`)
@@ -426,8 +426,6 @@ class Rebirth extends Generator {
     this.log(`${chalk.green('  !')} Please read  ${chalk.cyan('README.md')} for instructions and available commands.`)
     this.log(`${chalk.green('  !')} Make sure all the settings such as git urls are correctly generated.`)
     this.log(`${chalk.green('  ! Happy developing! :)')}`)
-    this.log(`\n  ====================================================================== \n`)
+    this.log(`\n  ===================================================================== \n`)
   }
 }
-
-module.exports = Rebirth
