@@ -292,6 +292,7 @@ export default class Rebirth extends Generator {
     copy(`shared/editorconfig`, `.editorconfig`, this);
     copy(`shared/eslintrc`, `.eslintrc`, this);
     copy(`shared/browserslistrc`, `.browserslistrc`, this);
+    copy(`shared/prettierrc`, `.prettierrc`, this);
 
     if (this.html) {
       copy(`shared/_dploy.example.yaml`, `dploy.example.yaml`, this);

@@ -16,7 +16,11 @@
     "deploy": "npm run build && dploy production",
     "dev": "assemble dev",
     "dist": "npm run build && assemble server",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json,md}": ["prettier --write", "git add"]
   },
   "devDependencies": {
     "assemble": "^0.16.0",
@@ -39,7 +43,6 @@
     "gulp-combine-mq": "^0.4.0",
     "gulp-concat": "^2.5.2",
     "gulp-cssnano": "^2.1.0",
-    "gulp-eslint": "^3.0.1",
     "gulp-imagemin": "^3.1.1",
     "gulp-load-plugins": "^1.0.0-rc.1",
     "gulp-rename": "^1.2.2",
@@ -50,7 +53,9 @@
     "gulp-streamify": "1.0.2",
     "gulp-uglify": "~2.0.0",
     "gulp-util": "~3.0.1",
+    "husky": "^0.14.3",
     "install": "^0.8.4",
+    "lint-staged": "^6.1.0",
     "node-notifier": "^4.2.1",
     "pretty-hrtime": "^1.0.0",
     "relative-dest": "^0.1.0",
@@ -68,14 +73,10 @@
           "presets": ["env"]
         }
       ],
-      "browserify-shim",
       "deamdify"
     ]
   },
-  "browserify-shim": {
-    "modernizr": "global:Modernizr"
-  },
   "engines": {
-    "node": ">=7.10.1"
+    "node": ">=9.3.0"
   }
 }

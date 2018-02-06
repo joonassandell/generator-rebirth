@@ -177,17 +177,6 @@ gulp.task('watch', function(callback) {
 });
 
 /**
- * JavasScript Coding style
- */
-gulp.task('eslint', function() {
-  return gulp
-    .src('Assets/**/*.js')
-    .pipe($.eslint())
-    .pipe($.eslint.format())
-    .pipe($.eslint.failAfterError());
-});
-
-/**
  * Tasks
  */
 var tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
@@ -266,7 +255,7 @@ gulp.task('updateReferences', tasks.concat(['rev']), function() {
  * Main collected tasks
  * ====== */
 
-gulp.task('build', ['eslint'], function() {
+gulp.task('build', function() {
   rimraf.sync('Resources/Public/Assets');
 
   gulp.start(tasks.concat(['createDistPartials', 'rev', 'updateReferences']));

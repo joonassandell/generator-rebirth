@@ -252,18 +252,6 @@ app.task('watch', function() {
 });
 
 /**
- * JavasScript Coding style
- */
-app.task('eslint', function() {
-  return app
-    .src(config.javascripts.src + '**/*.js')
-    .pipe($.eslint())
-    .pipe($.eslint.format())
-    .pipe($.eslint.failAfterError())
-    .pipe(app.dest(config.javascripts.src));
-});
-
-/**
  * Inline <head> css/js
  */
 app.task('inline', function() {
@@ -325,7 +313,7 @@ app.task('updateReferences', function() {
 
 var tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
 
-app.task('build', ['eslint'], function() {
+app.task('build', function() {
   rimraf.sync(config.dest);
   app.build(
     tasks.concat(['html', 'inline', 'rev', 'updateReferences']),
