@@ -1,18 +1,49 @@
-.sass-cache
+# ======
+# Numerous Always-Ignore Extensions
+# ======
+
+*.diff
+*.err
+*.log
+*.zip
+*.sass-cache
+
+
+# ======
+# OS or Editor Folders
+# ======
+
+._*
+.cache
 .DS_Store
-.tmp
-npm-debug.log
-yarn-error.log
-node_modules/
-vendor/
+.idea
+.project
+.settings
+.tmproj
+*.esproj
+*.sublime-project
+*.sublime-workspace
+nbproject
+Thumbs.db
+
+
+# ======
+# Folders to Ignore
+# ======
+
+node_modules
+bower_components
+
+
+# ======
+# Build Material
+# ======
+
 rev-manifest.json<% if (typo3) { %>
+vendor/
 Bottom.dist.html
 Top.dist.html
 Resources/Public/Assets
 .env<% } if (wp) { %>
-dploy.yaml
-wp/*
-!wp/composer.json
-dist/<% } if (html) { %>
-dploy.yaml
-dist/<% } %>
+dist<% } if (html) { %>
+dist<% } %>
