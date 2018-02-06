@@ -19,7 +19,6 @@ var watchify = require('watchify');
 var $ = require('gulp-load-plugins')();
 
 var production = process.env.NODE_ENV === 'production';
-var open = process.env.npm_config_disable_open ? false : 'external';
 
 /* ======
  * Config
@@ -223,7 +222,7 @@ app.task('fonts', function() {
  */
 app.task('server', function() {
   browserSync.init({
-    open: open,
+    open: process.env.DISABLE_OPEN ? false : 'external',
     port: 9001,
     notify: false,
     server: {
