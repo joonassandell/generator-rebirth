@@ -2,21 +2,20 @@
  * Gulpfile
  * ======================================== */
 
-var fs = require('fs')
-var browserify = require('browserify')
-var browserSync = require('browser-sync').create()
-var gulp = require('gulp')
-var notifier = require('node-notifier')
-var path = require('path')
-var prettyHrtime = require('pretty-hrtime')
-var rimraf = require('rimraf')
-var source = require('vinyl-source-stream')
-var through = require('through2')
-var watchify = require('watchify')
-var $ = require('gulp-load-plugins')()
+var fs = require('fs');
+var browserify = require('browserify');
+var browserSync = require('browser-sync').create();
+var gulp = require('gulp');
+var notifier = require('node-notifier');
+var path = require('path');
+var prettyHrtime = require('pretty-hrtime');
+var rimraf = require('rimraf');
+var source = require('vinyl-source-stream');
+var through = require('through2');
+var watchify = require('watchify');
+var $ = require('gulp-load-plugins')();
 
-var production = process.env.NODE_ENV === 'production'
-
+var production = process.env.NODE_ENV === 'production';
 
 /* ======
  * Config
@@ -24,9 +23,8 @@ var production = process.env.NODE_ENV === 'production'
 
 var config = {
   root: '/',
-  ext: '<%= dir %>'
-}
-
+  ext: '<%= dir %>',
+};
 
 /* ======
  * Tasks
@@ -36,116 +34,122 @@ var config = {
  * Stylesheets
  */
 gulp.task('stylesheets', function() {
-  var pipeline = gulp.src('Assets/app.scss')
-    .pipe($.sass({
-      includePaths: ['node_modules'],
-      outputStyle: 'expanded'
-    }))
+  var pipeline = gulp
+    .src('Assets/app.scss')
+    .pipe(
+      $.sass({
+        includePaths: ['node_modules'],
+        outputStyle: 'expanded',
+      }),
+    )
     .on('error', handleError)
     .on('error', $.sass.logError)
-    .pipe($.autoprefixer({
-      browsers: ['last 2 versions', 'IE 10', 'Safari >= 8']
-    }))
+    .pipe($.autoprefixer());
 
   if (production) {
-    return pipeline = pipeline
-      .pipe($.replace('./', config.root + '/typo3conf/ext/' + config.ext + '/Resources/Public/Assets/'))
+    return (pipeline = pipeline
+      .pipe(
+        $.replace(
+          './',
+          config.root +
+            '/typo3conf/ext/' +
+            config.ext +
+            '/Resources/Public/Assets/',
+        ),
+      )
       .pipe($.combineMq({ beautify: false }))
       .pipe($.cssnano({ mergeRules: false, zindex: false }))
-      .pipe(gulp.dest('Resources/Public/Assets/'))
+      .pipe(gulp.dest('Resources/Public/Assets/')));
   } else {
-    return pipeline = pipeline
+    return (pipeline = pipeline
       .pipe(gulp.dest('Resources/Public/Assets/'))
-      .pipe(browserSync.stream())
+      .pipe(browserSync.stream()));
   }
-})
+});
 
 /**
  * Javascripts
  */
-gulp.task('javascripts', ['modernizr'], function(callback) {
+gulp.task('javascripts', function(callback) {
+  var scripts = [{ fileName: 'app.js' }, { fileName: 'app.head.js' }];
 
-  var scripts = [
-    { fileName: 'app.js' },
-    { fileName: 'app.head.js' }
-  ]
-  
-  var bundleQueue = scripts.length
+  var bundleQueue = scripts.length;
 
   var browserifyBundle = function(entry) {
-
     var pipeline = browserify({
       cache: {},
       packageCache: {},
       fullPaths: false,
       entries: 'Assets/' + entry.fileName,
-      debug: !production
-    })
+      debug: !production,
+    });
 
     var bundle = function() {
-      bundleLogger.start(entry.fileName)
+      bundleLogger.start(entry.fileName);
 
       var collect = pipeline
         .bundle()
         .on('error', handleError)
-        .pipe(source(entry.fileName))
+        .pipe(source(entry.fileName));
 
       if (!production) {
-        collect = collect.pipe(browserSync.stream())
+        collect = collect.pipe(browserSync.stream());
       } else {
-        collect = collect.pipe($.streamify($.uglify()))
+        collect = collect.pipe($.streamify($.uglify()));
       }
 
       return collect
         .pipe(gulp.dest('Resources/Public/Assets/'))
-        .on('end', reportFinished)
-    }
+        .on('end', reportFinished);
+    };
 
     if (!production) {
-      pipeline = watchify(pipeline).on('update', bundle)
+      pipeline = watchify(pipeline).on('update', bundle);
     }
 
     var reportFinished = function() {
-      bundleLogger.end(entry.fileName)
+      bundleLogger.end(entry.fileName);
 
       if (bundleQueue) {
-        bundleQueue--
+        bundleQueue--;
         if (bundleQueue === 0) {
-          callback()
+          callback();
         }
       }
-    }
+    };
 
-    return bundle()
-  }
+    return bundle();
+  };
 
-  scripts.forEach(browserifyBundle)
-})
+  scripts.forEach(browserifyBundle);
+});
 
 /**
  * Images
  */
 gulp.task('images', function() {
-  return gulp.src('Assets/images/*.{jpg,jpeg,png,gif,webp,svg}')
+  return gulp
+    .src('Assets/images/*.{jpg,jpeg,png,gif,webp,svg}')
     .pipe($.changed('Resources/Public/Assets/images/'))
-    .pipe($.imagemin({
-      svgoPlugins: [
-        { cleanupIDs: false },
-      ],
-    }))
+    .pipe(
+      $.imagemin({
+        svgoPlugins: [{ cleanupIDs: false }],
+      }),
+    )
     .on('error', handleError)
-    .pipe(gulp.dest('Resources/Public/Assets/images/'))
-})
+    .pipe(gulp.dest('Resources/Public/Assets/images/'));
+});
 
 /**
  * Fonts
  */
 gulp.task('fonts', function() {
-  return gulp.src('Assets/fonts/*.{eot,svg,ttf,woff,woff2}')
+  return gulp
+    .src('Assets/fonts/*.{eot,svg,ttf,woff,woff2}')
     .pipe($.changed('Resources/Public/Assets/fonts/'))
     .on('error', handleError)
-    .pipe(gulp.dest('Resources/Public/Assets/fonts/'))
-})
+    .pipe(gulp.dest('Resources/Public/Assets/fonts/'));
+});
 
 /**
  * Server
@@ -156,201 +160,192 @@ gulp.task('server', function() {
     port: 9001,
     proxy: process.env.HOST ? process.env.HOST : '127.0.0.1:8000',
     notify: false,
-    serveStatic: ['./']
-  })
-})
+    serveStatic: ['./'],
+  });
+});
 
 /**
  * Watch
  */
 gulp.task('watch', function(callback) {
-  gulp.watch('Resources/Private/' + '**/*.html').on('change', browserSync.reload)
-  gulp.watch('Assets/**/**/*.scss', ['stylesheets'])
-  gulp.watch('Assets/fonts/*.{eot,svg,ttf,woff,woff2}', ['fonts'])
-  gulp.watch('Assets/images/*.{jpg,jpeg,png,gif,webp,svg}', ['images'])
-})
+  gulp
+    .watch('Resources/Private/' + '**/*.html')
+    .on('change', browserSync.reload);
+  gulp.watch('Assets/**/**/*.scss', ['stylesheets']);
+  gulp.watch('Assets/fonts/*.{eot,svg,ttf,woff,woff2}', ['fonts']);
+  gulp.watch('Assets/images/*.{jpg,jpeg,png,gif,webp,svg}', ['images']);
+});
 
 /**
  * JavasScript Coding style
  */
-gulp.task('eslint', function () {
-  return gulp.src('Assets/**/*.js')
+gulp.task('eslint', function() {
+  return gulp
+    .src('Assets/**/*.js')
     .pipe($.eslint())
     .pipe($.eslint.format())
-    .pipe($.eslint.failAfterError())
-})
-
-/**
- * Modernizr
- */
-gulp.task('modernizr', ['stylesheets'], function() {
-  return gulp.src([
-    'Assets/**/*.js',
-    'Resources/Public/Assets/app.css'
-  ])
-    .pipe($.modernizr({
-      excludeTests: ['hidden'],
-      tests: ['objectfit'],
-      options: [
-        'setClasses',
-        'addTest',
-        'html5printshiv',
-        'testProp',
-        'fnBind',
-        'prefixed'
-      ]
-    }))
-    .on('error', handleError)
-    .pipe(gulp.dest('Resources/Public/Assets/vendors'))
-})
+    .pipe($.eslint.failAfterError());
+});
 
 /**
  * Tasks
  */
-var tasks = ['stylesheets', 'javascripts', 'images', 'fonts']
+var tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
 
 /**
  * Create dist files and inline <head> css/js
  */
 gulp.task('createDistPartials', tasks, function() {
-  return gulp.src([
-    'Resources/Private/Partials/Top.html',
-    'Resources/Private/Partials/Bottom.html',
-  ], { base: 'Resources/Private/' })
-    .pipe($.replace(inline({ matchFile: 'app.css' }), function() {
-      return inline({ file: 'app.css' })
-    }))
-    .pipe($.replace(inline({ matchFile: 'app.head.js' }), function() {
-      return inline({ file: 'app.head.js' })
-    }))
+  return gulp
+    .src(
+      [
+        'Resources/Private/Partials/Top.html',
+        'Resources/Private/Partials/Bottom.html',
+      ],
+      { base: 'Resources/Private/' },
+    )
+    .pipe(
+      $.replace(inline({ matchFile: 'app.css' }), function() {
+        return inline({ file: 'app.css' });
+      }),
+    )
+    .pipe(
+      $.replace(inline({ matchFile: 'app.head.js' }), function() {
+        return inline({ file: 'app.head.js' });
+      }),
+    )
     .pipe($.rename({ suffix: '.dist' }))
-    .pipe(gulp.dest('Resources/Private/'))
-})
+    .pipe(gulp.dest('Resources/Private/'));
+});
 
 /**
  * Revision
  */
 gulp.task('rev', tasks.concat(['createDistPartials']), function() {
-  rimraf.sync('Resources/Public/Assets/*.css')
-  rimraf.sync('Resources/Public/Assets/app.head.js')
-  rimraf.sync('Resources/Public/Assets/vendors/')
+  rimraf.sync('Resources/Public/Assets/*.css');
+  rimraf.sync('Resources/Public/Assets/app.head.js');
+  rimraf.sync('Resources/Public/Assets/vendors/');
 
-  return gulp.src([
-    'Resources/Public/Assets/*.js',
-    'Resources/Public/Assets/{images,fonts}/**'
-  ])
+  return gulp
+    .src([
+      'Resources/Public/Assets/*.js',
+      'Resources/Public/Assets/{images,fonts}/**',
+    ])
     .pipe($.rev())
     .pipe(gulp.dest('Resources/Public/Assets/'))
     .pipe(rmOriginalFiles())
     .pipe($.rev.manifest())
-    .pipe(gulp.dest('./'))
-})
+    .pipe(gulp.dest('./'));
+});
 
 /**
  * Update references
  */
 gulp.task('updateReferences', tasks.concat(['rev']), function() {
-  var manifest = gulp.src('./rev-manifest.json')
+  var manifest = gulp.src('./rev-manifest.json');
 
-  return gulp.src([
-    'Resources/Public/Assets/**',
-    'Resources/Private/Partials/Top.dist.html',
-    'Resources/Private/Partials/Bottom.dist.html'
-  ], { base: 'Resources/Public/' })
-    .pipe($.revReplace({
-      manifest: manifest,
-      replaceInExtensions: ['.js', '.css', '.html']
-    }))
-    .pipe(gulp.dest('Resources/Public/'))
-})
-
+  return gulp
+    .src(
+      [
+        'Resources/Public/Assets/**',
+        'Resources/Private/Partials/Top.dist.html',
+        'Resources/Private/Partials/Bottom.dist.html',
+      ],
+      { base: 'Resources/Public/' },
+    )
+    .pipe(
+      $.revReplace({
+        manifest: manifest,
+        replaceInExtensions: ['.js', '.css', '.html'],
+      }),
+    )
+    .pipe(gulp.dest('Resources/Public/'));
+});
 
 /* ======
  * Main collected tasks
  * ====== */
 
 gulp.task('build', ['eslint'], function() {
-  rimraf.sync('Resources/Public/Assets')
+  rimraf.sync('Resources/Public/Assets');
 
-  gulp.start(tasks.concat([
-    'modernizr',
-    'createDistPartials',
-    'rev',
-    'updateReferences'
-  ]))
-})
+  gulp.start(tasks.concat(['createDistPartials', 'rev', 'updateReferences']));
+});
 
-gulp.task('default', ['build'])
+gulp.task('default', ['build']);
 
-gulp.task('dev', tasks.concat([
-  'modernizr',
-  'watch',
-  'server'
-]))
-
+gulp.task('dev', tasks.concat(['watch', 'server']));
 
 /* ======
  * Utilities
  * ====== */
 
 function handleError(err) {
-  $.util.log(err)
-  $.util.beep()
+  $.util.log(err);
+  $.util.beep();
   notifier.notify({
     title: 'Compile Error',
-    message: err.message
-  })
-  return this.emit('end')
+    message: err.message,
+  });
+  return this.emit('end');
 }
 
 function inline(opts) {
-  opts = opts || {}
+  opts = opts || {};
 
   if (opts.matchFile) {
     if (opts.matchFile.match(/.js/)) {
-      return new RegExp('<v:asset.script(.*?)path="(.*?)'+opts.matchFile+'"(.*?)>')
+      return new RegExp(
+        '<v:asset.script(.*?)path="(.*?)' + opts.matchFile + '"(.*?)>',
+      );
     }
-    return new RegExp('<v:asset.style(.*?)path="(.*?)'+opts.matchFile+'"(.*?)>')
+    return new RegExp(
+      '<v:asset.style(.*?)path="(.*?)' + opts.matchFile + '"(.*?)>',
+    );
   }
 
   if (opts.file) {
-    var content
-    var tagBegin = '<v:asset.script standalone="true" movable="false">'
-    var tagEnd = '</v:asset.script>'
+    var content;
+    var tagBegin = '<v:asset.script standalone="true" movable="false">';
+    var tagEnd = '</v:asset.script>';
 
     if (opts.file.match(/.js/)) {
-      content = fs.readFileSync('Resources/Public/Assets/' + opts.file, 'utf8')
+      content = fs.readFileSync('Resources/Public/Assets/' + opts.file, 'utf8');
     } else {
-      tagBegin = '<v:asset.style standalone="true">'
-      tagEnd = '</v:asset.style>'
-      content = fs.readFileSync('Resources/Public/Assets/' + opts.file, 'utf8')
+      tagBegin = '<v:asset.style standalone="true">';
+      tagEnd = '</v:asset.style>';
+      content = fs.readFileSync('Resources/Public/Assets/' + opts.file, 'utf8');
     }
 
-    return tagBegin + content + tagEnd
+    return tagBegin + content + tagEnd;
   }
 }
 
-var startTime, bundleLogger = {
-  start: function(filepath) {
-    startTime = process.hrtime()
-    $.util.log('Bundling', $.util.colors.green(filepath))
-  },
-  end: function(filepath) {
-    var taskTime = process.hrtime(startTime)
-    var prettyTime = prettyHrtime(taskTime)
-    $.util.log('Bundled', $.util.colors.green(filepath), 'after', $.util.colors.magenta(prettyTime))
-  }
-}
+var startTime,
+  bundleLogger = {
+    start: function(filepath) {
+      startTime = process.hrtime();
+      $.util.log('Bundling', $.util.colors.green(filepath));
+    },
+    end: function(filepath) {
+      var taskTime = process.hrtime(startTime);
+      var prettyTime = prettyHrtime(taskTime);
+      $.util.log(
+        'Bundled',
+        $.util.colors.green(filepath),
+        'after',
+        $.util.colors.magenta(prettyTime),
+      );
+    },
+  };
 
 function rmOriginalFiles() {
   return through.obj(function(file, enc, cb) {
-
     if (file.revOrigPath) {
-      fs.unlinkSync(file.revOrigPath)
+      fs.unlinkSync(file.revOrigPath);
     }
 
-    this.push(file)
-    return cb()
-  })
+    this.push(file);
+    return cb();
+  });
 }
-

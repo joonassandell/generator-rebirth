@@ -2,21 +2,20 @@
  * Gulpfile
  * ======================================== */
 
-var fs = require('fs')
-var browserify = require('browserify')
-var browserSync = require('browser-sync').create()
-var gulp = require('gulp')
-var notifier = require('node-notifier')
-var path = require('path')
-var prettyHrtime = require('pretty-hrtime')
-var rimraf = require('rimraf')
-var source = require('vinyl-source-stream')
-var through = require('through2')
-var watchify = require('watchify')
-var $ = require('gulp-load-plugins')()
+var fs = require('fs');
+var browserify = require('browserify');
+var browserSync = require('browser-sync').create();
+var gulp = require('gulp');
+var notifier = require('node-notifier');
+var path = require('path');
+var prettyHrtime = require('pretty-hrtime');
+var rimraf = require('rimraf');
+var source = require('vinyl-source-stream');
+var through = require('through2');
+var watchify = require('watchify');
+var $ = require('gulp-load-plugins')();
 
-var production = process.env.NODE_ENV === 'production'
-
+var production = process.env.NODE_ENV === 'production';
 
 /* ======
  * Config
@@ -24,9 +23,8 @@ var production = process.env.NODE_ENV === 'production'
 
 var config = {
   root: '/',
-  theme: '<%= dir %>'
-}
-
+  theme: '<%= dir %>',
+};
 
 /* ======
  * Tasks
@@ -36,116 +34,117 @@ var config = {
  * Stylesheets
  */
 gulp.task('stylesheets', function() {
-  var pipeline = gulp.src('assets/app.scss')
-    .pipe($.sass({
-      includePaths: ['node_modules'],
-      outputStyle: 'expanded'
-    }))
+  var pipeline = gulp
+    .src('assets/app.scss')
+    .pipe(
+      $.sass({
+        includePaths: ['node_modules'],
+        outputStyle: 'expanded',
+      }),
+    )
     .on('error', handleError)
     .on('error', $.sass.logError)
-    .pipe($.autoprefixer({
-      browsers: ['last 2 versions', 'IE 10', 'Safari >= 8']
-    }))
+    .pipe($.autoprefixer());
 
   if (production) {
-    return pipeline = pipeline
-      .pipe($.replace('./', config.root + 'wp-content/themes/' + config.theme + '/dist/assets/'))
+    return (pipeline = pipeline
+      .pipe(
+        $.replace(
+          './',
+          config.root + 'wp-content/themes/' + config.theme + '/dist/assets/',
+        ),
+      )
       .pipe($.combineMq({ beautify: false }))
       .pipe($.cssnano({ mergeRules: false, zindex: false }))
-      .pipe(gulp.dest('dist/assets/'))
+      .pipe(gulp.dest('dist/assets/')));
   } else {
-    return pipeline = pipeline
+    return (pipeline = pipeline
       .pipe(gulp.dest('dist/assets/'))
-      .pipe(browserSync.stream())
+      .pipe(browserSync.stream()));
   }
-})
+});
 
 /**
  * Javascripts
  */
-gulp.task('javascripts', ['modernizr'], function(callback) {
+gulp.task('javascripts', function(callback) {
+  var scripts = [{ fileName: 'app.js' }, { fileName: 'app.head.js' }];
 
-  var scripts = [
-    { fileName: 'app.js' },
-    { fileName: 'app.head.js' }
-  ]
-
-  var bundleQueue = scripts.length
+  var bundleQueue = scripts.length;
 
   var browserifyBundle = function(entry) {
-
     var pipeline = browserify({
       cache: {},
       packageCache: {},
       fullPaths: false,
       entries: 'assets/' + entry.fileName,
-      debug: !production
-    })
+      debug: !production,
+    });
 
     var bundle = function() {
-      bundleLogger.start(entry.fileName)
+      bundleLogger.start(entry.fileName);
 
       var collect = pipeline
         .bundle()
         .on('error', handleError)
-        .pipe(source(entry.fileName))
+        .pipe(source(entry.fileName));
 
       if (!production) {
-        collect = collect.pipe(browserSync.stream())
+        collect = collect.pipe(browserSync.stream());
       } else {
-        collect = collect.pipe($.streamify($.uglify()))
+        collect = collect.pipe($.streamify($.uglify()));
       }
 
-      return collect
-        .pipe(gulp.dest('dist/assets/'))
-        .on('end', reportFinished)
-    }
+      return collect.pipe(gulp.dest('dist/assets/')).on('end', reportFinished);
+    };
 
     if (!production) {
-      pipeline = watchify(pipeline).on('update', bundle)
+      pipeline = watchify(pipeline).on('update', bundle);
     }
 
     var reportFinished = function() {
-      bundleLogger.end(entry.fileName)
+      bundleLogger.end(entry.fileName);
 
       if (bundleQueue) {
-        bundleQueue--
+        bundleQueue--;
         if (bundleQueue === 0) {
-          callback()
+          callback();
         }
       }
-    }
+    };
 
-    return bundle()
-  }
+    return bundle();
+  };
 
-  scripts.forEach(browserifyBundle)
-})
+  scripts.forEach(browserifyBundle);
+});
 
 /**
  * Images
  */
 gulp.task('images', function() {
-  return gulp.src('assets/images/*.{jpg,jpeg,png,gif,webp,svg}')
+  return gulp
+    .src('assets/images/*.{jpg,jpeg,png,gif,webp,svg}')
     .pipe($.changed('dist/assets/images/'))
-    .pipe($.imagemin({
-      svgoPlugins: [
-        { cleanupIDs: false },
-      ],
-    }))
+    .pipe(
+      $.imagemin({
+        svgoPlugins: [{ cleanupIDs: false }],
+      }),
+    )
     .on('error', handleError)
-    .pipe(gulp.dest('dist/assets/images/'))
-})
+    .pipe(gulp.dest('dist/assets/images/'));
+});
 
 /**
  * Fonts
  */
 gulp.task('fonts', function() {
-  return gulp.src('assets/fonts/*.{eot,svg,ttf,woff,woff2}')
+  return gulp
+    .src('assets/fonts/*.{eot,svg,ttf,woff,woff2}')
     .pipe($.changed('dist/assets/fonts/'))
     .on('error', handleError)
-    .pipe(gulp.dest('dist/assets/fonts/'))
-})
+    .pipe(gulp.dest('dist/assets/fonts/'));
+});
 
 /**
  * Server
@@ -156,211 +155,194 @@ gulp.task('server', function() {
     port: 9001,
     proxy: process.env.HOST ? process.env.HOST : '127.0.0.1:8000',
     notify: false,
-    serveStatic: ['./']
-  })
-})
+    serveStatic: ['./'],
+  });
+});
 
 /**
  * Watch
  */
 gulp.task('watch', function(callback) {
-  gulp.watch('**/*.{php,twig}').on('change', browserSync.reload)
-  gulp.watch('assets/**/**/*.scss', ['stylesheets'])
-  gulp.watch('assets/fonts/*.{eot,svg,ttf,woff,woff2}', ['fonts'])
-  gulp.watch('assets/images/*.{jpg,jpeg,png,gif,webp,svg}', ['images'])
-})
+  gulp.watch('**/*.{php,twig}').on('change', browserSync.reload);
+  gulp.watch('assets/**/**/*.scss', ['stylesheets']);
+  gulp.watch('assets/fonts/*.{eot,svg,ttf,woff,woff2}', ['fonts']);
+  gulp.watch('assets/images/*.{jpg,jpeg,png,gif,webp,svg}', ['images']);
+});
 
 /**
  * JavasScript Coding style
  */
- gulp.task('eslint', function () {
-   return gulp.src('assets/**/*.js')
-     .pipe($.eslint())
-     .pipe($.eslint.format())
-     .pipe($.eslint.failAfterError())
- })
-
-/**
- * Modernizr
- */
-gulp.task('modernizr', ['stylesheets'], function() {
-  return gulp.src([
-    'assets/**/*.js',
-    'dist/assets/app.css'
-  ])
-    .pipe($.modernizr({
-      excludeTests: ['hidden'],
-      tests: ['objectfit'],
-      options: [
-        'setClasses',
-        'addTest',
-        'html5printshiv',
-        'testProp',
-        'fnBind',
-        'prefixed'
-      ]
-    }))
-    .on('error', handleError)
-    .pipe(gulp.dest('dist/assets/vendors'))
-})
+gulp.task('eslint', function() {
+  return gulp
+    .src('assets/**/*.js')
+    .pipe($.eslint())
+    .pipe($.eslint.format())
+    .pipe($.eslint.failAfterError());
+});
 
 /**
  * Combined tasks
  */
-var tasks = ['stylesheets', 'javascripts', 'images', 'fonts']
+var tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
 
 /**
  * Create dist files and inline <head> css/js
  */
 gulp.task('createDistPartials', tasks, function() {
-  return gulp.src([
-    'partials/top.twig',
-    'partials/bottom.twig',
-    'components/iconfile.twig'
-  ], { base: './' })
-    .pipe($.replace(inline({ matchFile: 'app.css' }), function() {
-      return inline({ file: 'app.css' })
-    }))
-    .pipe($.replace(inline({ matchFile: 'app.head.js' }), function() {
-      return inline({ file: 'app.head.js' })
-    }))
+  return gulp
+    .src(
+      ['partials/top.twig', 'partials/bottom.twig', 'components/iconfile.twig'],
+      { base: './' },
+    )
+    .pipe(
+      $.replace(inline({ matchFile: 'app.css' }), function() {
+        return inline({ file: 'app.css' });
+      }),
+    )
+    .pipe(
+      $.replace(inline({ matchFile: 'app.head.js' }), function() {
+        return inline({ file: 'app.head.js' });
+      }),
+    )
     .pipe($.rename({ suffix: '.dist' }))
-    .pipe(gulp.dest('dist/'))
-})
+    .pipe(gulp.dest('dist/'));
+});
 
 /**
  * Rename
  */
- gulp.task('rename', tasks.concat(['createDistPartials']), function() {
-  return gulp.src('dist/partials/top.dist.twig')
+gulp.task('rename', tasks.concat(['createDistPartials']), function() {
+  return gulp
+    .src('dist/partials/top.dist.twig')
     .pipe($.rename({ extname: '.php' }))
-    .pipe(gulp.dest('dist/partials'))
-})
+    .pipe(gulp.dest('dist/partials'));
+});
 
 /**
  * Revision and remove unneeded files
  */
 gulp.task('rev', tasks.concat(['createDistPartials']), function() {
-  rimraf.sync('dist/assets/' + '*.css')
-  rimraf.sync('dist/assets/' + 'app.head.js')
-  rimraf.sync('dist/assets/' + 'vendors/')
+  rimraf.sync('dist/assets/' + '*.css');
+  rimraf.sync('dist/assets/' + 'app.head.js');
+  rimraf.sync('dist/assets/' + 'vendors/');
 
-  return gulp.src([
-    'dist/assets/*.js',
-    'dist/assets/{images,fonts}/**'
-  ])
+  return gulp
+    .src(['dist/assets/*.js', 'dist/assets/{images,fonts}/**'])
     .pipe($.rev())
     .pipe(gulp.dest('dist/assets'))
     .pipe(rmOriginalFiles())
     .pipe($.rev.manifest())
-    .pipe(gulp.dest('./'))
-})
+    .pipe(gulp.dest('./'));
+});
 
 /**
  * Update references
  */
 gulp.task('updateReferences', tasks.concat(['rev']), function() {
-  var manifest = gulp.src('./rev-manifest.json')
+  var manifest = gulp.src('./rev-manifest.json');
 
-  return gulp.src([
-    'dist/assets/**',
-    'dist/partials/top.dist.php',
-    'dist/partials/bottom.dist.twig',
-    'dist/components/iconfile.dist.twig'
-  ], { base: 'dist/' })
-    .pipe($.revReplace({
-      manifest: manifest,
-      replaceInExtensions: ['.js', '.css', '.php', '.twig']
-    }))
-    .pipe(gulp.dest('dist/'))
-})
-
+  return gulp
+    .src(
+      [
+        'dist/assets/**',
+        'dist/partials/top.dist.php',
+        'dist/partials/bottom.dist.twig',
+        'dist/components/iconfile.dist.twig',
+      ],
+      { base: 'dist/' },
+    )
+    .pipe(
+      $.revReplace({
+        manifest: manifest,
+        replaceInExtensions: ['.js', '.css', '.php', '.twig'],
+      }),
+    )
+    .pipe(gulp.dest('dist/'));
+});
 
 /* ======
  * Main collected tasks
  * ====== */
 
 gulp.task('build', ['eslint'], function() {
-  rimraf.sync('dist/')
-  gulp.start(tasks.concat([
-    'modernizr',
-    'createDistPartials',
-    'rename',
-    'rev',
-    'updateReferences'
-  ]))
-})
+  rimraf.sync('dist/');
+  gulp.start(
+    tasks.concat(['createDistPartials', 'rename', 'rev', 'updateReferences']),
+  );
+});
 
-gulp.task('default', ['build'])
+gulp.task('default', ['build']);
 
-gulp.task('dev', tasks.concat([
-  'modernizr',
-  'watch',
-  'server'
-]))
-
+gulp.task('dev', tasks.concat(['watch', 'server']));
 
 /* ======
  * Utilities
  * ====== */
 
 function handleError(err) {
-  $.util.log(err)
-  $.util.beep()
+  $.util.log(err);
+  $.util.beep();
   notifier.notify({
     title: 'Compile Error',
-    message: err.message
-  })
-  return this.emit('end')
+    message: err.message,
+  });
+  return this.emit('end');
 }
 
 function inline(opts) {
-  opts = opts || {}
+  opts = opts || {};
 
   if (opts.matchFile) {
     if (opts.matchFile.match(/.js/)) {
-      return new RegExp('<script(.*?)src="(.*?)'+opts.matchFile+'"(.*?)>(.*?)<\/script>')
+      return new RegExp(
+        '<script(.*?)src="(.*?)' + opts.matchFile + '"(.*?)>(.*?)</script>',
+      );
     }
-    return new RegExp('<link(.*?)href="(.*?)'+opts.matchFile+'"(.*?)>')
+    return new RegExp('<link(.*?)href="(.*?)' + opts.matchFile + '"(.*?)>');
   }
 
   if (opts.file) {
-    var content
-    var tagBegin = '<script>'
-    var tagEnd = '</script>'
+    var content;
+    var tagBegin = '<script>';
+    var tagEnd = '</script>';
 
     if (opts.file.match(/.js/)) {
-      content = fs.readFileSync('dist/assets/' + opts.file, 'utf8')
+      content = fs.readFileSync('dist/assets/' + opts.file, 'utf8');
     } else {
-      tagBegin = '<style>'
-      tagEnd = '</style>'
-      content = fs.readFileSync('dist/assets/' + opts.file, 'utf8')
+      tagBegin = '<style>';
+      tagEnd = '</style>';
+      content = fs.readFileSync('dist/assets/' + opts.file, 'utf8');
     }
 
-    return tagBegin + content + tagEnd
+    return tagBegin + content + tagEnd;
   }
 }
 
-var startTime, bundleLogger = {
-  start: function(filepath) {
-    startTime = process.hrtime()
-    $.util.log('Bundling', $.util.colors.green(filepath))
-  },
-  end: function(filepath) {
-    var taskTime = process.hrtime(startTime)
-    var prettyTime = prettyHrtime(taskTime)
-    $.util.log('Bundled', $.util.colors.green(filepath), 'after', $.util.colors.magenta(prettyTime))
-  }
-}
+var startTime,
+  bundleLogger = {
+    start: function(filepath) {
+      startTime = process.hrtime();
+      $.util.log('Bundling', $.util.colors.green(filepath));
+    },
+    end: function(filepath) {
+      var taskTime = process.hrtime(startTime);
+      var prettyTime = prettyHrtime(taskTime);
+      $.util.log(
+        'Bundled',
+        $.util.colors.green(filepath),
+        'after',
+        $.util.colors.magenta(prettyTime),
+      );
+    },
+  };
 
 function rmOriginalFiles() {
   return through.obj(function(file, enc, cb) {
-
     if (file.revOrigPath) {
-      fs.unlinkSync(file.revOrigPath)
+      fs.unlinkSync(file.revOrigPath);
     }
 
-    this.push(file)
-    return cb()
-  })
+    this.push(file);
+    return cb();
+  });
 }

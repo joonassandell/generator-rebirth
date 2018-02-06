@@ -40,7 +40,6 @@
     "gulp-eslint": "^4.0.0",
     "gulp-imagemin": "^4.1.0",
     "gulp-load-plugins": "^1.2.0",
-    "gulp-modernizr": "^1.0.0-alpha",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
     "gulp-rev": "^8.1.1",
@@ -65,28 +64,11 @@
       [
         "babelify",
         {
-          "presets": [
-            [
-              "env",
-              {
-                "targets": {
-                  "browsers": [
-                    "last 2 versions",
-                    "IE 10",
-                    "safari >= 8"
-                  ]
-                }
-              }
-            ]
-          ]
+          "presets": [["env"]]
         }
       ],
-      "browserify-shim",
       "deamdify"
     ]
-  },
-  "browserify-shim": {
-    "modernizr": "global:Modernizr"
   },
   "engines": {
     "node": ">=9.3.0"

@@ -5,20 +5,22 @@
   "homepage": "<%= appURL %>",
   "description": "<%= appDescription %>",
   "dependencies": {
-    "jquery": "^2.2.1",
+    "jquery": "^3.2.1",
     "handlebars-helpers": "^0.6.1",
     "normalize.css": "^7.0.0"
   },
   "main": "assemblefile.js",
+  "repository": "git@bitbucket.org:<%= appAuthorDasherize %>/<%= dir %>.git",
   "scripts": {
     "build": "NODE_ENV=production assemble build",
     "deploy": "npm run build && dploy production",
     "dev": "assemble dev",
-    "dist": "npm run build && assemble server"
+    "dist": "npm run build && assemble server",
+    "start": "npm run dev"
   },
   "devDependencies": {
     "assemble": "^0.16.0",
-    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-env": "^1.6.1",
     "babelify": "^7.2.0",
     "base-watch": "^0.1.3",
     "browser-sync": "^2.13.0",
@@ -40,7 +42,6 @@
     "gulp-eslint": "^3.0.1",
     "gulp-imagemin": "^3.1.1",
     "gulp-load-plugins": "^1.0.0-rc.1",
-    "gulp-modernizr": "^1.0.0-alpha",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.3",
     "gulp-rev": "^7.1.2",
@@ -64,9 +65,7 @@
       [
         "babelify",
         {
-          "presets": [
-            "es2015"
-          ]
+          "presets": ["env"]
         }
       ],
       "browserify-shim",
