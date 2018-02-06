@@ -2,7 +2,7 @@
  * Config
  * ======================================== */
 
-const config = {
+export default config = {
   production: {
     host: process.env.PROD_SSH_HOST,
     username: process.env.PROD_SSH_USER,
@@ -10,7 +10,7 @@ const config = {
     agent: process.env.SSH_AUTH_SOCK,
     readyTimeout: 999999,
     opts: {
-      root: '/var/www/webroot/ROOT',
+      webRoot: '/var/www/webroot/ROOT/'
     }
   },
   productionDB: {
@@ -20,12 +20,10 @@ const config = {
     agent: process.env.SSH_AUTH_SOCK,
     readyTimeout: 999999,
     opts: {
-      root: '',
+      webRoot: '~/',
       dbName: process.env.PROD_DB_NAME,
       dbUser: process.env.PROD_DB_USER,
-      dbPw: process.env.PROD_DB_PASSWORD,
+      dbPw: process.env.PROD_DB_PASSWORD
     }
   }
-}
-
-module.exports = config
+};
