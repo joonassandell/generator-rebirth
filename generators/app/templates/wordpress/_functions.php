@@ -4,6 +4,7 @@
  * ======================================== */
 
 require_once locate_template('/lib/clean-up.php');
+require_once locate_template('/lib/utility.php');
 
 if (!class_exists('Timber') || !function_exists('acf')) {
     add_action('admin_notices', function() {

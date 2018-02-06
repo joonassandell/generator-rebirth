@@ -3,7 +3,7 @@
  * Utilities
  * ======================================== */
 
-namespace <%= appNameSpace %>\Utils;
+namespace <%= appNameSpace %>\Utility;
 
 /**
  * Reverse wpautop

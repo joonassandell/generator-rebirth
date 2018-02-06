@@ -5,7 +5,7 @@
 
 namespace <%= appNameSpace %>\Shortcode\Name;
 
-use <%= appNameSpace %>\Utils;
+use <%= appNameSpace %>\Utility;
 
 function name($atts, $content = null) {
   extract(shortcode_atts(array(
@@ -14,7 +14,7 @@ function name($atts, $content = null) {
   ), $atts));
 
   $return = '<div>';
-    $return .= Utils\unwpautop($content);
+    $return .= Utility\unwpautop($content);
   $return .= '</div>';
 
   return $return;
