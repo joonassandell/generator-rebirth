@@ -9,6 +9,7 @@ namespace <%= appNameSpace %>\CleanUp;
  * Clean up wp_head()
  */
 function head_cleanup() {
+  add_filter('use_default_gallery_style', '__return_false');
   remove_action('wp_head', 'feed_links', 2);
   remove_action('wp_head', 'feed_links_extra', 3);
   remove_action('wp_head', 'rsd_link');
@@ -23,7 +24,7 @@ function head_cleanup() {
   remove_filter('the_content_feed', 'wp_staticize_emoji');
   remove_filter('comment_text_rss', 'wp_staticize_emoji');
   remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
-  add_filter('use_default_gallery_style', '__return_false');
+  unregister_taxonomy_for_object_type('post_tag', 'post');
 }
 
 add_action('init', __NAMESPACE__ . '\\head_cleanup');
