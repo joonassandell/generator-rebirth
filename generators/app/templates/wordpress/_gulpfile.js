@@ -38,7 +38,7 @@ var config = {
 gulp.task('stylesheets', function() {
   var pipeline = gulp.src('assets/app.scss')
     .pipe($.sass({
-      includePaths: ['node_modules', 'bower_components'],
+      includePaths: ['node_modules'],
       outputStyle: 'expanded'
     }))
     .on('error', handleError)
@@ -65,11 +65,10 @@ gulp.task('stylesheets', function() {
  */
 gulp.task('javascripts', ['modernizr'], function(callback) {
 
-  var scripts = [{
-    fileName: 'app.js'
-  }, {
-    fileName: 'app.head.js'
-  }]
+  var scripts = [
+    { fileName: 'app.js' },
+    { fileName: 'app.head.js' }
+  ]
 
   var bundleQueue = scripts.length
 
