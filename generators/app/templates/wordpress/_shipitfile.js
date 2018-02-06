@@ -4,7 +4,7 @@
 
 require('dotenv').config()
 const pkg = require('./package.json')
-const ROOT = '/var/www/webroot/ROOT'
+const WEBROOT = '/var/www/webroot/ROOT'
 const WORKSPACE = process.env.WORKSPACE || '/tmp/<%= dir %>'
 
 module.exports = shipit => {
@@ -21,7 +21,7 @@ module.exports = shipit => {
     },
     production: {
       branch: 'master',
-      deployTo: `${ROOT}/wp-content/releases/<%= dir %>`,
+      deployTo: `${WEBROOT}/wp-content/releases/<%= dir %>`,
       servers: process.env.PRODUCTION_SSH,
     }
   })
@@ -49,13 +49,14 @@ module.exports = shipit => {
   shipit.blTask('setup', () => {
     shipit.log('Running setup...')
     shipit.remote(`
-      if [ ! -d "${ROOT}/wp-content/themes/<%= dir %>" ]
+      if [ ! -d "${WEBROOT}/wp-content/themes/<%= dir %>" ]
         then
-          mkdir -p ${ROOT}/wp-content/releases/<%= dir %> \
-          && ln -s ${ROOT}/wp-content/releases/<%= dir %>/current \
-            ${ROOT}/wp-content/themes/<%= dir %>
+          mkdir -p ${WEBROOT}/wp-content/themes \
+          mkdir -p ${WEBROOT}/wp-content/releases/<%= dir %> \
+          && ln -s ${WEBROOT}/wp-content/releases/<%= dir %>/current \
+            ${WEBROOT}/wp-content/themes/<%= dir %>
       fi
-    `)
+    `);
   })
 
   shipit.on('fetched', () => {
