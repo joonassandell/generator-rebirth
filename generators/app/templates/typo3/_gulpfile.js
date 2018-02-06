@@ -65,12 +65,11 @@ gulp.task('stylesheets', function() {
  */
 gulp.task('javascripts', ['modernizr'], function(callback) {
 
-  var scripts = [{
-    fileName: 'app.js'
-  }, {
-    fileName: 'app.head.js'
-  }]
-
+  var scripts = [
+    { fileName: 'app.js' },
+    { fileName: 'app.head.js' }
+  ]
+  
   var bundleQueue = scripts.length
 
   var browserifyBundle = function(entry) {
@@ -271,7 +270,8 @@ gulp.task('updateReferences', tasks.concat(['rev']), function() {
  * ====== */
 
 gulp.task('build', ['eslint'], function() {
-  rimraf.sync('Resources/Public/')
+  rimraf.sync('Resources/Public/Assets')
+
   gulp.start(tasks.concat([
     'modernizr',
     'createDistPartials',
