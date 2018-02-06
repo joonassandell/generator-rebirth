@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb",
+  "globals": {
+    "jquery": true,
+    "window": true,
+    "document": true,
+    "navigator": true
+  },
+  "rules": {
+    "no-unused-vars": 0,
+    "import/no-unresolved": 0,
+    "func-names": 0,
+    "class-methods-use-this": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/extensions": 0
+  }
+}
