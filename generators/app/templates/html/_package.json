@@ -5,7 +5,6 @@
   "homepage": "<%= appURL %>",
   "description": "<%= appDescription %>",
   "dependencies": {
-    "fastclick": "^1.0.6",
     "jquery": "^2.2.1",
     "handlebars-helpers": "^0.6.1",
     "normalize.css": "^7.0.0"
