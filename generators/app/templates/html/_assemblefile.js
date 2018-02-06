@@ -80,7 +80,7 @@ app.helpers(handlebarsHelpers);
 app.use(watch());
 
 app.preLayout(/\.hbs$/, function(view, next) {
-  if (!view.layout) view.layout = 'default';
+  if (!view.layout) view.layout = 'app';
   next();
 });
 

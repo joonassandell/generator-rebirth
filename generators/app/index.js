@@ -331,7 +331,7 @@ export default class Rebirth extends Generator {
     });
 
     /**
-     * 1. Temporary
+     * Temporary
      */
     copy(
       `shared/assets/components/Grid/`,
@@ -457,10 +457,10 @@ export default class Rebirth extends Generator {
       copy(`html/_assemblefile.js`, `assemblefile.js`, this);
       copy(`html/src/_app.json`, `src/app.json`, this);
       copy(`html/src/templates/_index.hbs`, `src/templates/index.hbs`, this);
-      copy(`html/src/partials/bottom.hbs`, `src/partials/bottom.hbs`, this);
+      copy(`html/src/partials/app.foot.hbs`, `src/partials/app.foot.hbs`, this);
       copy(`html/src/helpers/assets.js`, `src/helpers/assets.js`, this);
-      copy(`html/src/layouts/default.hbs`, `src/layouts/default.hbs`, this);
-      copy(`html/src/partials/top.hbs`, `src/partials/top.hbs`, this);
+      copy(`html/src/layouts/app.hbs`, `src/layouts/app.hbs`, this);
+      copy(`html/src/partials/app.head.hbs`, `src/partials/app.head.hbs`, this);
     }
   }
 
