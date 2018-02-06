@@ -1,7 +1,8 @@
 {
   "name": "generator-rebirth",
-  "version": "0.5.54",
-  "description": "Rebirth Yeoman generator for new TYPO3, WordPress or HTML projects.",
+  "version": "0.6.0",
+  "description":
+    "Rebirth Yeoman generator for new TYPO3, WordPress or HTML projects.",
   "license": "MIT",
   "main": "generators/app/index.js",
   "repository": "https://github.com/joonasy/generator-rebirth.git",
@@ -10,16 +11,28 @@
     "name": "Joonas Y.",
     "url": "http://joonasy.com"
   },
+  "lint-staged": {
+    "*.{js,json,md}": ["prettier --write", "git add"]
+  },
+  "scripts": {
+    "precommit": "lint-staged",
+    "publish": "npm publish --tag beta"
+  },
   "dependencies": {
     "chalk": "^2.2.0",
+    "eslint": "^4.17.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.9.0",
-    "rebirth-ui": "0.5.31",
+    "rebirth-ui": "^0.5.31",
     "underscore.string": "^3.3.4",
     "yeoman-generator": "^1.0.1",
     "yosay": "^1.2.1"
   },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^6.1.0"
+  },
   "engines": {
-    "node": ">=7.10.1"
+    "node": ">=9.3.0"
   }
 }
