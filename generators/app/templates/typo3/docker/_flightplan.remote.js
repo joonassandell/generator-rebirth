@@ -20,7 +20,7 @@ plan.target('production-db', cfg.productionDB, cfg.productionDB.opts)
 /**
  * Setup folders etc. ready for files
  */
-let sshUser, sshPort, sshHost, root, dbName, dbUser, dbPw
+let sshUser, sshPort, sshHost, webRoot, dbName, dbUser, dbPw
 const date = new Date().getTime()
 const tmpDir = `typo3-update-${date}`
 
@@ -36,7 +36,7 @@ plan.local(['start', 'assets-push', 'db-replace'], local => {
   sshHost = plan.runtime.hosts[0].host
   sshUser = plan.runtime.hosts[0].username
   sshPort = plan.runtime.hosts[0].port
-  root = plan.runtime.options.root
+  webRoot = plan.runtime.options.webRoot
   dbName = plan.runtime.options.dbName
   dbUser = plan.runtime.options.dbUser
   dbPw = plan.runtime.options.dbPw
@@ -48,7 +48,7 @@ plan.local(['start', 'assets-push', 'db-replace'], local => {
  * ====== */
 
 plan.remote('start', remote => {
-  remote.exec(`mkdir -p ${root}/tmp/typo3-deployments/${tmpDir}`, { silent: true, failsafe: true })
+  remote.exec(`mkdir -p ${webRoot}tmp/typo3-deployments/${tmpDir}`, { silent: true, failsafe: true })
 })
 
 plan.local('start', local => {
@@ -58,7 +58,7 @@ plan.local('start', local => {
   ]
 
   local.log('Transferring local files ready for remote installation...')
-  local.transfer(filesToCopy, `${root}/tmp/typo3-deployments/${tmpDir}`, { failsafe: true })
+  local.transfer(filesToCopy, `${webRoot}tmp/typo3-deployments/${tmpDir}`, { failsafe: true })
 })
 
 plan.remote('start', remote => {
@@ -66,19 +66,19 @@ plan.remote('start', remote => {
   remote.exec(`curl -sS https://getcomposer.org/installer | php && mv composer.phar ${root}`)
 
   remote.log('Copying files...')
-  remote.exec(`cp ${root}/tmp/typo3-deployments/${tmpDir}/typo3/composer.json ${root}`)
-  remote.exec(`cp ${root}/tmp/typo3-deployments/${tmpDir}/typo3/auth.json ${root}`, { failsafe: true })
+  remote.exec(`cp ${webRoot}tmp/typo3-deployments/${tmpDir}/typo3/composer.json ${root}`)
+  remote.exec(`cp ${webRoot}tmp/typo3-deployments/${tmpDir}/typo3/auth.json ${root}`, { failsafe: true })
 
   remote.log('Installing Composer dependencies...')
-  remote.with(`cd ${root}`, () => { remote.exec(`
+  remote.with(`cd ${webRoot}`, () => { remote.exec(`
     php composer.phar update \
     && touch FIRST_INSTALL
   `)})
 
   remote.log('Removing uploaded files...')
-  remote.exec(`rm -r ${root}/auth.json`, { failsafe: true })
-  remote.exec(`rm -r ${root}/composer.json`, { failsafe: true })
-  remote.exec(`rm -rf ${root}/tmp/typo3-deployments/${tmpDir}`)
+  remote.exec(`rm -r ${webRoot}auth.json`, { failsafe: true })
+  remote.exec(`rm -r ${webRoot}composer.json`, { failsafe: true })
+  remote.exec(`rm -rf ${webRoot}tmp/typo3-deployments/${tmpDir}`)
 })
 
 
@@ -89,7 +89,7 @@ plan.remote('start', remote => {
  plan.local(['assets-push'], local => {
   local.log('Deploying uploads folder...')
   local.exec(`rsync -avz -e "ssh -p ${sshPort}" \
-    typo3/uploads ${sshUser}@${sshHost}:${root}/uploads`, { failsafe: true })
+    typo3/uploads ${sshUser}@${sshHost}:${webRoot}uploads`, { failsafe: true })
  })
 
 
@@ -106,14 +106,14 @@ plan.local(['db-replace'], local => {
   local.log('Pushing local database dump to remote...')
   local.transfer([
     `database/local/typo3-${date}.sql`
-  ], `${root}/tmp`)
+  ], `${webRoot}tmp`)
 })
 
 plan.remote(['db-replace'], remote => {
   remote.log('Backuping remote database...')
-  remote.exec(`mkdir -p ${root}/tmp/database/remote`, { silent: true, failsafe: true })
+  remote.exec(`mkdir -p ${webRoot}tmp/database/remote`, { silent: true, failsafe: true })
   remote.exec(`mysqldump -u${dbUser} -p${dbPw} -f ${dbName} > \
-    ${root}/tmp/database/remote/${dbName}-${date}.sql;`, { failsafe: true })
+    ${webRoot}tmp/database/remote/${dbName}-${date}.sql;`, { failsafe: true })
 
   remote.log('Dropping remote database...')
   remote.exec(`mysql -u${dbUser} -p${dbPw} -e 'drop database ${dbName};'`, { failsafe: true })
@@ -122,9 +122,9 @@ plan.remote(['db-replace'], remote => {
   remote.exec(`
     mysql -u${dbUser} -p${dbPw} \
       -e 'create database ${dbName}; use ${dbName}; \
-          source ${root}/tmp/database/local/typo3-${date}.sql;'
+          source ${webRoot}tmp/database/local/typo3-${date}.sql;'
   `, { failsafe: true })
 
   remote.log('Remove transferred local database from remote...')
-  remote.exec(`rm -r ${root}/tmp/database/local`, { silent: true, failsafe: true })
+  remote.exec(`rm -r ${webRoot}tmp/database/local`, { silent: true, failsafe: true })
 })
