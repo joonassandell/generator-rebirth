@@ -4,7 +4,7 @@
 
 require('dotenv').config()
 const pkg = require('./package.json')
-const ROOT = '/var/www/webroot/ROOT'
+const WEBROOT = '/var/www/webroot/ROOT'
 const WORKSPACE = process.env.WORKSPACE || '/tmp/<%= dir %>'
 
 module.exports = shipit => {
@@ -21,7 +21,7 @@ module.exports = shipit => {
     },
     production: {
       branch: 'master',
-      deployTo: `${ROOT}/typo3conf/releases/<%= dir %>`,
+      deployTo: `${WEBROOT}/typo3conf/releases/<%= dir %>`,
       servers: process.env.PRODUCTION_SSH,
     }
   })
@@ -49,13 +49,14 @@ module.exports = shipit => {
   shipit.blTask('setup', () => {
     shipit.log('Running setup...')
     shipit.remote(`
-      if [ ! -d "${ROOT}/typo3conf/ext/<%= dir %>" ]
+      if [ ! -d "${WEBROOT}/typo3conf/ext/<%= dir %>" ]
         then
-          mkdir -p ${ROOT}/typo3conf/releases/<%= dir %> \
-          && ln -s ${ROOT}/typo3conf/releases/<%= dir %>/current \
-            ${ROOT}/typo3conf/ext/<%= dir %>
+          mkdir -p ${WEBROOT}/typo3conf/ext/<%= dir %> \
+          mkdir -p ${WEBROOT}/typo3conf/releases/<%= dir %> \
+          && ln -s ${WEBROOT}/typo3conf/releases/<%= dir %>/current \
+            ${WEBROOT}/typo3conf/ext/<%= dir %>
       fi
-    `)
+    `);
   })
 
   shipit.on('fetched', () => {
