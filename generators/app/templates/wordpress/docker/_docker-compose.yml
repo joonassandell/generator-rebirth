@@ -20,6 +20,7 @@ services:
   mysql:
     container_name: <%= dir %>-mysql
     image: mariadb
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     ports:
       - 13306:3306
     environment:
