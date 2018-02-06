@@ -83,9 +83,9 @@ app.helpers(config.html.helpers)
 app.helpers(handlebarsHelpers)
 app.use(watch())
 
-app.preLayout(/\/src\/templates\/.*\.hbs$/, function(view, next) {
-  view.layout = 'default'
-  next()
+app.preLayout(/\.hbs$/, function(view, next) {
+  if (!view.layout) view.layout = 'default';
+  next();
 })
 
 app.task('html', function() {
