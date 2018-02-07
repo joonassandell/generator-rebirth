@@ -18,7 +18,7 @@ function copy(source, destination, gen) {
   );
 }
 
-export default class Rebirth extends Generator {
+module.exports = class Rebirth extends Generator {
   constructor(args, opts) {
     super(args, opts);
     this.pkg = require('../../package.json');
@@ -637,4 +637,4 @@ export default class Rebirth extends Generator {
       `\n  ===================================================================== \n`,
     );
   }
-}
+};
