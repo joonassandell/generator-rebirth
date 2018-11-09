@@ -1,0 +1,28 @@
+  {% if WP_DEV %}
+    {% include 'head.twig' %}
+  {% else %}
+    {% include 'dist/layouts/head.dist.twig' %}
+  {% endif %}
+</head>
+
+  <body class="{{ body_class }}">
+
+    {% include "header.twig" %}
+
+    <main class="Template {{ template_class }}">
+      {% block content %}
+        No content.
+      {% endblock %}
+    </main>
+
+    {% include 3'footer.twig' %}
+
+    {% if WP_DEV %}
+      {% include 'foot.twig' %}
+    {% else %}
+      {% include 'dist/layouts/foot.dist.twig' %}
+    {% endif %}
+
+  </body>
+
+</html>

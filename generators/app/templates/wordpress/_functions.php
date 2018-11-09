@@ -6,9 +6,9 @@
 require_once locate_template('/lib/clean-up.php');
 require_once locate_template('/lib/utility.php');
 
-if (!class_exists('Timber') || !function_exists('acf')) {
+if (!class_exists('Timber') || !function_exists('acf')<% if (pluginWPML) { %> || empty($GLOBALS['sitepress'])<% } %>) {
     add_action('admin_notices', function() {
-        echo '<div class="error"><p>Timber or ACF not activated. Make sure you activate
+        echo '<div class="error"><p>Timber<% if (pluginWPML) { %>, ACF or WPML<% } else { %> or AFC<% } %> not activated. Make sure you activate
         the plugins in <a href="' . esc_url(admin_url('plugins.php')) . '">' .
         esc_url(admin_url('plugins.php')) . '</a></p></div>';
     });
@@ -20,7 +20,7 @@ if (!class_exists('Timber') || !function_exists('acf')) {
  * Setup application
  * ====== */
 
-Timber::$dirname = array('components', 'partials', 'templates');
+Timber::$dirname = array('components', 'layouts', 'templates');
 
 class App extends TimberSite {
     function __construct() {
@@ -110,15 +110,13 @@ class App extends TimberSite {
      * Sitewide settings page
      */
     function acf_site_settings() {
-        if (function_exists('acf')) {
-            acf_add_options_page(array(
-                'page_title'  => __('Sitewide settings', 'app'),
-                'menu_title'  => __('Sitewide settings', 'app'),
-                'menu_slug'   => 'sitewide-settings',
-                'capability'  => 'edit_posts',
-                'redirect'    => false
-            ));
-        }
+        acf_add_options_page(array(
+            'page_title'  => __('Sitewide settings', 'app'),
+            'menu_title'  => __('Sitewide settings', 'app'),
+            'menu_slug'   => 'sitewide-settings',
+            'capability'  => 'edit_posts',
+            'redirect'    => false
+        ));
     }
 }
 

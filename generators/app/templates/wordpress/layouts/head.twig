@@ -2,15 +2,12 @@
 <html class="no-js" {{ function('language_attributes') }}>
   <head>
     <meta charset="{{ site.charset }}">
-    <title>{{ function('wp_title', '|', true, 'right') }}</title>
+    <title>{{ function('wp_title', '|', true, 'right') }} {{ site.name }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="msapplication-tap-highlight" content="no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     {{ function('wp_head') }}
 
-    {% if WP_DEV %}
-      {% include 'top.twig' %}
-    {% else %}
-      {{ function('get_template_part', 'dist/partials/top.dist') }}
-    {% endif %}
+    <script src="{{ theme.link }}/dist/assets/app.head.js"></script>
+    <link href="{{ theme.link }}/dist/assets/app.css" rel="stylesheet" />
+
