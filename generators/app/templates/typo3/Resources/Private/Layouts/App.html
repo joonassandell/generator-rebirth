@@ -1,22 +1,22 @@
 <f:layout name="App" />
 
-<f:if condition="{settings.dev}">
+<f:if condition="{development}">
   <f:then>
-    <f:render partial="Top" arguments="{_all}" />
+    <f:render partial="Head" arguments="{_all}" />
   </f:then>
   <f:else>
-    <f:render partial="Top.dist" arguments="{_all}" />
+    <f:render partial="Head.dist" arguments="{_all}" />
   </f:else>
 </f:if>
 
 <f:render section="Body" />
 
-<f:if condition="{settings.dev}">
+<f:if condition="{development}">
   <f:then>
-    <f:render partial="Bottom" />
+    <f:render partial="Foot" arguments="{_all}" />
   </f:then>
   <f:else>
-    <f:render partial="Bottom.dist" />
+    <f:render partial="Foot.dist" arguments="{_all}" />
   </f:else>
 </f:if>
 

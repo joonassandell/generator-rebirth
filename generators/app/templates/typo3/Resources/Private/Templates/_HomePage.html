@@ -1,0 +1,15 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+
+<f:layout name="App" />
+
+<f:section name="Body">
+  <h1>Hello from Rebirth!</h1>
+  <p>
+    This is your HomePage template for <strong><%= appNameHumanize %></strong>
+    <ul>
+      <li>
+        Generated on <%= (generatorDate) %> using <a href="<%= (generatorRepository) %>"><%= pkg.name %> v<%= pkg.version %></a>.
+      </li>
+    </ul>
+  </p>
+</f:section>

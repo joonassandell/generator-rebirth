@@ -1,17 +1,61 @@
-plugin.tx_<%= dir %>.view {
-  templateRootPath = {$plugin.tx_<%= dir %>.view.templateRootPath}
-  partialRootPath = {$plugin.tx_<%= dir %>.view.partialRootPath}
-  layoutRootPath = {$plugin.tx_<%= dir %>.view.layoutRootPath}
+plugin.tx_<%= dir %> {
+  view {
+    templateRootPath = {$plugin.tx_<%= dir %>.view.templateRootPath}
+    partialRootPath = {$plugin.tx_<%= dir %>.view.partialRootPath}
+    layoutRootPath = {$plugin.tx_<%= dir %>.view.layoutRootPath}
+  }
+}
+
+config {
+  htmlTag_setParams = class="no-js"
+  concatenateJs = 1
+  concatenateCss = 1
+  compressCss = 1
+  compressJs = 1
+  noPageTitle = 2
+}
+
+page = PAGE
+page {
+  typeNum = 0
+
+  10 = FLUIDTEMPLATE
+  10 {
+    templateName = TEXT
+    templateName.stdWrap.cObject = CASE
+    templateName.stdWrap.cObject {
+      key.data = pagelayout
+
+      default = TEXT
+      default.value = Default
+
+      pagets__homepage = TEXT
+      pagets__homepage.value = HomePage
+    }
+
+    partialRootPaths {
+      10 = EXT:<%= dir %>/Resources/Private/Partials
+    }
+
+    layoutRootPaths {
+      10 = EXT:<%= dir %>/Resources/Private/Layouts
+    }
+
+    templateRootPaths {
+      10 = EXT:<%= dir %>/Resources/Private/Templates
+    }
+
+    variables {
+      development = TEXT
+      development {
+        value = 0
+      }
+    }
+  }
 }
 
 [applicationContext = Development]
-  plugin.tx_<%= dir %>.settings.dev = 1
+  page.10.variables.development.value = 1
   config.contentObjectExceptionHandler = 0
 [end]
 
-config.htmlTag_setParams = class="no-js"
-config.concatenateJs = 1
-config.concatenateCss = 1
-config.compressCss = 1
-config.compressJs = 1
-config.noPageTitle = 2
