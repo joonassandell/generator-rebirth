@@ -1,5 +1,5 @@
 # ======
-# Numerous Always-Ignore Extensions
+# Numerous Always-Ignore Extensions, OS or Editor Folders
 # ======
 
 *.diff
@@ -7,12 +7,8 @@
 *.log
 *.zip
 *.sass-cache
-
-
-# ======
-# OS or Editor Folders
-# ======
-
+*.sql
+.env
 ._*
 .cache
 .DS_Store
@@ -20,6 +16,7 @@
 .project
 .settings
 .tmproj
+.vscode
 *.esproj
 *.sublime-project
 *.sublime-workspace
@@ -28,18 +25,12 @@ Thumbs.db
 
 
 # ======
-# Folders to Ignore
+# Project specific ignores
 # ======
 
 node_modules
-bower_components
-
-
-# ======
-# Build Material
-# ======
-
 rev-manifest.json<% if (typo3) { %>
+.Build
 vendor/
 Bottom.dist.html
 Top.dist.html
