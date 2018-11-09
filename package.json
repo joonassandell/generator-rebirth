@@ -17,7 +17,8 @@
     ]
   },
   "scripts": {
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "release": "yarn publish --tag beta"
   },
   "dependencies": {
     "chalk": "^2.2.0",
