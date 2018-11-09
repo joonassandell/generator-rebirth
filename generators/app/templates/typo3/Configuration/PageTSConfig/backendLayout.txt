@@ -1,0 +1,14 @@
+mod {
+  web_layout {
+    BackendLayouts {
+      homepage {
+        title = HomePage
+        config {
+          backend_layout {
+            colCount = 1
+          }
+        }
+      }
+    }
+  }
+}

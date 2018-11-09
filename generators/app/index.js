@@ -248,6 +248,16 @@ module.exports = class Rebirth extends Generator {
         this,
       );
       copy(
+        `typo3/Configuration/PageTSConfig/backendLayout.txt`,
+        `Configuration/PageTSConfig/backendLayout.txt`,
+        this,
+      );
+      copy(
+        `typo3/Configuration/TCA/Overrides/_sys_template.php`,
+        `Configuration/TCA/Overrides/sys_template.php`,
+        this,
+      );
+      copy(
         `typo3/Resources/Private/Templates/_HomePage.html`,
         `Resources/Private/Templates/HomePage.html`,
         this,
