@@ -28,7 +28,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
     "moment": "^2.9.0",
-    "rebirth-ui": "^0.5.31",
+    "rebirth-ui": "^0.5.41",
     "underscore.string": "^3.3.4",
     "yeoman-generator": "^1.0.1",
     "yosay": "^1.2.1"
