@@ -51,14 +51,22 @@ gulp.task('stylesheets', function() {
       .pipe(
         $.replace(
           './',
-          config.root +
-            '/typo3conf/ext/' +
-            config.ext +
+          path.join(
+            config.root,
+            '/typo3conf/ext/',
+            config.ext,
             '/Resources/Public/Assets/',
+          ),
         ),
       )
       .pipe($.combineMq({ beautify: false }))
-      .pipe($.cssnano({ mergeRules: false, zindex: false }))
+      .pipe(
+        $.cssnano({
+          mergeRules: false,
+          zindex: false,
+          discardComments: { removeAll: true },
+        }),
+      )
       .pipe(gulp.dest('Resources/Public/Assets/')));
   } else {
     return (pipeline = pipeline
@@ -77,11 +85,9 @@ gulp.task('javascripts', function(callback) {
 
   var browserifyBundle = function(entry) {
     var pipeline = browserify({
-      cache: {},
-      packageCache: {},
-      fullPaths: false,
       entries: 'Assets/' + entry.fileName,
       debug: !production,
+      paths: ['Assets'],
     });
 
     var bundle = function() {
@@ -158,7 +164,9 @@ gulp.task('server', function() {
   browserSync.init({
     open: process.env.DISABLE_OPEN ? false : 'external',
     port: 9001,
-    proxy: process.env.HOST ? process.env.HOST : '127.0.0.1:8000',
+    proxy: process.env.DEVELOPMENT_URL
+      ? process.env.DEVELOPMENT_URL
+      : 'http://127.0.0.1:8000',
     notify: false,
     serveStatic: ['./'],
   });
@@ -188,8 +196,8 @@ gulp.task('createDistPartials', tasks, function() {
   return gulp
     .src(
       [
-        'Resources/Private/Partials/Top.html',
-        'Resources/Private/Partials/Bottom.html',
+        'Resources/Private/Partials/Head.html',
+        'Resources/Private/Partials/Foot.html',
       ],
       { base: 'Resources/Private/' },
     )
@@ -237,8 +245,8 @@ gulp.task('updateReferences', tasks.concat(['rev']), function() {
     .src(
       [
         'Resources/Public/Assets/**',
-        'Resources/Private/Partials/Top.dist.html',
-        'Resources/Private/Partials/Bottom.dist.html',
+        'Resources/Private/Partials/Head.dist.html',
+        'Resources/Private/Partials/Foot.dist.html',
       ],
       { base: 'Resources/Public/' },
     )
