@@ -1,13 +1,13 @@
 <?php
 /* ============================================
- * Shortcode - Name
+ * Shoctcode Name
  * ============================================ */
 
-namespace <%= appNameSpace %>\Shortcode\Name;
+namespace <%= appNameSpace %>\<%= appNamePascalize %>\Shortcode\ShortCodeName;
 
-use <%= appNameSpace %>\Utility;
+use <%= appNameSpace %>\<%= appNamePascalize %>\Utility;
 
-function name($atts, $content = null) {
+function shortcode_name($atts, $content = null) {
   extract(shortcode_atts(array(
     'something' => '',
     'somethingElse' => null
@@ -20,4 +20,4 @@ function name($atts, $content = null) {
   return $return;
 }
 
-add_shortcode('name',  __NAMESPACE__ . '\\name');
+add_shortcode('shortcode_name',  __NAMESPACE__ . '\\shortcode_name');

@@ -3,7 +3,7 @@
  * Clean up
  * ======================================== */
 
-namespace <%= appNameSpace %>\CleanUp;
+namespace <%= appNameSpace %>\<%= appNamePascalize %>\CleanUp;
 
 /**
  * Clean up wp_head()
@@ -54,7 +54,7 @@ function disable_x_pingback($headers) {
     return $headers;
 }
 
-add_filter('wp_headers', __NAMESPACE__ . '\\disable_x_pingback');<% if (pluginWPMLuserID) { %>
+add_filter('wp_headers', __NAMESPACE__ . '\\disable_x_pingback');<% if (pluginWPML) { %>
 
 /**
  * WPML

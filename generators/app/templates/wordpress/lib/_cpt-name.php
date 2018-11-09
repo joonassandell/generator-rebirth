@@ -1,53 +1,43 @@
 <?php
 /* ============================================
- * Custom post type - Name
+ * Post Type Name
  * ============================================ */
 
-namespace <%= appNameSpace %>\CustomPostType\Name;
+namespace <%= appNameSpace %>\<%= appNamePascalize %>\CustomPostType\PostTypeName;
 
-function cpt_name() {
-  $labels = array(
-    'name'               => 'Name', 'post type general name',
-    'all_items'          => 'All name',
-    'menu_name'          => 'Name'
-  );
+call_user_func(function() {
+    $args = array(
+        'labels' => array(
+            'name' => __('Post Type Name', 'app'),
+            'singular_name' => __('Post Type Singular Name', 'app'),
+        ),
+        'description' => 'Post type description',
+        'public' => true,
+        'menu_position' => 30,
+        'hierarchical' => false,
+        'supports' => array(
+            'author',
+            'editor',
+            'excerpt',
+            'title',
+            'thumbnail',
+            'revisions'
+        ),
+        'has_archive'  => true,
+    );
 
-  $args = array(
-    'labels'        => $labels,
-    'description'   => 'Description',
-    'public'        => true,
-    'menu_position' => 30,
-    'hierarchical'  => false,
-    'supports'      => array(
-      'title',
-      'editor',
-      'author',
-      'thumbnail',
-      'excerpt',
-      'custom-fields',
-      'revisions'
-    ),
-    'has_archive'   => true
-  );
+    register_post_type('post_type_name', $args);
+}});
 
-  register_post_type('name', $args);
-}
+call_user_func(function() {
+    $args = array(
+        'labels' => array(
+            'name' => __('Taxonomy Name', 'app'),
+            'singular_name' => __('Taxonomy Singular Name', 'app'),
+        ),
+        'hierarchical' => true,
+        'rewrite' => array('slug' => 'name/taxonomy'),
+    );
 
-add_action('init', __NAMESPACE__ . '\\cpt_name');
-
-function taxonomy_name() {
-  $labels = array(
-    'name'          => 'Name taxonomies',
-    'singular_name' => 'Name taxonomy'
-  );
-
-  $args = array(
-    'labels' => $labels,
-    'hierarchical' => true,
-    'rewrite' => array('slug' => 'name/taxonomy')
-  );
-
-  register_taxonomy('name_taxonomy', 'name', $args);
-}
-
-add_action('init', __NAMESPACE__ . '\\taxonomy_name', 0);
+    register_taxonomy('taxonomy_name', 'post_type_name', $args);
+});
