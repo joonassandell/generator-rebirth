@@ -51,11 +51,22 @@ gulp.task('stylesheets', function() {
       .pipe(
         $.replace(
           './',
-          config.root + 'wp-content/themes/' + config.theme + '/dist/assets/',
+          path.join(
+            config.root,
+            'wp-content/themes/',
+            config.theme,
+            '/dist/assets/',
+          ),
         ),
       )
       .pipe($.combineMq({ beautify: false }))
-      .pipe($.cssnano({ mergeRules: false, zindex: false }))
+      .pipe(
+        $.cssnano({
+          mergeRules: false,
+          zindex: false,
+          discardComments: { removeAll: true },
+        }),
+      )
       .pipe(gulp.dest('dist/assets/')));
   } else {
     return (pipeline = pipeline
@@ -74,11 +85,9 @@ gulp.task('javascripts', function(callback) {
 
   var browserifyBundle = function(entry) {
     var pipeline = browserify({
-      cache: {},
-      packageCache: {},
-      fullPaths: false,
       entries: 'assets/' + entry.fileName,
       debug: !production,
+      paths: ['assets'],
     });
 
     var bundle = function() {
@@ -153,7 +162,9 @@ gulp.task('server', function() {
   browserSync.init({
     open: process.env.DISABLE_OPEN ? false : 'external',
     port: 9001,
-    proxy: process.env.HOST ? process.env.HOST : '127.0.0.1:8000',
+    proxy: process.env.DEVELOPMENT_URL
+      ? process.env.DEVELOPMENT_URL
+      : 'http://127.0.0.1:8000',
     notify: false,
     serveStatic: ['./'],
   });
@@ -180,7 +191,7 @@ var tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
 gulp.task('createDistPartials', tasks, function() {
   return gulp
     .src(
-      ['partials/top.twig', 'partials/bottom.twig', 'components/iconfile.twig'],
+      ['layouts/head.twig', 'layouts/foot.twig', 'components/iconfile.twig'],
       { base: './' },
     )
     .pipe(
@@ -195,16 +206,6 @@ gulp.task('createDistPartials', tasks, function() {
     )
     .pipe($.rename({ suffix: '.dist' }))
     .pipe(gulp.dest('dist/'));
-});
-
-/**
- * Rename
- */
-gulp.task('rename', tasks.concat(['createDistPartials']), function() {
-  return gulp
-    .src('dist/partials/top.dist.twig')
-    .pipe($.rename({ extname: '.php' }))
-    .pipe(gulp.dest('dist/partials'));
 });
 
 /**
@@ -234,8 +235,8 @@ gulp.task('updateReferences', tasks.concat(['rev']), function() {
     .src(
       [
         'dist/assets/**',
-        'dist/partials/top.dist.php',
-        'dist/partials/bottom.dist.twig',
+        'dist/layouts/head.dist.php',
+        'dist/layouts/foot.dist.twig',
         'dist/components/iconfile.dist.twig',
       ],
       { base: 'dist/' },
@@ -255,9 +256,7 @@ gulp.task('updateReferences', tasks.concat(['rev']), function() {
 
 gulp.task('build', function() {
   rimraf.sync('dist/');
-  gulp.start(
-    tasks.concat(['createDistPartials', 'rename', 'rev', 'updateReferences']),
-  );
+  gulp.start(tasks.concat(['createDistPartials', 'rev', 'updateReferences']));
 });
 
 gulp.task('default', ['build']);
