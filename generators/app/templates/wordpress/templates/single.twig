@@ -1,6 +1,6 @@
-{% extends "base.twig" %}
+{% set template_class = 'Template--single' %}
 
-{% block page_class %}{% endblock %}
+{% extends "app.twig" %}
 
 {% block content %}
   {{ post.title }}
