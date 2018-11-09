@@ -1,0 +1,7 @@
+{
+  "name": "<%= appAuthor %>/<%= dir %>",
+  "description": "<%= appDescription %>",
+  "homepage": "<%= appURL %>",
+  "type": "wordpress-theme",
+  "version": "1.0.0"
+}
