@@ -1,6 +1,6 @@
 {
   "name": "generator-rebirth",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "description": "Rebirth Yeoman generator for new TYPO3, WordPress or HTML projects.",
   "license": "MIT",
   "main": "generators/app/index.js",
@@ -17,8 +17,7 @@
     ]
   },
   "scripts": {
-    "precommit": "lint-staged",
-    "publish": "npm publish --tag beta"
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "chalk": "^2.2.0",
