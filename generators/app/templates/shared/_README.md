@@ -4,40 +4,40 @@
 
 ## Requirements
 
-<% if (typo3) { %>* [Typo3](http://typo3.org)
-* [Flux](http://typo3.org/extensions/repository/view/flux)
-* [Fluid Pages Engine](http://typo3.org/extensions/repository/view/fluidpages)
-* [Fluid Content Engine](http://typo3.org/extensions/repository/view/fluidcontent)
-* [Vhs](http://typo3.org/extensions/repository/view/vhs)<% } if (wp) { %> 
-* [WordPress](https://wordpress.org/)<% if (pluginACFkey) { %>
-* [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/)<% }} if (typo3 || wp) { %>
-* [Composer](https://getcomposer.org/)<% } %>
-* [Node.js](http://nodejs.org/)
-* [Npm](https://www.npmjs.org/)
-* SSH access (RSA Key Pair) for deployments<% if (docker) { %>
+<% if (typo3) { %>\* [Typo3](http://typo3.org)
+
+- [Vhs](http://typo3.org/extensions/repository/view/vhs)<% } if (wp) { %>
+- [WordPress](https://wordpress.org/)
+- [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/)<% } if (typo3 || wp) { %>
+- [Composer](https://getcomposer.org/)<% } %>
+- [Node.js](http://nodejs.org/)
+- [Npm](https://www.npmjs.org/)
+- [Yarn](http://yarnpkg.com)
+- SSH access (RSA Key Pair) for deployments<% if (appDevURL) { %>
 
 ## Getting started
 
-[<%= appNameHumanize %> - <%= name() %> Docker](https://bitbucket.org/<%= appAuthorDasherize %>/<%= dir %>-docker.git) installs all the required dependencies and builds your development environment. Works with GNU/Linux/Unix and could also work in Windows. Otherwise clone this <% if (typo3) { %>extension to your `ext` folder<% } if (wp) %>theme to your `themes` folder<% } %> and do the install process.
+[<%= name() %> Development Environment for <%= appNameHumanize %>](<%= appDevURL %>) installs all the required dependencies and builds your development environment. Otherwise clone this <% if (typo3) { %>extension to your `ext` folder<% } if (wp) { %>theme to your `themes` folder<% } %> and do the install process.
 
-## Install
+<% } %>## Install
 
-**1.** Clone this repository<% if (typo3) { %> to `<%= dir %>` folder<% } %>
-
-**2.** Install node modules
-  
-    npm install
+1. Clone this repository
+2. Install node modules: `$ yarn`
 
 ## Usage
 
-* `npm run build`: Build the application
-* `npm run deploy`: Build the application and deploy it to the server. <% if (html) { %>* `npm run dist`: Build the application and start a local server for testing purposes<% } %><% if (typo3 || wp) { %>
+- `yarn build`: Build the application
+- `yarn deploy`: Build the application and deploy it to the server<% if (html) { %>
+- `yarn dist`: Build the application and start a local server for testing purposes<% } if (typo3 || wp) { %>
   - Copy [`.env.example`](.env.example) to `.env` file and set your environment variables first
   - Make sure [`shipitfile.js`](shipitfile.js) has correct root and [`package.json`](package.json) has correct `repository` set<% } %>
-* `npm run dev`: Watches files and sets up development environment.
-    * `HOST=yourlocalhost.app`: Assign your custom host for the BrowserSync
-    * `DISABLE_OPEN=true`: Disables automatic browser opening
+- `yarn dev`: Watches files and sets up development environment
+
+# Environment variables
+
+- `DEVELOPMENT_URL=http://127.0.0.1:8000`: Local development url
+- `DISABLE_OPEN=true`: Disable BrowserSync from automatically opening the browser
 
 ---
 
-Learn about the project structure in [Rebirth docs](https://github.com/joonasy/generator-rebirth/tree/master/docs)
+You may learn about the project structure in [Rebirth docs](https://joonasy.github.io/rebirth)
