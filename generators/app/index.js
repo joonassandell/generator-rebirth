@@ -6,8 +6,6 @@ const _ = require('underscore.string');
 const chalk = require('chalk');
 const Generator = require('yeoman-generator');
 const moment = require('moment');
-const mkdirp = require('mkdirp');
-const path = require('path');
 const yosay = require('yosay');
 
 function copy(source, destination, gen) {
@@ -36,18 +34,11 @@ module.exports = class Rebirth extends Generator {
       type: String,
     });
 
-    this.option('docker', {
-      defaults: true,
-      type: String,
-    });
-
-    this.dir = this.options.dir.toLowerCase();
-    this.typo3 = this.options.project === 'typo3';
-    this.wp = this.options.project === 'wordpress';
+    this.typo3 =
+      this.options.project === 'typo3' || this.options.project === 'typo';
+    this.wp =
+      this.options.project === 'wordpress' || this.options.project === 'wp';
     this.html = this.options.project === 'html';
-    this.docker =
-      (this.options.docker === true || this.options.docker === 'true') &&
-      !this.html;
 
     this.name = () => {
       if (this.typo3) {
@@ -59,29 +50,17 @@ module.exports = class Rebirth extends Generator {
       }
     };
 
+    this.dir = this.options.dir.toLowerCase();
+
     if (this.typo3) {
-      let extension = _.underscored(this.dir).replace(/_/g, '');
-
-      if (this.docker) {
-        this.destinationRoot(`${extension}-docker/${extension}`);
-      } else {
-        this.destinationRoot(extension);
-      }
-
-      this.dir = extension;
+      this.dir = _.trim(this.dir, '_');
     }
 
     if (this.wp) {
-      if (this.docker) {
-        this.destinationRoot(`${this.dir}-docker/${this.dir}`);
-      } else {
-        this.destinationRoot(this.dir);
-      }
+      this.dir = _.dasherize(this.dir);
     }
 
-    if (this.html) {
-      this.destinationRoot(this.dir);
-    }
+    this.destinationRoot(this.dir);
   }
 
   prompts() {
@@ -98,79 +77,7 @@ module.exports = class Rebirth extends Generator {
         type: 'input',
         name: 'name',
         message: 'Project name:',
-        default: path.basename(process.cwd()),
-      },
-      {
-        when: (props) => {
-          const deeperDir = this.docker ? `${this.dir}-docker/` : '';
-          const installPath = this.docker ? `${this.dir}-docker/` : this.dir;
-
-          if (this.typo3) {
-            this.log(
-              `${chalk.green('  ❯')} Install path: ${chalk.cyan(
-                './' + installPath,
-              )}`,
-            );
-            this.log(
-              `${chalk.green('  ❯')} Extension key: ${chalk.cyan(this.dir)}`,
-            );
-            this.log(
-              `${chalk.green('  ❯')} Extension path: ${chalk.cyan(
-                './' + deeperDir + this.dir,
-              )}`,
-            );
-
-            if (this.docker) {
-              this.log(
-                `${chalk.green('  ❯')} TYPO3 path: ${chalk.cyan(
-                  './' + deeperDir + 'typo3',
-                )}`,
-              );
-            }
-          } else if (this.wp) {
-            this.log(
-              `${chalk.green('  ❯')} Install path: ${chalk.cyan(
-                './' + installPath,
-              )}`,
-            );
-            this.log(
-              `${chalk.green('  ❯')} Theme path: ${chalk.cyan(
-                './' + deeperDir + this.dir,
-              )}`,
-            );
-
-            if (this.docker) {
-              this.log(
-                `${chalk.green('  ❯')} WordPress path: ${chalk.cyan(
-                  './' + deeperDir + 'wp',
-                )}`,
-              );
-            }
-          } else {
-            this.log(
-              `${chalk.green('  ❯')} Install path: ${chalk.cyan(
-                './' + this.dir,
-              )}`,
-            );
-            this.log(
-              `${chalk.green('  ❯')} Source path: ${chalk.cyan(
-                './' + this.dir + '/src/',
-              )}`,
-            );
-            this.log(
-              `${chalk.green('  ❯')} Build path: ${chalk.cyan(
-                './' + this.dir + '/dist/',
-              )}`,
-            );
-          }
-        },
-      },
-      {
-        type: 'list',
-        name: 'typo3v',
-        message: 'What TYPO3 version you want?',
-        choices: ['^8.7.8', '^7.6.0'],
-        when: () => this.typo3,
+        default: this.dir,
       },
       {
         type: 'input',
@@ -182,14 +89,14 @@ module.exports = class Rebirth extends Generator {
         type: 'input',
         name: 'appNameSpace',
         message: 'Project namespace:',
-        default: 'App',
+        default: (props) => props.author,
         when: () => this.typo3 || this.wp,
       },
       {
         type: 'input',
         name: 'url',
-        message: 'Project URL (production):',
-        default: (props) => `http://${_.dasherize(_.slugify(props.name))}.com`,
+        message: 'Project URL (in production):',
+        default: (props) => `https://${_.dasherize(_.slugify(props.name))}.com`,
       },
       {
         type: 'input',
@@ -198,59 +105,29 @@ module.exports = class Rebirth extends Generator {
         default: (props) => `Website for ${_.humanize(props.name)}`,
       },
       {
-        when: () => {
-          if (this.wp && this.docker) {
-            this.log(
-              `${chalk.green(
-                '!',
-              )} ACF subscription key can be found from ${chalk.underline.yellow(
-                'https://www.advancedcustomfields.com/my-account/',
-              )}`,
-            );
-          }
-        },
+        type: 'input',
+        name: 'repositoryURL',
+        message: 'Project repository URL:',
+        default: (props) =>
+          `git@bitbucket.org:${_.dasherize(_.slugify(props.author))}/${
+            this.dir
+          }.git`,
       },
       {
         type: 'input',
-        name: 'pluginACFkey',
-        message: 'ACF key (leave empty to not install):',
-        default: false,
-        when: () => this.wp && this.docker,
+        name: 'devURL',
+        message: 'Project development repository URL:',
+        default: (props) =>
+          `https://bitbucket.org/${_.dasherize(_.slugify(props.author))}/${
+            this.dir
+          }-dev.git`,
       },
       {
-        when: (props) => {
-          if (this.wp && this.docker) {
-            this.log(
-              `${chalk.green(
-                '  !',
-              )} WPML user id and subscription key can be found from the download url in`,
-            );
-            this.log(
-              `${chalk.green('  !')} ${chalk.underline.yellow(
-                'https://wpml.org/account/downloads/',
-              )}`,
-            );
-            this.log(
-              `${chalk.green('  !')} ?download=6088&user_id=${chalk.bold.yellow(
-                'YOUR_USER_ID',
-              )}&subscription_key=${chalk.bold.yellow('YOUR_KEY')}`,
-            );
-          }
-        },
-      },
-      {
-        type: 'input',
-        name: 'pluginWPMLuserID',
-        message: 'WPML user ID (leave empty to not install):',
-        default: false,
-        when: () => this.wp && this.docker,
-      },
-      {
-        type: 'input',
-        name: 'pluginWPMLkey',
-        message: 'WPML subscription key:',
-        default: false,
-        when: (props) => props.pluginWPMLuserID,
+        type: 'confirm',
+        name: 'pluginWPML',
+        message: 'Are you using WPML?',
+        default: true,
+        when: () => this.wp,
       },
     ];
 
@@ -265,12 +142,10 @@ module.exports = class Rebirth extends Generator {
       this.appNameSpace = _.capitalize(_.camelize(props.appNameSpace));
       this.appURL = props.url;
       this.appDescription = props.description;
+      this.appRepositoryURL = props.repositoryURL;
+      this.appDevURL = props.devURL;
       this.dirCapitalize = _.capitalize(this.dir);
-      this.git = props.git;
-      this.pluginWPMLuserID = props.pluginWPMLuserID;
-      this.pluginWPMLkey = props.pluginWPMLkey;
-      this.pluginACFkey = props.pluginACFkey;
-      this.typo3v = props.typo3v;
+      this.pluginWPML = props.pluginWPML;
     });
   }
 
@@ -306,22 +181,28 @@ module.exports = class Rebirth extends Generator {
     );
 
     const assets = [
-      'components/Container/',
       'components/Heading/',
       'components/Icon/',
-      'components/IeFrame/',
-      'components/Text/',
-      'components/Width/',
-      'components/Wrap/',
-      'components/Grid/_Grid.scss',
-      'components/Footer/',
-      'components/Header/',
-      'components/Page/',
+      'components/Text/_index.scss',
+      'components/Text/_Text.scss',
+      'components/Text/_Text.config.scss',
+      'layouts/Container/',
+      'layouts/Width/',
+      'layouts/Wrap/',
+      'layouts/Grid/_Grid.scss',
+      'layouts/Grid/_Grid.config.scss',
+      'layouts/Grid/_index.scss',
+      'layouts/Footer/',
+      'layouts/Header/',
+      'layouts/Template/',
       'stylesheets/generic/',
       'stylesheets/helpers/_helper.scss',
       'stylesheets/mixins/',
       '_config.scss',
       'config.js',
+      'app.head.js',
+      'javascripts/feature.js',
+      'javascripts/utility.js',
     ].forEach((file) => {
       copy(
         `${assetsDir}${file}`,
@@ -330,33 +211,28 @@ module.exports = class Rebirth extends Generator {
       );
     });
 
-    /**
-     * Temporary
-     */
     copy(
-      `shared/assets/components/Grid/`,
-      `${this.config.get('assetsPath')}components/Grid/`,
-      this,
-    );
-    copy(
-      `shared/assets/_app.head.js`,
-      `${this.config.get('assetsPath')}app.head.js`,
-      this,
-    );
-    copy(
-      `shared/assets/app.js`,
+      `${assetsDir}/app.base.js`,
       `${this.config.get('assetsPath')}app.js`,
       this,
     );
+
     copy(
-      `shared/assets/app.scss`,
+      `${assetsDir}/app.base.scss`,
       `${this.config.get('assetsPath')}app.scss`,
       this,
     );
 
-    mkdirp(`${this.config.get('assetsPath')}javascripts`);
-    mkdirp(`${this.config.get('assetsPath')}images`);
-    mkdirp(`${this.config.get('assetsPath')}fonts`);
+    copy(
+      `shared/gitkeep`,
+      `${this.config.get('assetsPath')}images/.gitkeep`,
+      this,
+    );
+    copy(
+      `shared/gitkeep`,
+      `${this.config.get('assetsPath')}fonts/.gitkeep`,
+      this,
+    );
   }
 
   typo3() {
@@ -372,82 +248,35 @@ module.exports = class Rebirth extends Generator {
         this,
       );
       copy(
-        `typo3/Resources/Private/Templates/Page/_HomePage.html`,
-        `Resources/Private/Templates/Page/HomePage.html`,
+        `typo3/Resources/Private/Templates/_HomePage.html`,
+        `Resources/Private/Templates/HomePage.html`,
         this,
       );
       copy(
-        `typo3/Resources/Private/Partials/_Top.html`,
-        `Resources/Private/Partials/Top.html`,
+        `typo3/Resources/Private/Templates/_Default.html`,
+        `Resources/Private/Templates/Default.html`,
         this,
       );
       copy(
-        `typo3/Resources/Private/Partials/_Bottom.html`,
-        `Resources/Private/Partials/Bottom.html`,
+        `typo3/Resources/Private/Partials/_Head.html`,
+        `Resources/Private/Partials/Head.html`,
         this,
       );
-      copy(`typo3/_ext_tables.php`, `ext_tables.php`, this);
+      copy(
+        `typo3/Resources/Private/Partials/_Foot.html`,
+        `Resources/Private/Partials/Foot.html`,
+        this,
+      );
       copy(
         `typo3/Resources/Private/Layouts/App.html`,
         `Resources/Private/Layouts/App.html`,
         this,
       );
 
-      if (this.typo3v === '^7.6.0') {
-        copy(`typo3/v7/_ext_emconf.php`, `ext_emconf.php`, this);
-        copy(`typo3/v7/_composer.json`, `composer.json`, this);
-      } else {
-        copy(`typo3/v8/_ext_emconf.php`, `ext_emconf.php`, this);
-        copy(`typo3/v8/_composer.json`, `composer.json`, this);
-      }
-
-      if (this.docker) {
-        copy(`typo3/docker/_package.json`, `../package.json`, this);
-        copy(`typo3/docker/_env`, `../.env`, this);
-        copy(`typo3/docker/_env`, `../.env.example`, this);
-        copy(
-          `typo3/docker/_flightplan.config.js`,
-          `../flightplan.config.js`,
-          this,
-        );
-        copy(`typo3/docker/_flightplan.js`, `../flightplan.js`, this);
-        copy(
-          `typo3/docker/_flightplan.remote.js`,
-          `../flightplan.remote.js`,
-          this,
-        );
-        copy(`typo3/docker/_package.json`, `../package.json`, this);
-        copy(`typo3/docker/_gitignore`, `../.gitignore`, this);
-        copy(`typo3/docker/_README.md`, `../README.md`, this);
-        copy(`shared/gitkeep`, `../database/.gitkeep`, this);
-        copy(`shared/auth.json`, `../typo3/auth.example.json`, this);
-        copy(`typo3/docker/Makefile`, `../Makefile`, this);
-
-        if (this.typo3v === '^7.6.0') {
-          copy(
-            `typo3/v7/docker/_docker-compose.yml`,
-            `../docker-compose.yml`,
-            this,
-          );
-          copy(`typo3/v7/docker/Dockerfile`, `../Dockerfile`, this);
-          copy(
-            `typo3/v7/docker/_composer.json`,
-            `../typo3/composer.json`,
-            this,
-          );
-        } else {
-          copy(
-            `typo3/v8/docker/_docker-compose.yml`,
-            `../docker-compose.yml`,
-            this,
-          );
-          copy(
-            `typo3/v8/docker/_composer.json`,
-            `../typo3/composer.json`,
-            this,
-          );
-        }
-      }
+      copy(`typo3/_ext_localconf.php`, `ext_localconf.php`, this);
+      copy(`typo3/_ext_emconf.php`, `ext_emconf.php`, this);
+      copy(`typo3/_composer.json`, `composer.json`, this);
+      copy(`typo3/nvmrc`, `.nvmrc`, this);
     }
   }
 
@@ -457,10 +286,10 @@ module.exports = class Rebirth extends Generator {
       copy(`html/_assemblefile.js`, `assemblefile.js`, this);
       copy(`html/src/_app.json`, `src/app.json`, this);
       copy(`html/src/templates/_index.hbs`, `src/templates/index.hbs`, this);
-      copy(`html/src/partials/app.foot.hbs`, `src/partials/app.foot.hbs`, this);
+      copy(`html/src/partials/foot.hbs`, `src/partials/foot.hbs`, this);
       copy(`html/src/helpers/assets.js`, `src/helpers/assets.js`, this);
       copy(`html/src/layouts/app.hbs`, `src/layouts/app.hbs`, this);
-      copy(`html/src/partials/app.head.hbs`, `src/partials/app.head.hbs`, this);
+      copy(`html/src/partials/head.hbs`, `src/partials/head.hbs`, this);
     }
   }
 
@@ -470,6 +299,7 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/_gulpfile.js`, `gulpfile.js`, this);
       copy(`wordpress/_functions.php`, `functions.php`, this);
       copy(`wordpress/lib/_clean-up.php`, `lib/clean-up.php`, this);
+      copy(`wordpress/lib/_utility.php`, `lib/utility.php`, this);
       copy(
         `wordpress/lib/_cpt-name.php`,
         `lib/custom-post-types/cpt-name.php`,
@@ -483,125 +313,35 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/page.php`, `page.php`, this);
       copy(`wordpress/template-home.php`, `template-home.php`, this);
       copy(`wordpress/single.php`, `single.php`, this);
-      copy(`wordpress/partials`, `partials`, this);
+      copy(`wordpress/layouts`, `layouts`, this);
       copy(`wordpress/templates`, `templates`, this);
       copy(`wordpress/components`, `components`, this);
       copy(`shared/gitkeep`, `languages/.gitkeep`, this);
       copy(`wordpress/_shipitfile.js`, `shipitfile.js`, this);
       copy(`wordpress/_env`, `.env`, this);
       copy(`wordpress/_env`, `.env.example`, this);
-
-      if (this.pluginACFkey) {
-        copy(`shared/gitkeep`, `acf-json/.gitkeep`, this);
-      }
-
-      if (this.docker) {
-        copy(`shared/gitkeep`, `../database/.gitkeep`, this);
-        copy(`shared/auth.json`, `../wp/auth.example.json`, this);
-        copy(`wordpress/docker/_env`, `../.env`, this);
-        copy(`wordpress/docker/_env`, `../.env.example`, this);
-        copy(
-          `wordpress/docker/_flightplan.config.js`,
-          `../flightplan.config.js`,
-          this,
-        );
-        copy(`wordpress/docker/_flightplan.js`, `../flightplan.js`, this);
-        copy(
-          `wordpress/docker/_flightplan.remote.js`,
-          `../flightplan.remote.js`,
-          this,
-        );
-        copy(`wordpress/docker/_package.json`, `../package.json`, this);
-        copy(`wordpress/docker/_composer.json`, `../wp/composer.json`, this);
-        copy(`wordpress/docker/_gitignore`, `../.gitignore`, this);
-        copy(`wordpress/docker/_htaccess`, `../wp/.htaccess`, this);
-        copy(`wordpress/docker/_htaccess`, `../wp/.htaccess.example`, this);
-        copy(`wordpress/docker/_README.md`, `../README.md`, this);
-        copy(
-          `wordpress/docker/_docker-compose.yml`,
-          `../docker-compose.yml`,
-          this,
-        );
-        copy(
-          `wordpress/docker/wp-config.development.php`,
-          `../wp/wp-config.development.php`,
-          this,
-        );
-        copy(`wordpress/docker/_wp-config.php`, `../wp/wp-config.php`, this);
-        copy(`wordpress/docker/index.php`, `../wp/index.php`, this);
-        copy(
-          `wordpress/docker/register-theme-directory.php`,
-          `../wp/wp-content/mu-plugins/register-theme-directory.php`,
-          this,
-        );
-        copy(`wordpress/docker/Makefile`, `../Makefile`, this);
-        copy(
-          `wordpress/docker/migrate.remote.txt`,
-          `../database/migrate.remote.txt`,
-          this,
-        );
-        copy(`wordpress/docker/migrate.txt`, `../database/migrate.txt`, this);
-      }
+      copy(`wordpress/nvmrc`, `.nvmrc`, this);
+      copy(`wordpress/_composer.json`, `composer.json`, this);
     }
-  }
-
-  _installDocker() {
-    this.log(`Installing development dependencies...`);
-    this.spawnCommandSync('npm', ['install'], { cwd: '../' });
-    this.spawnCommandSync('npm', ['run', 'start'], { cwd: '../' });
-    this._git();
   }
 
   install() {
     this.installDependencies({
-      bower: false,
       skipInstall: this.options['skip-install'],
+      bower: false,
+      npm: false,
+      yarn: true,
       callback: () => {
-        if (!this.options['skip-install']) {
-          if (this.docker) {
-            this._installDocker();
-          } else {
-            this._git();
-          }
-        } else {
-          this._git();
-        }
+        this._end();
       },
     });
-  }
-
-  _git() {
-    const done = this.async();
-
-    this.spawnCommandSync('git', ['init']);
-    this.spawnCommandSync('git', ['add', '-A']);
-    this.spawnCommandSync('git', ['commit', '-m', 'init']);
-
-    if (this.docker) {
-      this.spawnCommandSync('git', ['init'], { cwd: '../' });
-      this.spawnCommandSync(
-        'git',
-        [
-          'submodule',
-          'add',
-          `git@bitbucket.org:${this.appAuthorDasherize}/${this.dir}.git`,
-          this.dir,
-        ],
-        { cwd: '../' },
-      );
-      this.spawnCommandSync('git', ['add', '-A'], { cwd: '../' });
-      this.spawnCommandSync('git', ['commit', '-m', 'init'], { cwd: '../' });
-    }
-
-    done();
-    this._end();
   }
 
   _end() {
     this.log(
       `\n  ===================================================================== \n`,
     );
-    this.log(`${chalk.green('  !')} ${chalk.bold('Project details')}`);
+    this.log(`${chalk.green('  !')} ${chalk.bold('Project details')} \n`);
     this.log(`${chalk.green('  ❯')} Name: ${chalk.cyan(this.appName)}`);
     this.log(
       `${chalk.green('  ❯')} Description: ${chalk.cyan(this.appDescription)}`,
@@ -609,21 +349,11 @@ module.exports = class Rebirth extends Generator {
     this.log(`${chalk.green('  ❯')} Author: ${chalk.cyan(this.appAuthor)}`);
     this.log(`${chalk.green('  ❯')} Type: ${chalk.cyan(this.name())}`);
     this.log(
-      `${chalk.green('  ❯')} Production URL: ${chalk.cyan(this.appURL)}`,
+      `${chalk.green('  ❯')} Production URL: ${chalk.cyan(this.appURL)} \n`,
     );
 
-    if (this.docker && !this.options['skip-install']) {
-      this.log(
-        `\n${chalk.green(
-          '  !',
-        )} Your Docker containers are up and running. See installation process in \n ${chalk.cyan(
-          '    README.md',
-        )} to finish your setup.`,
-      );
-    }
-
     this.log(
-      `${chalk.green('  !')} Please read  ${chalk.cyan(
+      `${chalk.green('  !')} Please read ${chalk.cyan(
         'README.md',
       )} for instructions and available commands.`,
     );
