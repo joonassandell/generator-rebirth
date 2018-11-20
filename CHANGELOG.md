@@ -21,13 +21,14 @@ All notable changes to this project will be documented in this file. The format 
     - top.hbs -> app.head.hbs
     - bottom.hbs -> app.foot.hbs
 - TYPO3
+  - Use `v:condition.context.isDevelopment` / `v:condition.context.isProduction` for checking the environments
   - Rename
-    _ Top.html -> Head.html
-    _ Bottom.html -> Foot.html
+    - Top.html -> Head.html
+    - Bottom.html -> Foot.html
 - WordPress
   - Rename
-    _ top.twig -> head.twig
-    _ bottom.twig -> foot.twig
+    - top.twig -> head.twig
+    - bottom.twig -> foot.twig
 
 ## [0.5.5x]
 

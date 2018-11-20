@@ -1,3 +1,4 @@
 {namespace v=FluidTYPO3\Vhs\ViewHelpers}
 
-<v:asset.script path="EXT:<%= dir %>/Resources/Public/Assets/app.js" standalone="{development}" rewrite="{development} == 0" />
+<v:asset.script path="EXT:<%= dir %>/Resources/Public/Assets/app.js" standalone="{v:condition.context.isDevelopment(then: 'true')}" rewrite="{v:condition.context.isProduction(then: 'true')}" />
+

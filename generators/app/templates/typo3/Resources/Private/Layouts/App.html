@@ -1,22 +1,21 @@
 <f:layout name="App" />
 
-<f:if condition="{development}">
+<v:condition.context.isDevelopment>
   <f:then>
     <f:render partial="Head" arguments="{_all}" />
   </f:then>
   <f:else>
     <f:render partial="Head.dist" arguments="{_all}" />
   </f:else>
-</f:if>
+</v:condition.context.isDevelopment>
 
 <f:render section="Body" />
 
-<f:if condition="{development}">
+<v:condition.context.isDevelopment>
   <f:then>
-    <f:render partial="Foot" arguments="{_all}" />
+    <f:render partial="Foot" />
   </f:then>
   <f:else>
-    <f:render partial="Foot.dist" arguments="{_all}" />
+    <f:render partial="Foot.dist" />
   </f:else>
-</f:if>
-
+</v:condition.context.isDevelopment>
