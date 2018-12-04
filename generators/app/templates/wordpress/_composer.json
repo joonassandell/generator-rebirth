@@ -1,5 +1,5 @@
 {
-  "name": "<%= appAuthor %>/<%= dir %>",
+  "name": "<%= appAuthorDasherize %>/<%= dir %>",
   "description": "<%= appDescription %>",
   "homepage": "<%= appURL %>",
   "type": "wordpress-theme",

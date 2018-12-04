@@ -4,7 +4,7 @@
 
 require('dotenv').config();
 const pkg = require('./package.json');
-const WEBROOT = process.env.PRODUCTION_WEBROOT;
+const WEBROOT = process.env.WEBROOT || process.env.PRODUCTION_WEBROOT;
 const WORKSPACE = process.env.WORKSPACE || '/tmp/<%= dir %>';
 
 module.exports = (shipit) => {
