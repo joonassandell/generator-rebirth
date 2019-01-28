@@ -327,6 +327,7 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/templates`, `templates`, this);
       copy(`wordpress/components`, `components`, this);
       copy(`shared/gitkeep`, `languages/.gitkeep`, this);
+      copy(`shared/gitkeep`, `acf-json/.gitkeep`, this);
       copy(`wordpress/_shipitfile.js`, `shipitfile.js`, this);
       copy(`wordpress/_env`, `.env`, this);
       copy(`wordpress/_env`, `.env.example`, this);
