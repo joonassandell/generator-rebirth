@@ -8,6 +8,7 @@
 
 - [Vhs](http://typo3.org/extensions/repository/view/vhs)<% } if (wp) { %>
 - [WordPress](https://wordpress.org/)
+- [Timber](https://www.upstatement.com/timber)
 - [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/)<% } if (typo3 || wp) { %>
 - [Composer](https://getcomposer.org/)<% } %>
 - [Node.js](http://nodejs.org/)

@@ -14,6 +14,7 @@ var source = require('vinyl-source-stream');
 var through = require('through2');
 var watchify = require('watchify');
 var $ = require('gulp-load-plugins')();
+var uglify = require('gulp-uglify-es').default;
 
 var production = process.env.NODE_ENV === 'production';
 
@@ -101,7 +102,7 @@ gulp.task('javascripts', function(callback) {
       if (!production) {
         collect = collect.pipe(browserSync.stream());
       } else {
-        collect = collect.pipe($.streamify($.uglify()));
+        collect = collect.pipe($.streamify(uglify));
       }
 
       return collect
