@@ -280,7 +280,7 @@ app.task('rev', function() {
 
   return app
     .src([
-      config.javascripts.src + '**/*.js',
+      config.javascripts.dest + '**/*.js',
       config.dest + 'assets/{images,fonts}/**',
     ])
     .pipe($.rev())
