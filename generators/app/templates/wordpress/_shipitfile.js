@@ -67,7 +67,7 @@ module.exports = (shipit) => {
   shipit.blTask('setup', () => {
     shipit.log('Running setup...');
     shipit.remote(`
-      if [ ! -d "${WEBROOT}/wp-content/themes/<%= dir %>" ]
+      if [ ! -e "${WEBROOT}/wp-content/themes/<%= dir %>" ]
         then
           mkdir -p ${WEBROOT}/wp-content/themes \
           mkdir -p ${WEBROOT}/wp-content/releases/<%= dir %> \

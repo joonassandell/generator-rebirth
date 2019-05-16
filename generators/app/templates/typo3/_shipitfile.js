@@ -67,7 +67,7 @@ module.exports = (shipit) => {
   shipit.blTask('setup', () => {
     shipit.log('Running setup...');
     shipit.remote(`
-      if [ ! -d "${WEBROOT}/typo3conf/ext/<%= dir %>" ]
+      if [ ! -e "${WEBROOT}/typo3conf/ext/<%= dir %>" ]
         then
           mkdir -p ${WEBROOT}/typo3conf/ext/<%= dir %> \
           mkdir -p ${WEBROOT}/typo3conf/releases/<%= dir %> \
