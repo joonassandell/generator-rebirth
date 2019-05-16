@@ -57,6 +57,7 @@
     "install": "^0.8.4",
     "lint-staged": "^6.1.0",
     "node-notifier": "^4.2.1",
+    "prettier": "^1.16.4",
     "pretty-hrtime": "^1.0.0",
     "relative-dest": "^0.1.0",
     "rimraf": "^2.5.3",
