@@ -7,8 +7,8 @@ Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold
 Run the generator in your desired location, pass in your project name (required; this will be your installation directory also) and your project type (`typo3`, `html` or `wordpress`):
 
 ```
-$ yarn global add generator-rebirth
-$ npx yo rebirth [my-new-project] --project=my-project-type
+$ yarn global add yo && yarn global add generator-rebirth@beta
+$ yo rebirth [my-new-project] --project=wordpress
 ```
 
 If you are building a _Typo3 project_ all special characters are removed from the extension directory name e.g. `my-project_folder` -> `myprojectfolder`.
