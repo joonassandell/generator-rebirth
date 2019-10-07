@@ -1,0 +1,13 @@
+{%
+  set vars = {
+    'name': name,
+    'class': class
+  }
+%}
+
+{% if WP_DEV %}
+  {% include 'Icon.ref.twig' with vars %}
+{% else %}
+  {% include 'build/components/Icon.ref.twig' with vars %}
+{% endif %}
+
