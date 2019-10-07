@@ -24,7 +24,7 @@ module.exports = (shipit) => {
         './assets/',
         'node_modules/',
         'selection.json',
-        'yarn.lock',
+        'package-lock.json',
       ],
       keepReleases: 5,
       deleteOnRollback: false,
@@ -45,7 +45,7 @@ module.exports = (shipit) => {
   shipit.blTask('install', () => {
     shipit.log('Installing dependencies...');
     return shipit
-      .local('yarn', { cwd: WORKSPACE })
+      .local('npm install', { cwd: WORKSPACE })
       .then(() => shipit.log('Successfully installed dependencies'))
       .catch(() => {
         shipit.log('Failed to install dependencies');
@@ -56,7 +56,7 @@ module.exports = (shipit) => {
   shipit.blTask('build', () => {
     shipit.log('Running build...');
     return shipit
-      .local('yarn build', { cwd: WORKSPACE })
+      .local('npm run build', { cwd: WORKSPACE })
       .then(() => shipit.log('Build successful'))
       .catch(() => {
         shipit.log('Build failed');

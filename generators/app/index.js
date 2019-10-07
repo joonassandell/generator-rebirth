@@ -343,8 +343,7 @@ module.exports = class Rebirth extends Generator {
     this.installDependencies({
       skipInstall: this.options['skip-install'],
       bower: false,
-      npm: false,
-      yarn: true,
+      npm: true,
       callback: () => {
         this._end();
       },

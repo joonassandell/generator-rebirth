@@ -14,7 +14,6 @@
 - [Composer](https://getcomposer.org/)<% } %>
 - [Node.js](http://nodejs.org/)
 - [Npm](https://www.npmjs.org/)
-- [Yarn](http://yarnpkg.com)
 - SSH access (RSA Key Pair) for deployments<% if (appDevURL) { %>
 
 ## Getting started
@@ -24,17 +23,17 @@
 <% } %>## Install
 
 1. Clone this repository
-2. Install node modules: `$ yarn`<% if (typo3 || wp) { %>
+2. Install node modules: `$ npm install`<% if (typo3 || wp) { %>
 3. Install composer dependencies: `$ composer install`
    4.<% } else { %>3.<% } %> Copy [`.env.example`](.env.example) to `.env` file and set your environment variables.
 
 ## Usage
 
-- `$ yarn build`: Build the application
-- `$ yarn deploy`: Build the application and deploy it to the server<% if (typo3 || wp) { %>
+- `$ npm run build`: Build the application
+- `$ npm run deploy`: Build the application and deploy it to the server<% if (typo3 || wp) { %>
   - Make sure [`shipitfile.js`](shipitfile.js) has correct root and [`package.json`](package.json) has correct `repository` set<% } if (html) { %>
-- `$ yarn dist`: Build the application and start a local server for testing purposes<% } %>
-- `$ yarn dev`: Watches files and sets up development environment
+- `$ npm run dist`: Build the application and start a local server for testing purposes<% } %>
+- `$ npm run dev`: Watches files and sets up development environment
 
 # Environment variables
 
