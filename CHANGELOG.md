@@ -8,11 +8,11 @@ All notable changes to this project will be documented in this file. The format 
 - Update babel, preset-env, browserify and other deps
 - Update deps with vulnerabilities
 - Copy master App container component
-- Add App class to `<body class="App">`
 - Remove console logs in build (uglify)
 - Rename index.js to use just the revision name in build
 - Update node version (10.13.0)
 - WordPress
+  - Add App class to `<body class="App">`
   - Rename build folder from `dist/` to `build/`
   - Structure WordPress files better
   - ACF: Remove unnecessary stuff from WYSIWYG toolbar
@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file. The format 
   - Add some initial content to templates
   - Add category template
 - HTML
+  - Add App class to `<body class="App">`
   - Rename build folder from `dist/` to `build/`
   - Add .nvmrc
 - Updated to Rebirth 0.6.0 ([Rebirth CHANGELOG]([https://github.com/joonasy/rebirth/blob/master/CHANGELOG.md))
