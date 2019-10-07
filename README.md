@@ -7,7 +7,7 @@ Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold
 Run the generator in your desired location, pass in your project name (required; this will be your installation directory also) and your project type (`typo3`, `html` or `wordpress`):
 
 ```
-$ npm install yo -g && npm install generator-rebirth@beta -g
+$ npm install yo -g && npm install generator-rebirth -g
 $ yo rebirth [my-new-project] --project=wordpress
 ```
 
