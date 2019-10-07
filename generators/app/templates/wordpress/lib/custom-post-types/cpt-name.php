@@ -3,8 +3,6 @@
  * Post Type Name
  * ======================================= */
 
-namespace <%= appNameSpace %>\<%= appNamePascalize %>\CustomPostType\PostTypeName;
-
 call_user_func(function() {
     $args = array(
         'labels' => array(

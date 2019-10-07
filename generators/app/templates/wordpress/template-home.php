@@ -1,10 +1,10 @@
 <?php
 /*
- * Template Name: Homepage
+ * Template Name: Home
  * Description: A Page template for Homepage
  */
 $context = Timber::get_context();
 $post = new TimberPost();
 $context['post'] = $post;
 
-Timber::render(array('template-home.twig'), $context);
+Timber::render('home.twig', $context);

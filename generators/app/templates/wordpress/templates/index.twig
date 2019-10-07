@@ -1,10 +1,23 @@
-{% set template_class = 'Template--single' %}
+{% set template_class = 'Template--index' %}
 
-{% extends "app.twig" %}
+{% extends "App.twig" %}
 
 {% block content %}
-  {% for post in posts %}
-    {{ post.title }}
-    {{ post.content }}
-  {% endfor %}
+  <div class="Container">
+    <div class="Wrap">
+      <div class="Grid">
+        <div class="Grid-cell Width--8/12@m">
+          {% for post in posts %}
+            <h1>
+              <a href="{{ post.link }}">{{ post.title }}</a>
+            </h1>
+            <p>{{ post.content|excerpt(8) }}</p>
+          {% endfor %}
+        </div>
+        <div class="Grid-cell Width--4/12@m">
+          <p>{{ _e('Just a sidebar.', 'app') }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

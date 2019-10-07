@@ -2,12 +2,11 @@
 <html class="no-js" {{ function('language_attributes') }}>
   <head>
     <meta charset="{{ site.charset }}">
-    <title>{{ function('wp_title', '|', true, 'right') }} {{ site.name }}</title>
+    <title>{{ function('wp_title', '') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     {{ function('wp_head') }}
 
-    <script src="{{ theme.link }}/dist/assets/app.head.js"></script>
-    <link href="{{ theme.link }}/dist/assets/app.css" rel="stylesheet" />
-
+    <script src="{{ theme.link }}/build/assets/head.js"></script>
+    <link href="{{ theme.link }}/build/assets/index.css" rel="stylesheet" />

@@ -4,8 +4,9 @@
 
 ## Requirements
 
-<% if (typo3) { %>\* [Typo3](http://typo3.org)
+<% if (typo3) { %>
 
+- [Typo3](http://typo3.org)
 - [Vhs](http://typo3.org/extensions/repository/view/vhs)<% } if (wp) { %>
 - [WordPress](https://wordpress.org/)
 - [Timber](https://www.upstatement.com/timber)
@@ -23,16 +24,17 @@
 <% } %>## Install
 
 1. Clone this repository
-2. Install node modules: `$ yarn`
+2. Install node modules: `$ yarn`<% if (typo3 || wp) { %>
+3. Install composer dependencies: `$ composer install`
+   4.<% } else { %>3.<% } %> Copy [`.env.example`](.env.example) to `.env` file and set your environment variables.
 
 ## Usage
 
-- `yarn build`: Build the application
-- `yarn deploy`: Build the application and deploy it to the server<% if (html) { %>
-- `yarn dist`: Build the application and start a local server for testing purposes<% } if (typo3 || wp) { %>
-  - Copy [`.env.example`](.env.example) to `.env` file and set your environment variables first
-  - Make sure [`shipitfile.js`](shipitfile.js) has correct root and [`package.json`](package.json) has correct `repository` set<% } %>
-- `yarn dev`: Watches files and sets up development environment
+- `$ yarn build`: Build the application
+- `$ yarn deploy`: Build the application and deploy it to the server<% if (typo3 || wp) { %>
+  - Make sure [`shipitfile.js`](shipitfile.js) has correct root and [`package.json`](package.json) has correct `repository` set<% } if (html) { %>
+- `$ yarn dist`: Build the application and start a local server for testing purposes<% } %>
+- `$ yarn dev`: Watches files and sets up development environment
 
 # Environment variables
 

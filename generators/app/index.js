@@ -51,14 +51,8 @@ module.exports = class Rebirth extends Generator {
     };
 
     this.dir = this.options.dir.toLowerCase();
-
-    if (this.typo3) {
-      this.dir = _.trim(this.dir, '_');
-    }
-
-    if (this.wp) {
-      this.dir = _.dasherize(this.dir);
-    }
+    this.typo3 ? (this.dir = _.trim(this.dir, '_')) : this.dir;
+    this.wp ? (this.dir = _.dasherize(this.dir)) : this.dir;
 
     this.destinationRoot(this.dir);
   }
@@ -186,21 +180,22 @@ module.exports = class Rebirth extends Generator {
       'components/Text/_index.scss',
       'components/Text/_Text.scss',
       'components/Text/_Text.config.scss',
-      'layouts/Container/',
-      'layouts/Width/',
-      'layouts/Wrap/',
-      'layouts/Grid/_Grid.scss',
-      'layouts/Grid/_Grid.config.scss',
-      'layouts/Grid/_index.scss',
-      'layouts/Footer/',
-      'layouts/Header/',
-      'layouts/Template/',
+      'containers/Container/',
+      'containers/Width/',
+      'containers/Wrap/',
+      'containers/Grid/_Grid.scss',
+      'containers/Grid/_Grid.config.scss',
+      'containers/Grid/_index.scss',
+      'containers/App/',
+      'containers/Header/',
+      'containers/Footer/',
+      'containers/Template/',
       'stylesheets/generic/',
       'stylesheets/helpers/_helper.scss',
       'stylesheets/mixins/',
       '_config.scss',
       'config.js',
-      'app.head.js',
+      'head.js',
       'javascripts/feature.js',
       'javascripts/utility.js',
     ].forEach((file) => {
@@ -212,14 +207,14 @@ module.exports = class Rebirth extends Generator {
     });
 
     copy(
-      `${assetsDir}/app.base.js`,
-      `${this.config.get('assetsPath')}app.js`,
+      `${assetsDir}/index.base.js`,
+      `${this.config.get('assetsPath')}index.js`,
       this,
     );
 
     copy(
-      `${assetsDir}/app.base.scss`,
-      `${this.config.get('assetsPath')}app.scss`,
+      `${assetsDir}/index.base.scss`,
+      `${this.config.get('assetsPath')}index.scss`,
       this,
     );
 
@@ -293,12 +288,13 @@ module.exports = class Rebirth extends Generator {
   html() {
     if (this.html) {
       copy(`html/_package.json`, `package.json`, this);
+      copy(`html/nvmrc`, `.nvmrc`, this);
       copy(`html/_assemblefile.js`, `assemblefile.js`, this);
       copy(`html/src/_app.json`, `src/app.json`, this);
       copy(`html/src/templates/_index.hbs`, `src/templates/index.hbs`, this);
       copy(`html/src/partials/foot.hbs`, `src/partials/foot.hbs`, this);
       copy(`html/src/helpers/assets.js`, `src/helpers/assets.js`, this);
-      copy(`html/src/layouts/app.hbs`, `src/layouts/app.hbs`, this);
+      copy(`html/src/containers/app.hbs`, `src/containers/app.hbs`, this);
       copy(`html/src/partials/head.hbs`, `src/partials/head.hbs`, this);
     }
   }
@@ -308,14 +304,20 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/_package.json`, `package.json`, this);
       copy(`wordpress/_gulpfile.js`, `gulpfile.js`, this);
       copy(`wordpress/_functions.php`, `functions.php`, this);
-      copy(`wordpress/lib/_clean-up.php`, `lib/clean-up.php`, this);
-      copy(`wordpress/lib/_utility.php`, `lib/utility.php`, this);
+      copy(`wordpress/lib/clean-up.php`, `lib/clean-up.php`, this);
+      copy(`wordpress/lib/utility.php`, `lib/utility.php`, this);
+      copy(`wordpress/lib/plugins.php`, `lib/plugins.php`, this);
+      copy(`wordpress/lib/setup.php`, `lib/setup.php`, this);
       copy(
-        `wordpress/lib/_cpt-name.php`,
+        `wordpress/lib/custom-post-types/cpt-name.php`,
         `lib/custom-post-types/cpt-name.php`,
         this,
       );
-      copy(`wordpress/lib/_sc-name.php`, `lib/shortcodes/sc-name.php`, this);
+      copy(
+        `wordpress/lib/shortcodes/sc-name.php`,
+        `lib/shortcodes/sc-name.php`,
+        this,
+      );
       copy(`wordpress/_style.css`, `style.css`, this);
       copy(`wordpress/header.php`, `header.php`, this);
       copy(`wordpress/footer.php`, `footer.php`, this);
@@ -323,7 +325,8 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/page.php`, `page.php`, this);
       copy(`wordpress/template-home.php`, `template-home.php`, this);
       copy(`wordpress/single.php`, `single.php`, this);
-      copy(`wordpress/layouts`, `layouts`, this);
+      copy(`wordpress/containers`, `containers`, this);
+      copy(`wordpress/partials`, `partials`, this);
       copy(`wordpress/templates`, `templates`, this);
       copy(`wordpress/components`, `components`, this);
       copy(`shared/gitkeep`, `languages/.gitkeep`, this);

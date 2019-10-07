@@ -1,5 +1,6 @@
 DEVELOPMENT_URL=http://127.0.0.1:8000
 WORKSPACE=/tmp/<%= dir %>
 
-PRODUCTION_WEBROOT=/var/www/webroot/ROOT
-PRODUCTION_SSH=xxxxx-xxx@gate.fi.cloudplatform.fi:3022
+PRODUCTION_WEBROOT=~/public_html
+PRODUCTION_SSH=<%= appAuthorDasherize %>@srvr11.xetpoint.com
+

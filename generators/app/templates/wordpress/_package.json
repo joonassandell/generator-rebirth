@@ -5,7 +5,8 @@
   "homepage": "<%= appURL %>",
   "description": "<%= appDescription %>",
   "dependencies": {
-    "normalize.css": "^7.0.0"
+    "normalize.css": "^7.0.0",
+    "core-js": "^3.2.1"
   },
   "main": "gulpfile.js",
   "license": "MIT",
@@ -22,11 +23,11 @@
     "*.{js,json,md}": ["prettier --write", "git add"]
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babelify": "^8.0.0",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babelify": "^10.0.0",
     "browser-sync": "^2.23.2",
-    "browserify": "^16.1.0",
+    "browserify": "^16.2.3",
     "dotenv": "^6.0.0",
     "eslint": "^5.5.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -68,7 +69,17 @@
       [
         "babelify",
         {
-          "presets": [["env"]]
+          "presets": [
+            [
+              "@babel/preset-env",
+              {
+                "useBuiltIns": "entry",
+                "corejs": {
+                  "version": 3
+                }
+              }
+            ]
+          ]
         }
       ]
     ]

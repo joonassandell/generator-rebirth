@@ -2,27 +2,27 @@
  * Gulpfile
  * ======================================= */
 
-var fs = require('fs');
-var browserify = require('browserify');
-var browserSync = require('browser-sync').create();
-var gulp = require('gulp');
-var notifier = require('node-notifier');
-var path = require('path');
-var prettyHrtime = require('pretty-hrtime');
-var rimraf = require('rimraf');
-var source = require('vinyl-source-stream');
-var through = require('through2');
-var watchify = require('watchify');
-var $ = require('gulp-load-plugins')();
-var uglify = require('gulp-uglify-es').default;
+const fs = require('fs');
+const browserify = require('browserify');
+const browserSync = require('browser-sync').create();
+const gulp = require('gulp');
+const notifier = require('node-notifier');
+const path = require('path');
+const prettyHrtime = require('pretty-hrtime');
+const rimraf = require('rimraf');
+const source = require('vinyl-source-stream');
+const through = require('through2');
+const watchify = require('watchify');
+const $ = require('gulp-load-plugins')();
+const uglify = require('gulp-uglify-es').default;
 
-var production = process.env.NODE_ENV === 'production';
+const production = process.env.NODE_ENV === 'production';
 
 /* ======
  * Config
  * ====== */
 
-var config = {
+const config = {
   root: '/',
   ext: '<%= dir %>',
 };
@@ -35,8 +35,8 @@ var config = {
  * Stylesheets
  */
 gulp.task('stylesheets', function() {
-  var pipeline = gulp
-    .src('Assets/app.scss')
+  let pipeline = gulp
+    .src('Assets/index.scss')
     .pipe(
       $.sass({
         includePaths: ['node_modules'],
@@ -80,21 +80,28 @@ gulp.task('stylesheets', function() {
  * Javascripts
  */
 gulp.task('javascripts', function(callback) {
-  var scripts = [{ fileName: 'app.js' }, { fileName: 'app.head.js' }];
+  let scripts = [
+    {
+      fileName: 'index.js',
+    },
+    {
+      fileName: 'head.js',
+    },
+  ];
 
-  var bundleQueue = scripts.length;
+  let bundleQueue = scripts.length;
 
-  var browserifyBundle = function(entry) {
-    var pipeline = browserify({
+  let browserifyBundle = function(entry) {
+    let pipeline = browserify({
       entries: 'Assets/' + entry.fileName,
       debug: !production,
       paths: ['Assets'],
     });
 
-    var bundle = function() {
+    let bundle = function() {
       bundleLogger.start(entry.fileName);
 
-      var collect = pipeline
+      let collect = pipeline
         .bundle()
         .on('error', handleError)
         .pipe(source(entry.fileName));
@@ -102,7 +109,15 @@ gulp.task('javascripts', function(callback) {
       if (!production) {
         collect = collect.pipe(browserSync.stream());
       } else {
-        collect = collect.pipe($.streamify(uglify));
+        collect = collect.pipe(
+          $.streamify(
+            uglify({
+              compress: {
+                drop_console: true,
+              },
+            }),
+          ),
+        );
       }
 
       return collect
@@ -114,7 +129,7 @@ gulp.task('javascripts', function(callback) {
       pipeline = watchify(pipeline).on('update', bundle);
     }
 
-    var reportFinished = function() {
+    let reportFinished = function() {
       bundleLogger.end(entry.fileName);
 
       if (bundleQueue) {
@@ -188,7 +203,7 @@ gulp.task('watch', function(callback) {
 /**
  * Tasks
  */
-var tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
+let tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
 
 /**
  * Create dist files and inline <head> css/js
@@ -203,13 +218,13 @@ gulp.task('createDistPartials', tasks, function() {
       { base: 'Resources/Private/' },
     )
     .pipe(
-      $.replace(inline({ matchFile: 'app.css' }), function() {
-        return inline({ file: 'app.css' });
+      $.replace(inline({ matchFile: 'index.css' }), function() {
+        return inline({ file: 'index.css' });
       }),
     )
     .pipe(
-      $.replace(inline({ matchFile: 'app.head.js' }), function() {
-        return inline({ file: 'app.head.js' });
+      $.replace(inline({ matchFile: 'head.js' }), function() {
+        return inline({ file: 'head.js' });
       }),
     )
     .pipe($.rename({ suffix: '.dist' }))
@@ -221,7 +236,7 @@ gulp.task('createDistPartials', tasks, function() {
  */
 gulp.task('rev', tasks.concat(['createDistPartials']), function() {
   rimraf.sync('Resources/Public/Assets/*.css');
-  rimraf.sync('Resources/Public/Assets/app.head.js');
+  rimraf.sync('Resources/Public/Assets/head.js');
   rimraf.sync('Resources/Public/Assets/vendors/');
 
   return gulp
@@ -230,6 +245,13 @@ gulp.task('rev', tasks.concat(['createDistPartials']), function() {
       'Resources/Public/Assets/{images,fonts}/**',
     ])
     .pipe($.rev())
+    .pipe(
+      $.rename(function(path) {
+        if (path.basename.indexOf('index-') > -1) {
+          path.basename = path.basename.replace('index-', '');
+        }
+      }),
+    )
     .pipe(gulp.dest('Resources/Public/Assets/'))
     .pipe(rmOriginalFiles())
     .pipe($.rev.manifest())
@@ -240,7 +262,7 @@ gulp.task('rev', tasks.concat(['createDistPartials']), function() {
  * Update references
  */
 gulp.task('updateReferences', tasks.concat(['rev']), function() {
-  var manifest = gulp.src('./rev-manifest.json');
+  let manifest = gulp.src('./rev-manifest.json');
 
   return gulp
     .src(
@@ -303,9 +325,9 @@ function inline(opts) {
   }
 
   if (opts.file) {
-    var content;
-    var tagBegin = '<v:asset.script standalone="true" movable="false">';
-    var tagEnd = '</v:asset.script>';
+    let content;
+    let tagBegin = '<v:asset.script standalone="true" movable="false">';
+    let tagEnd = '</v:asset.script>';
 
     if (opts.file.match(/.js/)) {
       content = fs.readFileSync('Resources/Public/Assets/' + opts.file, 'utf8');
@@ -319,15 +341,15 @@ function inline(opts) {
   }
 }
 
-var startTime,
+let startTime,
   bundleLogger = {
     start: function(filepath) {
       startTime = process.hrtime();
       $.util.log('Bundling', $.util.colors.green(filepath));
     },
     end: function(filepath) {
-      var taskTime = process.hrtime(startTime);
-      var prettyTime = prettyHrtime(taskTime);
+      let taskTime = process.hrtime(startTime);
+      let prettyTime = prettyHrtime(taskTime);
       $.util.log(
         'Bundled',
         $.util.colors.green(filepath),

@@ -1,11 +1,7 @@
 <?php
 /* =======================================
- * Shoctcode Name
+ * Shortcode Name
  * ======================================= */
-
-namespace <%= appNameSpace %>\<%= appNamePascalize %>\Shortcode\ShortCodeName;
-
-use <%= appNameSpace %>\<%= appNamePascalize %>\Utility;
 
 function shortcode_name($atts, $content = null) {
   extract(shortcode_atts(array(
@@ -14,10 +10,10 @@ function shortcode_name($atts, $content = null) {
   ), $atts));
 
   $return = '<div>';
-    $return .= Utility\unwpautop($content);
+    $return .= unwpautop($content);
   $return .= '</div>';
 
   return $return;
 }
 
-add_shortcode('shortcode_name',  __NAMESPACE__ . '\\shortcode_name');
+add_shortcode('shortcode_name', 'shortcode_name');

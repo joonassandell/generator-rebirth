@@ -2,68 +2,67 @@
  * Gulpfile
  * ======================================= */
 
-var assemble = require('assemble');
-var app = assemble();
-var fs = require('fs');
-var browserify = require('browserify');
-var browserSync = require('browser-sync').create();
-var handlebarsHelpers = require('handlebars-helpers')();
-var notifier = require('node-notifier');
-var path = require('path');
-var prettyHrtime = require('pretty-hrtime');
-var rimraf = require('rimraf');
-var source = require('vinyl-source-stream');
-var through = require('through2');
-var watch = require('base-watch');
-var watchify = require('watchify');
-var $ = require('gulp-load-plugins')();
-var uglify = require('gulp-uglify-es').default;
-
-var production = process.env.NODE_ENV === 'production';
+const assemble = require('assemble');
+const app = assemble();
+const fs = require('fs');
+const browserify = require('browserify');
+const browserSync = require('browser-sync').create();
+const handlebarsHelpers = require('handlebars-helpers')();
+const notifier = require('node-notifier');
+const path = require('path');
+const prettyHrtime = require('pretty-hrtime');
+const rimraf = require('rimraf');
+const source = require('vinyl-source-stream');
+const through = require('through2');
+const watch = require('base-watch');
+const watchify = require('watchify');
+const $ = require('gulp-load-plugins')();
+const uglify = require('gulp-uglify-es').default;
+const production = process.env.NODE_ENV === 'production';
 
 /* ======
  * Config
  * ====== */
 
-var config = {
+const config = {
   src: 'src/',
-  dest: 'dist/',
+  dest: 'build/',
   buildPath: '/',
   stylesheets: {
-    src: 'src/assets/app.scss',
-    dest: 'dist/assets/',
+    src: 'src/assets/index.scss',
+    dest: 'build/assets/',
     watch: 'src/assets/**/**/*.scss',
   },
   javascripts: {
     src: 'src/assets/',
-    dest: 'dist/assets/',
+    dest: 'build/assets/',
     bundle: [
       {
-        fileName: 'app.js',
+        fileName: 'index.js',
       },
       {
-        fileName: 'app.head.js',
+        fileName: 'head.js',
       },
     ],
   },
   images: {
     src: 'src/assets/images/*.{jpg,jpeg,png,gif,webp,svg}',
-    dest: 'dist/assets/images/',
+    dest: 'build/assets/images/',
     watch: 'src/assets/images/*.{jpg,jpeg,png,gif,webp,svg}',
   },
   fonts: {
     src: 'src/assets/fonts/*.{eot,svg,ttf,woff,woff2}',
-    dest: 'dist/assets/fonts/',
+    dest: 'build/assets/fonts/',
     watch: 'src/assets/fonts/*.{eot,svg,ttf,woff,woff2}',
   },
   html: {
     data: 'src/*.{json,yml}',
-    dest: 'dist/',
+    dest: 'build/',
     helpers: 'src/helpers/*.js',
-    layouts: 'src/layouts/*.hbs',
+    containers: 'src/containers/*.hbs',
     partials: 'src/partials/*.hbs',
     templates: 'src/templates/**/*.hbs',
-    watch: ['src/{layouts,templates,partials}/**/*.hbs', 'src/*.{json,yml}'],
+    watch: ['src/{containers,templates,partials}/**/*.hbs', 'src/*.{json,yml}'],
   },
 };
 
@@ -87,7 +86,7 @@ app.preLayout(/\.hbs$/, function(view, next) {
 
 app.task('html', function() {
   app.data({ dev: !production });
-  app.layouts(config.html.layouts);
+  app.layouts(config.html.containers);
   app.partials(config.html.partials);
 
   return app
@@ -111,7 +110,7 @@ app.task('html', function() {
  * Stylesheets
  */
 app.task('stylesheets', function() {
-  var pipeline = app
+  let pipeline = app
     .src(config.stylesheets.src)
     .pipe(
       $.sass({
@@ -140,10 +139,10 @@ app.task('stylesheets', function() {
  * Javascripts
  */
 app.task('javascripts', function(callback) {
-  var bundleQueue = config.javascripts.bundle.length;
+  let bundleQueue = config.javascripts.bundle.length;
 
-  var browserifyBundle = function(bundleConfig) {
-    var pipeline = browserify({
+  let browserifyBundle = function(bundleConfig) {
+    let pipeline = browserify({
       cache: {},
       packageCache: {},
       fullPaths: false,
@@ -151,10 +150,10 @@ app.task('javascripts', function(callback) {
       debug: !production,
     });
 
-    var bundle = function() {
+    let bundle = function() {
       bundleLogger.start(bundleConfig.fileName);
 
-      var collect = pipeline
+      let collect = pipeline
         .bundle()
         .on('error', handleError)
         .pipe(source(bundleConfig.fileName));
@@ -162,7 +161,15 @@ app.task('javascripts', function(callback) {
       if (!production) {
         collect = collect.pipe(browserSync.stream());
       } else {
-        collect = collect.pipe($.streamify(uglify));
+        collect = collect.pipe(
+          $.streamify(
+            uglify({
+              compress: {
+                drop_console: true,
+              },
+            }),
+          ),
+        );
       }
 
       return collect
@@ -174,7 +181,7 @@ app.task('javascripts', function(callback) {
       pipeline = watchify(pipeline).on('update', bundle);
     }
 
-    var reportFinished = function() {
+    let reportFinished = function() {
       bundleLogger.end(bundleConfig.fileName);
 
       if (bundleQueue) {
@@ -258,13 +265,13 @@ app.task('inline', function() {
   return app
     .src([config.dest + '**/*.html'], { base: config.dest })
     .pipe(
-      $.replace(inline({ matchFile: 'app.css' }), function() {
-        return inline({ file: 'app.css' });
+      $.replace(inline({ matchFile: 'index.css' }), function() {
+        return inline({ file: 'index.css' });
       }),
     )
     .pipe(
-      $.replace(inline({ matchFile: 'app.head.js' }), function() {
-        return inline({ file: 'app.head.js' });
+      $.replace(inline({ matchFile: 'head.js' }), function() {
+        return inline({ file: 'head.js' });
       }),
     )
     .pipe(app.dest(config.dest));
@@ -275,7 +282,7 @@ app.task('inline', function() {
  */
 app.task('rev', function() {
   rimraf.sync(config.stylesheets.dest + '*.css');
-  rimraf.sync(config.javascripts.dest + 'app.head.js');
+  rimraf.sync(config.javascripts.dest + 'head.js');
   rimraf.sync(config.javascripts.dest + 'vendors/');
 
   return app
@@ -284,6 +291,13 @@ app.task('rev', function() {
       config.dest + 'assets/{images,fonts}/**',
     ])
     .pipe($.rev())
+    .pipe(
+      $.rename(function(path) {
+        if (path.basename.indexOf('index-') > -1) {
+          path.basename = path.basename.replace('index-', '');
+        }
+      }),
+    )
     .pipe(app.dest(config.dest + 'assets/'))
     .pipe(rmOriginalFiles())
     .pipe($.rev.manifest())
@@ -294,7 +308,7 @@ app.task('rev', function() {
  * Update references
  */
 app.task('updateReferences', function() {
-  var manifest = app.src('./rev-manifest.json');
+  let manifest = app.src('./rev-manifest.json');
 
   return app
     .src([config.dest + '**'], { base: config.dest })
@@ -311,7 +325,7 @@ app.task('updateReferences', function() {
  * Main collected tasks
  * ====== */
 
-var tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
+let tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
 
 app.task('build', function() {
   rimraf.sync(config.dest);
@@ -357,9 +371,9 @@ function inline(opts) {
   }
 
   if (opts.file) {
-    var content;
-    var tagBegin = '<script>';
-    var tagEnd = '</script>';
+    let content;
+    let tagBegin = '<script>';
+    let tagEnd = '</script>';
 
     if (opts.file.match(/.js/)) {
       content = fs.readFileSync(config.javascripts.dest + opts.file, 'utf8');
@@ -373,15 +387,15 @@ function inline(opts) {
   }
 }
 
-var startTime,
+let startTime,
   bundleLogger = {
     start: function(filepath) {
       startTime = process.hrtime();
       $.util.log('Bundling', $.util.colors.green(filepath));
     },
     end: function(filepath) {
-      var taskTime = process.hrtime(startTime);
-      var prettyTime = prettyHrtime(taskTime);
+      let taskTime = process.hrtime(startTime);
+      let prettyTime = prettyHrtime(taskTime);
       $.util.log(
         'Bundled',
         $.util.colors.green(filepath),

@@ -1,13 +1,13 @@
   {% if WP_DEV %}
     {% include 'head.twig' %}
   {% else %}
-    {% include 'dist/layouts/head.dist.twig' %}
+    {% include 'build/partials/head.twig' %}
   {% endif %}
 </head>
 
-  <body class="{{ body_class }}">
+  <body class="App {{ body_class }}">
 
-    {% include "header.twig" %}
+    {% include "Header.twig" %}
 
     <main class="Template {{ template_class }}">
       {% block content %}
@@ -15,12 +15,12 @@
       {% endblock %}
     </main>
 
-    {% include 'footer.twig' %}
+    {% include 'Footer.twig' %}
 
     {% if WP_DEV %}
       {% include 'foot.twig' %}
     {% else %}
-      {% include 'dist/layouts/foot.dist.twig' %}
+      {% include 'build/partials/foot.twig' %}
     {% endif %}
 
   </body>

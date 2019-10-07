@@ -2,27 +2,27 @@
  * Gulpfile
  * ======================================= */
 
-var fs = require('fs');
-var browserify = require('browserify');
-var browserSync = require('browser-sync').create();
-var gulp = require('gulp');
-var notifier = require('node-notifier');
-var path = require('path');
-var prettyHrtime = require('pretty-hrtime');
-var rimraf = require('rimraf');
-var source = require('vinyl-source-stream');
-var through = require('through2');
-var watchify = require('watchify');
-var $ = require('gulp-load-plugins')();
-var uglify = require('gulp-uglify-es').default;
+const fs = require('fs');
+const browserify = require('browserify');
+const browserSync = require('browser-sync').create();
+const gulp = require('gulp');
+const notifier = require('node-notifier');
+const path = require('path');
+const prettyHrtime = require('pretty-hrtime');
+const rimraf = require('rimraf');
+const source = require('vinyl-source-stream');
+const through = require('through2');
+const watchify = require('watchify');
+const $ = require('gulp-load-plugins')();
+const uglify = require('gulp-uglify-es').default;
 
-var production = process.env.NODE_ENV === 'production';
+const production = process.env.NODE_ENV === 'production';
 
 /* ======
  * Config
  * ====== */
 
-var config = {
+const config = {
   root: '/',
   theme: '<%= dir %>',
 };
@@ -35,8 +35,8 @@ var config = {
  * Stylesheets
  */
 gulp.task('stylesheets', function() {
-  var pipeline = gulp
-    .src('assets/app.scss')
+  let pipeline = gulp
+    .src('assets/index.scss')
     .pipe(
       $.sass({
         includePaths: ['node_modules'],
@@ -56,7 +56,7 @@ gulp.task('stylesheets', function() {
             config.root,
             'wp-content/themes/',
             config.theme,
-            '/dist/assets/',
+            '/build/assets/',
           ),
         ),
       )
@@ -68,10 +68,10 @@ gulp.task('stylesheets', function() {
           discardComments: { removeAll: true },
         }),
       )
-      .pipe(gulp.dest('dist/assets/')));
+      .pipe(gulp.dest('build/assets/')));
   } else {
     return (pipeline = pipeline
-      .pipe(gulp.dest('dist/assets/'))
+      .pipe(gulp.dest('build/assets/'))
       .pipe(browserSync.stream()));
   }
 });
@@ -80,21 +80,28 @@ gulp.task('stylesheets', function() {
  * Javascripts
  */
 gulp.task('javascripts', function(callback) {
-  var scripts = [{ fileName: 'app.js' }, { fileName: 'app.head.js' }];
+  let scripts = [
+    {
+      fileName: 'index.js',
+    },
+    {
+      fileName: 'head.js',
+    },
+  ];
 
-  var bundleQueue = scripts.length;
+  let bundleQueue = scripts.length;
 
-  var browserifyBundle = function(entry) {
-    var pipeline = browserify({
+  let browserifyBundle = function(entry) {
+    let pipeline = browserify({
       entries: 'assets/' + entry.fileName,
       debug: !production,
       paths: ['assets'],
     });
 
-    var bundle = function() {
+    let bundle = function() {
       bundleLogger.start(entry.fileName);
 
-      var collect = pipeline
+      let collect = pipeline
         .bundle()
         .on('error', handleError)
         .pipe(source(entry.fileName));
@@ -102,17 +109,25 @@ gulp.task('javascripts', function(callback) {
       if (!production) {
         collect = collect.pipe(browserSync.stream());
       } else {
-        collect = collect.pipe($.streamify(uglify));
+        collect = collect.pipe(
+          $.streamify(
+            uglify({
+              compress: {
+                drop_console: true,
+              },
+            }),
+          ),
+        );
       }
 
-      return collect.pipe(gulp.dest('dist/assets/')).on('end', reportFinished);
+      return collect.pipe(gulp.dest('build/assets/')).on('end', reportFinished);
     };
 
     if (!production) {
       pipeline = watchify(pipeline).on('update', bundle);
     }
 
-    var reportFinished = function() {
+    let reportFinished = function() {
       bundleLogger.end(entry.fileName);
 
       if (bundleQueue) {
@@ -135,14 +150,14 @@ gulp.task('javascripts', function(callback) {
 gulp.task('images', function() {
   return gulp
     .src('assets/images/*.{jpg,jpeg,png,gif,webp,svg}')
-    .pipe($.changed('dist/assets/images/'))
+    .pipe($.changed('build/assets/images/'))
     .pipe(
       $.imagemin({
         svgoPlugins: [{ cleanupIDs: false }],
       }),
     )
     .on('error', handleError)
-    .pipe(gulp.dest('dist/assets/images/'));
+    .pipe(gulp.dest('build/assets/images/'));
 });
 
 /**
@@ -151,9 +166,9 @@ gulp.task('images', function() {
 gulp.task('fonts', function() {
   return gulp
     .src('assets/fonts/*.{eot,svg,ttf,woff,woff2}')
-    .pipe($.changed('dist/assets/fonts/'))
+    .pipe($.changed('build/assets/fonts/'))
     .on('error', handleError)
-    .pipe(gulp.dest('dist/assets/fonts/'));
+    .pipe(gulp.dest('build/assets/fonts/'));
 });
 
 /**
@@ -184,43 +199,49 @@ gulp.task('watch', function(callback) {
 /**
  * Combined tasks
  */
-var tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
+let tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
 
 /**
- * Create dist files and inline <head> css/js
+ * Create build files and inline <head> css/js
  */
-gulp.task('createDistPartials', tasks, function() {
+gulp.task('createBuildPartials', tasks, function() {
   return gulp
     .src(
-      ['layouts/head.twig', 'layouts/foot.twig', 'components/iconfile.twig'],
+      ['partials/head.twig', 'partials/foot.twig', 'components/Icon.ref.twig'],
       { base: './' },
     )
     .pipe(
-      $.replace(inline({ matchFile: 'app.css' }), function() {
-        return inline({ file: 'app.css' });
+      $.replace(inline({ matchFile: 'index.css' }), function() {
+        return inline({ file: 'index.css' });
       }),
     )
     .pipe(
-      $.replace(inline({ matchFile: 'app.head.js' }), function() {
-        return inline({ file: 'app.head.js' });
+      $.replace(inline({ matchFile: 'head.js' }), function() {
+        return inline({ file: 'head.js' });
       }),
     )
-    .pipe($.rename({ suffix: '.dist' }))
-    .pipe(gulp.dest('dist/'));
+    .pipe(gulp.dest('build/'));
 });
 
 /**
  * Revision and remove unneeded files
  */
-gulp.task('rev', tasks.concat(['createDistPartials']), function() {
-  rimraf.sync('dist/assets/' + '*.css');
-  rimraf.sync('dist/assets/' + 'app.head.js');
-  rimraf.sync('dist/assets/' + 'vendors/');
+gulp.task('rev', tasks.concat(['createBuildPartials']), function() {
+  rimraf.sync('build/assets/' + '*.css');
+  rimraf.sync('build/assets/' + 'head.js');
+  rimraf.sync('build/assets/' + 'vendors/');
 
   return gulp
-    .src(['dist/assets/*.js', 'dist/assets/{images,fonts}/**'])
+    .src(['build/assets/*.js', 'build/assets/{images,fonts}/**'])
     .pipe($.rev())
-    .pipe(gulp.dest('dist/assets'))
+    .pipe(
+      $.rename(function(path) {
+        if (path.basename.indexOf('index-') > -1) {
+          path.basename = path.basename.replace('index-', '');
+        }
+      }),
+    )
+    .pipe(gulp.dest('build/assets'))
     .pipe(rmOriginalFiles())
     .pipe($.rev.manifest())
     .pipe(gulp.dest('./'));
@@ -230,17 +251,17 @@ gulp.task('rev', tasks.concat(['createDistPartials']), function() {
  * Update references
  */
 gulp.task('updateReferences', tasks.concat(['rev']), function() {
-  var manifest = gulp.src('./rev-manifest.json');
+  let manifest = gulp.src('./rev-manifest.json');
 
   return gulp
     .src(
       [
-        'dist/assets/**',
-        'dist/layouts/head.dist.php',
-        'dist/layouts/foot.dist.twig',
-        'dist/components/iconfile.dist.twig',
+        'build/assets/**',
+        'build/partials/head.twig',
+        'build/partials/foot.twig',
+        'build/components/Icon.ref.twig',
       ],
-      { base: 'dist/' },
+      { base: 'build/' },
     )
     .pipe(
       $.revReplace({
@@ -248,7 +269,7 @@ gulp.task('updateReferences', tasks.concat(['rev']), function() {
         replaceInExtensions: ['.js', '.css', '.php', '.twig'],
       }),
     )
-    .pipe(gulp.dest('dist/'));
+    .pipe(gulp.dest('build/'));
 });
 
 /* ======
@@ -256,12 +277,11 @@ gulp.task('updateReferences', tasks.concat(['rev']), function() {
  * ====== */
 
 gulp.task('build', function() {
-  rimraf.sync('dist/');
-  gulp.start(tasks.concat(['createDistPartials', 'rev', 'updateReferences']));
+  rimraf.sync('build/');
+  gulp.start(tasks.concat(['createBuildPartials', 'rev', 'updateReferences']));
 });
 
 gulp.task('default', ['build']);
-
 gulp.task('dev', tasks.concat(['watch', 'server']));
 
 /* ======
@@ -291,31 +311,31 @@ function inline(opts) {
   }
 
   if (opts.file) {
-    var content;
-    var tagBegin = '<script>';
-    var tagEnd = '</script>';
+    let content;
+    let tagBegin = '<script>';
+    let tagEnd = '</script>';
 
     if (opts.file.match(/.js/)) {
-      content = fs.readFileSync('dist/assets/' + opts.file, 'utf8');
+      content = fs.readFileSync('build/assets/' + opts.file, 'utf8');
     } else {
       tagBegin = '<style>';
       tagEnd = '</style>';
-      content = fs.readFileSync('dist/assets/' + opts.file, 'utf8');
+      content = fs.readFileSync('build/assets/' + opts.file, 'utf8');
     }
 
     return tagBegin + content + tagEnd;
   }
 }
 
-var startTime,
+let startTime,
   bundleLogger = {
     start: function(filepath) {
       startTime = process.hrtime();
       $.util.log('Bundling', $.util.colors.green(filepath));
     },
     end: function(filepath) {
-      var taskTime = process.hrtime(startTime);
-      var prettyTime = prettyHrtime(taskTime);
+      let taskTime = process.hrtime(startTime);
+      let prettyTime = prettyHrtime(taskTime);
       $.util.log(
         'Bundled',
         $.util.colors.green(filepath),

@@ -1,8 +1,19 @@
 {% set template_class = 'Template--page' %}
 
-{% extends "app.twig" %}
+{% extends "App.twig" %}
 
 {% block content %}
-  {{ post.title }}
-  {{ post.content }}
+  <div class="Container">
+    <div class="Wrap">
+      <div class="Grid">
+        <div class="Grid-cell Width--8/12@m">
+          <h1>{{ post.title }}</h1>
+          <p>{{ post.content }}</p>
+        </div>
+        <div class="Grid-cell Width--4/12@m">
+          <p>{{ _e('Just a sidebar.', 'app') }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
