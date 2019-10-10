@@ -16,8 +16,12 @@
     "deploy": "npm run build && dploy production",
     "dev": "assemble dev",
     "dist": "npm run build && assemble server",
-    "start": "npm run dev",
-    "precommit": "lint-staged"
+    "start": "npm run dev"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.{js,json,md}": ["prettier --write", "git add"]
@@ -59,6 +63,7 @@
     "node-notifier": "^6.0.0",
     "prettier": "^1.16.4",
     "pretty-hrtime": "^1.0.0",
+    "regenerator-runtime": "^0.13.3",
     "relative-dest": "^0.1.0",
     "rimraf": "^3.0.0",
     "sass-mq": "^5.0.1",
@@ -75,9 +80,9 @@
             [
               "@babel/preset-env",
               {
-                "useBuiltIns": "entry",
+                "useBuiltIns": "usage",
                 "corejs": {
-                  "version": 3
+                  "version": "3"
                 }
               }
             ]

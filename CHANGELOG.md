@@ -11,6 +11,9 @@ All notable changes to this project will be documented in this file. The format 
 - Remove console logs in build (uglify)
 - Rename index.js to use just the revision name in build
 - Update node version (10.13.0)
+- Yarn -> Npm
+- Add core-js@3 w/ `"useBuiltIns": "usage"`
+  - Add `"regenerator-runtime": "^0.13.3"` to allow async funcs
 - WordPress
   - Add App class to `<body class="App">`
   - Rename build folder from `dist/` to `build/`

@@ -16,8 +16,12 @@
     "dev": "gulp dev",
     "deploy": "shipit production deploy",
     "rollback": "shipit production rollback",
-    "start": "npm run dev",
-    "precommit": "lint-staged"
+    "start": "npm run dev"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.{js,json,md}": ["prettier --write", "git add"]
@@ -56,6 +60,7 @@
     "node-notifier": "^6.0.0",
     "prettier": "^1.14.3",
     "pretty-hrtime": "^1.0.0",
+    "regenerator-runtime": "^0.13.3",
     "rimraf": "^3.0.0",
     "sass-mq": "^5.0.0",
     "shipit-cli": "^5.1.0",
@@ -73,9 +78,9 @@
             [
               "@babel/preset-env",
               {
-                "useBuiltIns": "entry",
+                "useBuiltIns": "usage",
                 "corejs": {
-                  "version": 3
+                  "version": "3"
                 }
               }
             ]
