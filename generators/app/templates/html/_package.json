@@ -80,9 +80,12 @@
             [
               "@babel/preset-env",
               {
-                "useBuiltIns": "usage",
+                "useBuiltIns": "entry",
                 "corejs": {
                   "version": "3"
+                },
+                "targets": {
+                  "node": "current"
                 }
               }
             ]
