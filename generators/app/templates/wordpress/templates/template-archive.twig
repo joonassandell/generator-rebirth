@@ -1,0 +1,29 @@
+{% set template_class = 'Template--index' %}
+
+{% extends "App.twig" %}
+
+{% block content %}
+  <div class="Container">
+    <div class="Wrap">
+      <div class="Grid -l">
+        <div class="Grid-cell Width--8/12@m">
+          <div class="Articles Articles--default">
+            {% for post in posts %}
+              {% include 'ArticleDefault.twig' with {
+                article_title: post.title,
+                article_link: post.link,
+                article_date: post.date,
+                article_cat: post.category,
+                article_cat_link: post.category.link,
+                article_excerpt: post.post_excerpt ? : post.content|excerpt(20),
+              } %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="Grid-cell Width--4/12@m">
+          {% include 'Aside.twig' %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% if component.acf_fc_layout == 'my_component_layout' %}
+  {% include "MyComponent.twig" with {
+    'param': component.param,
+  } %}
+{% endif %}
+
+{% if component.acf_fc_layout == 'shared_component_layout' %}
+  {% if component.shared_component.my_component %}
+    {% set component = component.shared_component %}
+    {% include "MyComponent.twig" with {
+      'param': component.meta('param'),
+    } %}
+  {% endif %}
+{% endif %}

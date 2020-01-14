@@ -1,0 +1,9 @@
+{% extends "App.twig" %}
+
+{% set template_class = 'Template--flexibleLayout' %}
+
+{% block content %}
+  {% for component in post.meta('template_flexible_layout') %}
+    {% include "flexible-layout.twig" with { 'component': component } %}
+  {% endfor %}
+{% endblock %}
