@@ -31,10 +31,10 @@ Thumbs.db
 node_modules
 rev-manifest.json<% if (typo3) { %>
 .Build
-vendor/
+vendor
 Bottom.dist.html
 Top.dist.html
-Resources/Public/Assets
-.env<% } if (wp) { %>
-dist<% } if (html) { %>
+Resources/Public/Assets<% } if (wp) { %>
+build
+vendor<% } if (html) { %>
 dist<% } %>
