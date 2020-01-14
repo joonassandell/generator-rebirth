@@ -15,6 +15,11 @@ acf_add_options_page(array(
 ));
 
 /**
+ * Allow shortcodes in textareas
+ */
+add_filter('acf/format_value/type=textarea', 'do_shortcode');
+
+/**
  * Modify Basic wysiwyg fields
  * https://www.tiny.cloud/docs-3x/reference/buttons/
  */

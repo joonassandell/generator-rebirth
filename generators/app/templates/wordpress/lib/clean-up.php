@@ -1,7 +1,7 @@
 <?php
-/* ========================================
+/* =======================================
  * Clean up
- * ======================================== */
+ * ======================================= */
 
 /**
  * Clean up wp_head()
@@ -51,13 +51,6 @@ add_filter('wp_headers', function($headers) {
     unset($headers['X-Pingback']);
     return $headers;
 });
-
-/**
- * Disable default Gutenberg block styles
- */
-add_action('wp_print_styles', function() {
-    wp_dequeue_style('wp-block-library');
-}, 100);
 
 
 /* ======
