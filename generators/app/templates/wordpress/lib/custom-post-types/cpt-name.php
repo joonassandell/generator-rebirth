@@ -6,10 +6,10 @@
 call_user_func(function() {
     $args = array(
         'labels' => array(
-            'name' => __('Post Type Name', 'app'),
-            'singular_name' => __('Post Type Singular Name', 'app'),
+            'name' => __('Post Types Name', 'app'),
+            'singular_name' => __('Post Type Name', 'app'),
         ),
-        'description' => 'Post type description',
+        'description' => 'Post type description.',
         'public' => true,
         'menu_position' => 30,
         'hierarchical' => false,
@@ -30,8 +30,8 @@ call_user_func(function() {
 call_user_func(function() {
     $args = array(
         'labels' => array(
-            'name' => __('Taxonomy Name', 'app'),
-            'singular_name' => __('Taxonomy Singular Name', 'app'),
+            'name' => __('Taxonomys Name', 'app'),
+            'singular_name' => __('Taxonomy Name', 'app'),
         ),
         'hierarchical' => true,
         'rewrite' => array('slug' => 'name/taxonomy'),
