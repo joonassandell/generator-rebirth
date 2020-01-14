@@ -1,0 +1,49 @@
+{% macro CategoryNav() %}
+  {% set nav_links = [] %}
+  {% set all_categories = fn('Timber::get_terms', 'categories', {
+    'hide_empty': true,
+  }) %}
+  {% set queried_object = fn('get_queried_object') %}
+
+  {% for item in all_categories %}
+    {% set nav_links = nav_links|merge({
+      (loop.index0): item|merge_object({
+        heading: item.title,
+        link: item.link,
+        active: queried_object.cat_ID,
+      })
+    }) %}
+  {% endfor %}
+
+  {% include "NavDefault.twig" with {
+    nav_links: nav_links,
+  } %}
+{% endmacro %}
+
+{% macro LatestPosts(params) %}
+  {% set vars = {
+    'post_type': 'post',
+    'posts_per_page': 10,
+  } %}
+
+  {% if params is iterable %}
+    {% set params = vars|merge(params) %}
+  {% endif %}
+
+  {% set list_items = [] %}
+  {% set all_posts = fn('Timber::get_posts', vars) %}
+
+  {% for item in all_posts %}
+    {% set list_items = list_items|merge({
+      (loop.index0): item|merge_object({
+        heading: item.title,
+        link: item.link,
+        meta: item.date,
+      })
+    }) %}
+  {% endfor %}
+
+  {% include "ListDefault.twig" with {
+    list_items: list_items,
+  } %}
+{% endmacro %}
