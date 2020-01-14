@@ -23,21 +23,22 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
-    "eslint": "^6.5.1",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react": "^7.17.0",
     "moment": "^2.24.0",
-    "rebirth-ui": "^0.6.1",
+    "rebirth-ui": "^0.6.19",
+    "rebirth-wordpress": "0.0.1",
     "underscore.string": "^3.3.5",
-    "yeoman-generator": "^4.1.0",
+    "yeoman-generator": "^4.4.0",
     "yosay": "^2.0.2"
   },
   "devDependencies": {
-    "husky": "^3.0.8",
-    "lint-staged": "^9.4.1",
-    "prettier": "^1.18.2"
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1"
   },
   "engines": {
     "node": ">=10.13.0"

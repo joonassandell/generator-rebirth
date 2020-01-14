@@ -19,4 +19,4 @@ Rebirths documentation is built with Assemble and publicly hosted on GitHub Page
 
 ## License
 
-Copyright (c) 2018 Joonas Ylitalo (Twitter: [@joonas](https://twitter.com/joonasy)) Licensed under the MIT license.
+Copyright (c) 2020 Joonas Ylitalo (Twitter: [@joonasy](https://twitter.com/joonasy)). Licensed under the MIT license.
