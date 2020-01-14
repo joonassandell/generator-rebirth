@@ -3,18 +3,11 @@
  * ======================================= */
 
 const _ = require('underscore.string');
+const { copy: copy } = require('../../utility');
 const chalk = require('chalk');
 const Generator = require('yeoman-generator');
 const moment = require('moment');
 const yosay = require('yosay');
-
-function copy(source, destination, gen) {
-  gen.fs.copyTpl(
-    gen.templatePath(source),
-    gen.destinationPath(destination),
-    gen,
-  );
-}
 
 module.exports = class Rebirth extends Generator {
   constructor(args, opts) {
@@ -34,6 +27,9 @@ module.exports = class Rebirth extends Generator {
       type: String,
     });
 
+    this.rebirthSrc = this.templatePath(
+      '../../../node_modules/rebirth-ui/src/',
+    );
     this.typo3 =
       this.options.project === 'typo3' || this.options.project === 'typo';
     this.wp =
@@ -76,32 +72,32 @@ module.exports = class Rebirth extends Generator {
       {
         type: 'input',
         name: 'author',
-        message: 'Author name:',
+        message: 'Author:',
         default: this.user.git.name() ? this.user.git.name() : 'Author',
       },
       {
         type: 'input',
         name: 'appNameSpace',
-        message: 'Project namespace:',
-        default: (props) => props.author,
-        when: () => this.typo3 || this.wp,
+        message: 'Namespace:',
+        default: () => 'App',
+        when: () => this.typo3,
       },
       {
         type: 'input',
         name: 'url',
-        message: 'Project URL (in production):',
+        message: 'Homepage (production):',
         default: (props) => `https://${_.dasherize(_.slugify(props.name))}.com`,
       },
       {
         type: 'input',
         name: 'description',
-        message: 'Project description:',
+        message: 'Description:',
         default: (props) => `Website for ${_.humanize(props.name)}`,
       },
       {
         type: 'input',
         name: 'repositoryURL',
-        message: 'Project repository URL:',
+        message: 'Git repository (SSH):',
         default: (props) =>
           `git@bitbucket.org:${_.dasherize(_.slugify(props.author))}/${
             this.dir
@@ -110,7 +106,7 @@ module.exports = class Rebirth extends Generator {
       {
         type: 'input',
         name: 'devURL',
-        message: 'Project development repository URL:',
+        message: 'Development git repository URL:',
         default: (props) =>
           `https://bitbucket.org/${_.dasherize(_.slugify(props.author))}/${
             this.dir
@@ -170,16 +166,15 @@ module.exports = class Rebirth extends Generator {
   }
 
   assets() {
-    const assetsDir = this.templatePath(
-      '../../../node_modules/rebirth-ui/src/',
-    );
+    const assetsPath = this.config.get('assetsPath');
 
-    const assets = [
+    [
       'components/Heading/',
       'components/Icon/',
       'components/Text/_index.scss',
       'components/Text/_Text.scss',
       'components/Text/_Text.config.scss',
+      'components/Text/_Text.mixins.scss',
       'containers/Container/',
       'containers/Width/',
       'containers/Wrap/',
@@ -197,41 +192,20 @@ module.exports = class Rebirth extends Generator {
       'config.js',
       'head.js',
       'javascripts/feature.js',
+      'javascripts/polyfill.js',
       'javascripts/utility.js',
     ].forEach((file) => {
-      copy(
-        `${assetsDir}${file}`,
-        `${this.config.get('assetsPath')}${file}`,
-        this,
-      );
+      copy(`${this.rebirthSrc}${file}`, `${assetsPath}${file}`, this);
     });
 
-    copy(
-      `${assetsDir}/index.base.js`,
-      `${this.config.get('assetsPath')}index.js`,
-      this,
-    );
-
-    copy(
-      `${assetsDir}/index.base.scss`,
-      `${this.config.get('assetsPath')}index.scss`,
-      this,
-    );
-
-    copy(
-      `shared/gitkeep`,
-      `${this.config.get('assetsPath')}images/.gitkeep`,
-      this,
-    );
-    copy(
-      `shared/gitkeep`,
-      `${this.config.get('assetsPath')}fonts/.gitkeep`,
-      this,
-    );
+    copy(`shared/gitkeep`, `${assetsPath}images/.gitkeep`, this);
+    copy(`shared/gitkeep`, `${assetsPath}fonts/.gitkeep`, this);
   }
 
   typo3() {
     if (this.typo3) {
+      copy(`typo3/Assets/index.scss`, `Assets/index.scss`, this);
+      copy(`typo3/Assets/index.js`, `Assets/index.js`, this);
       copy(`typo3/_env`, `.env`, this);
       copy(`typo3/_env`, `.env.example`, this);
       copy(`typo3/_package.json`, `package.json`, this);
@@ -287,6 +261,8 @@ module.exports = class Rebirth extends Generator {
 
   html() {
     if (this.html) {
+      copy(`html/src/assets/index.scss`, `src/assets/index.scss`, this);
+      copy(`html/src/assets/index.js`, `src/assets/index.js`, this);
       copy(`html/_package.json`, `package.json`, this);
       copy(`html/nvmrc`, `.nvmrc`, this);
       copy(`html/_assemblefile.js`, `assemblefile.js`, this);
@@ -301,6 +277,13 @@ module.exports = class Rebirth extends Generator {
 
   wp() {
     if (this.wp) {
+      const rebirthWordPressSrc = this.templatePath(
+        '../../../node_modules/rebirth-wordpress/',
+      );
+      const assetsPath = this.config.get('assetsPath');
+
+      copy(`wordpress/assets/index.scss`, `assets/index.scss`, this);
+      copy(`wordpress/assets/index.js`, `assets/index.js`, this);
       copy(`wordpress/_package.json`, `package.json`, this);
       copy(`wordpress/_gulpfile.js`, `gulpfile.js`, this);
       copy(`wordpress/_functions.php`, `functions.php`, this);
@@ -308,9 +291,17 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/lib/utility.php`, `lib/utility.php`, this);
       copy(`wordpress/lib/plugins.php`, `lib/plugins.php`, this);
       copy(`wordpress/lib/setup.php`, `lib/setup.php`, this);
+      copy(`wordpress/lib/acf.php`, `lib/acf.php`, this);
+      copy(`wordpress/lib/gutenberg.php`, `lib/gutenberg.php`, this);
+      copy(`wordpress/lib/roles.php`, `lib/roles.php`, this);
       copy(
         `wordpress/lib/custom-post-types/cpt-name.php`,
         `lib/custom-post-types/cpt-name.php`,
+        this,
+      );
+      copy(
+        `wordpress/lib/custom-post-types/shared-components.php`,
+        `lib/custom-post-types/shared-components.php`,
         this,
       );
       copy(
@@ -320,15 +311,16 @@ module.exports = class Rebirth extends Generator {
       );
       copy(`wordpress/_style.css`, `style.css`, this);
       copy(`wordpress/header.php`, `header.php`, this);
+      copy(`wordpress/category.php`, `header.php`, this);
       copy(`wordpress/footer.php`, `footer.php`, this);
       copy(`wordpress/index.php`, `index.php`, this);
       copy(`wordpress/page.php`, `page.php`, this);
+      copy(`wordpress/template-archive.php`, `template-archive.php`, this);
       copy(`wordpress/template-home.php`, `template-home.php`, this);
       copy(`wordpress/single.php`, `single.php`, this);
       copy(`wordpress/containers`, `containers`, this);
       copy(`wordpress/partials`, `partials`, this);
       copy(`wordpress/templates`, `templates`, this);
-      copy(`wordpress/components`, `components`, this);
       copy(`shared/gitkeep`, `languages/.gitkeep`, this);
       copy(`shared/gitkeep`, `acf-json/.gitkeep`, this);
       copy(`wordpress/_shipitfile.js`, `shipitfile.js`, this);
@@ -336,6 +328,33 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/_env`, `.env.example`, this);
       copy(`wordpress/nvmrc`, `.nvmrc`, this);
       copy(`wordpress/_composer.json`, `composer.json`, this);
+
+      [
+        'components/Article/',
+        'components/List/',
+        'components/Nav/',
+        'components/Navbar/_index.scss',
+        'components/Navbar/index.js',
+        'components/Navbar/NavbarDefault.js',
+        'components/Navbar/_Navbar.scss',
+        'components/Navbar/_Navbar.config.scss',
+        'components/Navbar/_Navbar--default.scss',
+        'containers/Aside/_Aside.scss',
+        'containers/Aside/_Aside.config.scss',
+        'containers/Aside/_index.scss',
+      ].forEach((file) => {
+        copy(`${this.rebirthSrc}${file}`, `${assetsPath}${file}`, this);
+      });
+
+      [
+        'components/ArticleDefault.twig',
+        'components/Icon.ref.twig',
+        'components/Icon.twig',
+        'components/ListDefault.twig',
+        'components/NavDefault.twig',
+      ].forEach((file) => {
+        copy(`${rebirthWordPressSrc}${file}`, `${file}`, this);
+      });
     }
   }
 
