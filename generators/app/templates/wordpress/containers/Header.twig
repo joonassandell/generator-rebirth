@@ -1,9 +1,47 @@
 <header class="Header">
-  <div class="Container">
-    <div class="Wrap">
-      <h1>
-        <a href="{{ site.link }}">Header</a>
-      </h1>
+  <nav class="Header-navbar Navbar Navbar--default js-NavbarDefault">
+    <a href="{{ site.url }}" class="Navbar-logo">
+      {{ site.name }}
+    </a>
+    <div class="Navbar-ctrl">
+      <div class="Navbar-ctrl-trigger js-NavbarDefaultTrigger">
+        <i class="Navbar-ctrl-trigger-icon"></i>
+      </div>
     </div>
-  </div>
+    <ul>
+      {% for item in nav_primary.items %}
+        <li class="Navbar-item {{ item.classes.4 in ['current-menu-ancestor',
+          'current-page-ancestor'] or item.current ? 'is-active' }}
+          {{ item.classes | join(' ') }}">
+          <a href="{{ item.get_link }}" class="Navbar-link">
+            {{ item.title }}
+          </a>
+          {% if item.get_children %}
+            <span class="Navbar-trigger"><i class="Navbar-trigger-icon"></i></span>
+            <ul class="Navbar-sub">
+              {% for child in item.get_children %}
+                <li class="Navbar-item {{ child.current ? 'is-active' }}">
+                  <a class="Navbar-link" href="{{ child.link }}">
+                    {{ child.title }}
+                  </a>
+                  {% if child.get_children %}
+                    <span class="Navbar-trigger"><i class="Navbar-trigger-icon"></i></span>
+                    <ul class="Navbar-sub">
+                      {% for child in child.get_children %}
+                        <li class="Navbar-item {{ child.current ? 'is-active' }}">
+                          <a class="Navbar-link" href="{{ child.link }}">
+                            {{ child.title }}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
 </header>

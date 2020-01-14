@@ -5,13 +5,15 @@
 {% block content %}
   <div class="Container">
     <div class="Wrap">
-      <div class="Grid">
+      <div class="Grid -l">
         <div class="Grid-cell Width--8/12@m">
           <h1>{{ post.title }}</h1>
-          <p>{{ post.content }}</p>
+          <div class="Content">
+            <p>{{ post.content }}</p>
+          </div>
         </div>
         <div class="Grid-cell Width--4/12@m">
-          <p>{{ _e('Just a sidebar.', 'app') }}</p>
+          {% include 'Aside.twig' %}
         </div>
       </div>
     </div>
