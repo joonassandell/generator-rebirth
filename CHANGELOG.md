@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.4x]
+
+- WordPress:
+  - Added/renamed following templates: template-flexible-layout.twig/.php, template-archive.twig/.php, home.twig -> template-home.twig,
+  - Moved WordPress components to [rebirth-wordpress](https://github.com/joonasy/rebirth-wordpress)
+  - ACF: Allow shortcodes in textareas
+  - Isolated setup material (gutenberg.php, plugins.php etc)
+  - Added initial modified role settings for editor
+  - Slightly better starting point with new containers comps
+  - Load required plugins automatically
+  - Add macros to encourage their usage
+  - Added some twig funcs/filter: display template name, merge_object
+
 ## [0.6.3x]
 
 - Add core-js
