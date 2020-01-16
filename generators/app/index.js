@@ -48,7 +48,7 @@ module.exports = class Rebirth extends Generator {
 
     this.dir = this.options.dir.toLowerCase();
     this.typo3 ? (this.dir = _.trim(this.dir, '_')) : this.dir;
-    this.wp ? (this.dir = _.dasherize(this.dir)) : this.dir;
+    this.wp ? (this.dir = _.slugify(this.dir)) : this.dir;
 
     this.destinationRoot(this.dir);
   }
@@ -86,7 +86,7 @@ module.exports = class Rebirth extends Generator {
         type: 'input',
         name: 'url',
         message: 'Homepage (production):',
-        default: (props) => `https://${_.dasherize(_.slugify(props.name))}.com`,
+        default: (props) => `https://${_.slugify(props.name)}.com`,
       },
       {
         type: 'input',
@@ -99,16 +99,14 @@ module.exports = class Rebirth extends Generator {
         name: 'repositoryURL',
         message: 'Git repository (SSH):',
         default: (props) =>
-          `git@bitbucket.org:${_.dasherize(_.slugify(props.author))}/${
-            this.dir
-          }.git`,
+          `git@bitbucket.org:${_.slugify(props.author)}/${this.dir}.git`,
       },
       {
         type: 'input',
         name: 'devURL',
         message: 'Development git repository URL:',
         default: (props) =>
-          `https://bitbucket.org/${_.dasherize(_.slugify(props.author))}/${
+          `https://bitbucket.org/${_.slugify(props.author)}/${
             this.dir
           }-dev.git`,
       },
@@ -123,12 +121,12 @@ module.exports = class Rebirth extends Generator {
 
     return this.prompt(prompts).then((props) => {
       this.appName = props.name;
-      this.appNameDasherize = _.dasherize(_.slugify(props.name));
+      this.appNameDasherize = _.slugify(props.name);
       this.appNameHumanize = _.humanize(this.appNameDasherize);
       this.appNameUnderscored = _.underscored(this.appNameDasherize);
       this.appNamePascalize = _.capitalize(_.camelize(this.appNameDasherize));
       this.appAuthor = props.author;
-      this.appAuthorDasherize = _.dasherize(_.slugify(this.appAuthor));
+      this.appAuthorDasherize = _.slugify(this.appAuthor);
       this.appNameSpace = _.capitalize(_.camelize(props.appNameSpace));
       this.appURL = props.url;
       this.appDescription = props.description;

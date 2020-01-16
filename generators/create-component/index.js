@@ -17,9 +17,7 @@ module.exports = class Component extends Generator {
       type: String,
     });
 
-    this.name = _.capitalize(
-      _.camelize(_.dasherize(_.slugify(this.options.name))),
-    );
+    this.name = _.capitalize(_.camelize(_.dasherize(this.options.name)));
     this.assetsPath = this.config.get('assetsPath');
     this.dist = `${this.config.get('assetsPath')}components/${this.name}/`;
   }
