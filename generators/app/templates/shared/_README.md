@@ -7,20 +7,16 @@
 <% if (typo3) { %>
 
 - [Typo3](http://typo3.org)
-- [Vhs](http://typo3.org/extensions/repository/view/vhs)<% } if (wp) { %>
+- [VHS](http://typo3.org/extensions/repository/view/vhs)<% } if (wp) { %>
 - [WordPress](https://wordpress.org/)
 - [Timber](https://www.upstatement.com/timber)
 - [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/)<% } if (typo3 || wp) { %>
 - [Composer](https://getcomposer.org/)<% } %>
 - [Node.js](http://nodejs.org/)
 - [Npm](https://www.npmjs.org/)
-- SSH access (RSA Key Pair) for deployments<% if (appDevURL) { %>
+- SSH access (RSA Key Pair) for deployments
 
 ## Getting started
-
-[<%= name() %> Development Environment for <%= appNameHumanize %>](<%= appDevURL %>) installs all the required dependencies and builds your development environment. Otherwise clone this <% if (typo3) { %>extension to your `ext` folder<% } if (wp) { %>theme to your `themes` folder<% } %> and do the install process.
-
-<% } %>## Install
 
 1. Clone this repository
 2. Install node modules: `$ npm install`<% if (typo3 || wp) { %>

@@ -102,15 +102,6 @@ module.exports = class Rebirth extends Generator {
           `git@bitbucket.org:${_.slugify(props.author)}/${this.dir}.git`,
       },
       {
-        type: 'input',
-        name: 'devURL',
-        message: 'Development git repository URL:',
-        default: (props) =>
-          `https://bitbucket.org/${_.slugify(props.author)}/${
-            this.dir
-          }-dev.git`,
-      },
-      {
         type: 'confirm',
         name: 'pluginWPML',
         message: 'Are you using WPML?',
@@ -131,7 +122,6 @@ module.exports = class Rebirth extends Generator {
       this.appURL = props.url;
       this.appDescription = props.description;
       this.appRepositoryURL = props.repositoryURL;
-      this.appDevURL = props.devURL;
       this.dirCapitalize = _.capitalize(this.dir);
       this.pluginWPML = props.pluginWPML;
     });
