@@ -277,7 +277,7 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/_functions.php`, `functions.php`, this);
       copy(`wordpress/lib/clean-up.php`, `lib/clean-up.php`, this);
       copy(`wordpress/lib/utility.php`, `lib/utility.php`, this);
-      copy(`wordpress/lib/plugins.php`, `lib/plugins.php`, this);
+      copy(`wordpress/lib/_plugins.php`, `lib/plugins.php`, this);
       copy(`wordpress/lib/setup.php`, `lib/setup.php`, this);
       copy(`wordpress/lib/acf.php`, `lib/acf.php`, this);
       copy(`wordpress/lib/gutenberg.php`, `lib/gutenberg.php`, this);

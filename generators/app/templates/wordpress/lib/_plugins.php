@@ -10,8 +10,8 @@ include_once (ABSPATH . 'wp-admin/includes/plugin.php');
  */
 foreach ([
     'timber-library/timber.php',
-    'advanced-custom-fields-pro/acf.php',
-    'sitepress-multilingual-cms/sitepress.php',
+    'advanced-custom-fields-pro/acf.php',<% if (pluginWPML) { %>
+    'sitepress-multilingual-cms/sitepress.php',<% } %>
 ] as $plugin) {
     if (!is_plugin_active($plugin)) {
         activate_plugin($plugin);
