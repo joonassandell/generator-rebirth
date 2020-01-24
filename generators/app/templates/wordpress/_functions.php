@@ -33,8 +33,8 @@ class App extends TimberSite {
     }
 
     function add_to_context($context) {
-        $context['WP_DEV'] = getenv('WORDPRESS_ENV') == 'development';
-        $context['lang'] = ICL_LANGUAGE_CODE;
+        $context['WP_DEV'] = getenv('WORDPRESS_ENV') == 'development';<% if (pluginWPML) { %>
+        $context['lang'] = ICL_LANGUAGE_CODE;<% } %>
         $context['nav_primary'] = new TimberMenu('nav-primary');
         $context['options'] = get_fields('option');
         $context['site'] = $this;
