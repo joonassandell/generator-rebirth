@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file. The format 
 ## [0.6.4x]
 
 - WordPress:
-  - Added/renamed following templates: template-flexible-layout.twig/.php, template-archive.twig/.php, home.twig -> template-home.twig,
+  - Added/renamed following templates: template-flexible-layout.twig/.php, template-archive.twig/.php, home.twig -> template-home.twig
   - Moved WordPress components to [rebirth-wordpress](https://github.com/joonasy/rebirth-wordpress)
   - ACF: Allow shortcodes in textareas
   - Isolated setup material (gutenberg.php, plugins.php etc)
@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file. The format 
   - Load required plugins automatically
   - Add macros to encourage their usage
   - Added some twig funcs/filter: display template name, merge_object
+  - Build (`$ npm run build`) is now dev build. Use `$ npm run build:production` to create production build.
 
 ## [0.6.3x]
 

@@ -12,11 +12,12 @@
   "license": "MIT",
   "repository": "<%= appRepositoryURL %>",
   "scripts": {
-    "build": "NODE_ENV=production gulp build",
+    "build": "DISABLE_WATCH=true gulp",
+    "build:production": "NODE_ENV=production gulp build",
     "dev": "gulp dev",
     "deploy": "shipit production deploy",
     "rollback": "shipit production rollback",
-    "start": "npm run dev"
+    "start": "npm run build"
   },
   "husky": {
     "hooks": {

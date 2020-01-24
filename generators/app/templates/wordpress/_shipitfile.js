@@ -56,7 +56,7 @@ module.exports = (shipit) => {
   shipit.blTask('build', () => {
     shipit.log('Running build...');
     return shipit
-      .local('npm run build', { cwd: WORKSPACE })
+      .local('npm run build:production', { cwd: WORKSPACE })
       .then(() => shipit.log('Build successful'))
       .catch(() => {
         shipit.log('Build failed');

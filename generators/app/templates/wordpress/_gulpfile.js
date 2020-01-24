@@ -124,7 +124,9 @@ gulp.task('javascripts', function(callback) {
     };
 
     if (!production) {
-      pipeline = watchify(pipeline).on('update', bundle);
+      if (!process.env.DISABLE_WATCH) {
+        pipeline = watchify(pipeline).on('update', bundle);
+      }
     }
 
     let reportFinished = function() {
@@ -281,7 +283,7 @@ gulp.task('build', function() {
   gulp.start(tasks.concat(['createBuildPartials', 'rev', 'updateReferences']));
 });
 
-gulp.task('default', ['build']);
+gulp.task('default', tasks);
 gulp.task('dev', tasks.concat(['watch', 'server']));
 
 /* ======
