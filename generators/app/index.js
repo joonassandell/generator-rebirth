@@ -23,7 +23,7 @@ module.exports = class Rebirth extends Generator {
     });
 
     this.option('project', {
-      defaults: 'typo3',
+      defaults: 'wordpress',
       type: String,
     });
 
@@ -305,6 +305,11 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/page.php`, `page.php`, this);
       copy(`wordpress/template-archive.php`, `template-archive.php`, this);
       copy(`wordpress/template-home.php`, `template-home.php`, this);
+      copy(
+        `wordpress/template-flexible-layout.php`,
+        `template-flexible-layout.php`,
+        this,
+      );
       copy(`wordpress/single.php`, `single.php`, this);
       copy(`wordpress/containers`, `containers`, this);
       copy(`wordpress/partials`, `partials`, this);
