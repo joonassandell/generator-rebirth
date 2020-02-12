@@ -15,6 +15,11 @@ All notable changes to this project will be documented in this file. The format 
   - Add macros to encourage their usage
   - Added some twig funcs/filter: display template name, merge_object
   - Build (`$ npm run build`) is now dev build. Use `$ npm run build:production` to create production build.
+  - Add `THEME_DIR` to inform the deployment script where the theme dir is located
+  - Fix: Install composer vendors in deployment
+- Typo3:
+  - Add `EXT_DIR` to inform the deployment script where the ext dir is located
+  - Fix: Install composer vendors in deployment
 
 ## [0.6.3x]
 

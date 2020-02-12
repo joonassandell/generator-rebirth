@@ -12,29 +12,30 @@
 - [Timber](https://www.upstatement.com/timber)
 - [Advanced Custom Fields Pro](http://www.advancedcustomfields.com/pro/)<% } if (typo3 || wp) { %>
 - [Composer](https://getcomposer.org/)<% } %>
-- [Node.js](http://nodejs.org/)
-- [Npm](https://www.npmjs.org/)
+- [Node.js & Npm](http://nodejs.org/)
 - SSH access (RSA Key Pair) for deployments
 
 ## Getting started
 
-1. Clone this repository
-2. Install node modules: `$ npm install`<% if (typo3 || wp) { %>
-3. Install composer dependencies: `$ composer install`
-   4.<% } else { %>3.<% } %> Copy [`.env.example`](.env.example) to `.env` file and set your environment variables.
+1. Install node modules: `$ npm install`<% if (typo3 || wp) { %>
+2. Install composer dependencies: `$ composer install`
+   3.<% } else { %>2.<% } %> Copy [`.env.example`](.env.example) to `.env` file and set your environment variables.
 
 ## Usage
 
-- `$ npm run build`: Build the application
+- `$ npm run build`: Build the application<% if (wp) { %>
+- `$ npm run build:production`: Build the production version of the app. If you set `WP_DEV` (in functions.php) to false you can test the production version locally.<% } %>
+- `$ npm run dev`: Watches files and proxies your development environment
 - `$ npm run deploy`: Build the application and deploy it to the server<% if (typo3 || wp) { %>
-  - Make sure [`shipitfile.js`](shipitfile.js) has correct root and [`package.json`](package.json) has correct `repository` set<% } if (html) { %>
+  - Make sure [`PRODUCTION_WEBROOT`](.env) has correct root and [`package.json`](package.json) has correct `repository` set<% } if (html) { %>
 - `$ npm run dist`: Build the application and start a local server for testing purposes<% } %>
-- `$ npm run dev`: Watches files and sets up development environment
 
 # Environment variables
 
-- `DEVELOPMENT_URL=http://127.0.0.1:8000`: Local development url
-- `DISABLE_OPEN=true`: Disable BrowserSync from automatically opening the browser
+- `DEVELOPMENT_URL`: Local development url which is proxied by the BrowserSync
+- `$ DISABLE_OPEN=true npm run dev`: Disable BrowserSync from automatically opening the browser<% if (wp) { %>
+- `THEME_DIR`: Tell the deployment script where your theme is located (based on your Git root). If your theme has its own git repository you can change this to `./`<% } if (typo3) { %>
+- `EXT_DIR`: Tell the deployment script where your extension is located (based on your Git root). If your extension has its own git repository you can change this to `./`<% } %>
 
 ---
 

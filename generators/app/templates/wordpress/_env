@@ -1,6 +1,15 @@
+# =======================================
+# Development
+# =======================================
+
 DEVELOPMENT_URL=http://127.0.0.1:8000
 WORKSPACE=/tmp/<%= dir %>
+THEME_DIR=./web/wp-content/themes/<%= dir %>
+
+
+# =======================================
+# Production
+# =======================================
 
 PRODUCTION_WEBROOT=~/public_html
 PRODUCTION_SSH=<%= appAuthorDasherize %>@srvr11.xetpoint.com
-

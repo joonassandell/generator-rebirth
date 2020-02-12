@@ -1,5 +1,16 @@
+# =======================================
+# Development
+# =======================================
+
 DEVELOPMENT_URL=http://127.0.0.1:8000
 WORKSPACE=/tmp/<%= dir %>
+EXT_DIR=./web/wp-content/themes/<%= dir %>
+
+
+# =======================================
+# Production
+# =======================================
+
 
 PRODUCTION_WEBROOT=/var/www/webroot/ROOT
 PRODUCTION_SSH=xxxxx-xxx@gate.fi.cloudplatform.fi:3022

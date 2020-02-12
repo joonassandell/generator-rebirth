@@ -5,7 +5,8 @@
 require('dotenv').config();
 const pkg = require('./package.json');
 const WEBROOT = process.env.WEBROOT || process.env.PRODUCTION_WEBROOT;
-const WORKSPACE = process.env.WORKSPACE || '/tmp/<%= dir %>';
+const WORKSPACE = process.env.WORKSPACE;
+const THEME_DIR = process.env.THEME_DIR;
 
 module.exports = (shipit) => {
   require('shipit-deploy')(shipit);
@@ -29,6 +30,7 @@ module.exports = (shipit) => {
       keepReleases: 5,
       deleteOnRollback: false,
       rsync: ['--include="dist/**/*"'],
+      dirToCopy: THEME_DIR,
       shallowClone: false,
     },
     production: {
@@ -43,10 +45,21 @@ module.exports = (shipit) => {
   });
 
   shipit.blTask('install', () => {
+    shipit.log('Installing npm dependencies...');
+    return shipit
+      .local(`cd ${THEME_DIR} && npm install`, { cwd: WORKSPACE })
+      .then(() => shipit.log('Successfully installed npm dependencies'))
+      .catch(() => {
+        shipit.log('Failed to install dependencies');
+        process.exit();
+      });
+  });
+
+  shipit.blTask('composer', () => {
     shipit.log('Installing dependencies...');
     return shipit
-      .local('npm install', { cwd: WORKSPACE })
-      .then(() => shipit.log('Successfully installed dependencies'))
+      .local(`cd ${THEME_DIR} && composer install`, { cwd: WORKSPACE })
+      .then(() => shipit.log('Successfully installed composer dependencies'))
       .catch(() => {
         shipit.log('Failed to install dependencies');
         process.exit();
@@ -56,7 +69,7 @@ module.exports = (shipit) => {
   shipit.blTask('build', () => {
     shipit.log('Running build...');
     return shipit
-      .local('npm run build:production', { cwd: WORKSPACE })
+      .local(`cd ${THEME_DIR} && npm run build:production`, { cwd: WORKSPACE })
       .then(() => shipit.log('Build successful'))
       .catch(() => {
         shipit.log('Build failed');
@@ -78,7 +91,7 @@ module.exports = (shipit) => {
   });
 
   shipit.on('fetched', () => {
-    shipit.start('install', 'build');
+    shipit.start('install', 'composer', 'build');
   });
 
   shipit.on('published', () => {

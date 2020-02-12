@@ -4,8 +4,9 @@
 
 require('dotenv').config();
 const pkg = require('./package.json');
-const WEBROOT = process.env.PRODUCTION_WEBROOT;
-const WORKSPACE = process.env.WORKSPACE || '/tmp/<%= dir %>';
+const WEBROOT = process.env.WEBROOT || process.env.PRODUCTION_WEBROOT;
+const WORKSPACE = process.env.WORKSPACE;
+const EXT_DIR = process.env.EXT_DIR;
 
 module.exports = (shipit) => {
   require('shipit-deploy')(shipit);
@@ -29,6 +30,7 @@ module.exports = (shipit) => {
       keepReleases: 5,
       deleteOnRollback: false,
       rsync: ['--include="dist/**/*"'],
+      dirToCopy: EXT_DIR,
       shallowClone: false,
     },
     production: {
@@ -45,8 +47,19 @@ module.exports = (shipit) => {
   shipit.blTask('install', () => {
     shipit.log('Installing dependencies...');
     return shipit
-      .local('npm install', { cwd: WORKSPACE })
+      .local(`cd ${EXT_DIR} && npm install`, { cwd: WORKSPACE })
       .then(() => shipit.log('Successfully installed dependencies'))
+      .catch(() => {
+        shipit.log('Failed to install dependencies');
+        process.exit();
+      });
+  });
+
+  shipit.blTask('composer', () => {
+    shipit.log('Installing dependencies...');
+    return shipit
+      .local(`cd ${EXT_DIR} && composer install`, { cwd: WORKSPACE })
+      .then(() => shipit.log('Successfully installed composer dependencies'))
       .catch(() => {
         shipit.log('Failed to install dependencies');
         process.exit();
@@ -56,7 +69,7 @@ module.exports = (shipit) => {
   shipit.blTask('build', () => {
     shipit.log('Running build...');
     return shipit
-      .local('npm run build:production', { cwd: WORKSPACE })
+      .local(`cd ${EXT_DIR} && npm run build:production`, { cwd: WORKSPACE })
       .then(() => shipit.log('Build successful'))
       .catch(() => {
         shipit.log('Build failed');
