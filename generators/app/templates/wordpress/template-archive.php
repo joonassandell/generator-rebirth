@@ -3,9 +3,11 @@
  * Template Name: Archive
  */
 $context = Timber::get_context();
-$context['posts'] = Timber::get_posts(array(
-    'numberposts' => -1,
+$post = Timber::query_post();
+$context['posts'] = new Timber\PostQuery([
     'post_type' => 'post',
-));
+    'paged' => get_query_var('paged'),
+]);
+$context['heading'] = $post->post_title;
 
 Timber::render('template-archive.twig', $context);
