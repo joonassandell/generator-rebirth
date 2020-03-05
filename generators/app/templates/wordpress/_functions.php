@@ -16,6 +16,7 @@ class App extends TimberSite {
         add_filter('timber_context', [$this, 'add_to_context']);
         add_filter('timber/twig', [$this, 'add_to_twig']);
         add_action('wp_enqueue_scripts', [$this, 'scripts'], '1');
+        // add_action('pre_get_posts', [$this, 'cpt_archive_pagination'], 1);
         parent::__construct();
     }
 
@@ -73,6 +74,20 @@ class App extends TimberSite {
     function merge_object($origObj, $newObj) {
         $merged = (object) array_merge((array) $origObj, (array) $newObj);
         return $merged;
+    }
+
+
+    /* ======
+     * Various
+     * ====== */
+
+    function cpt_archive_pagination($query) {
+        $main_query = $query->is_main_query() && !is_admin();
+
+        if ($main_query && is_post_type_archive('post_type_name')) {
+            $query->set('posts_per_page', 2);
+            $query->set('paged', get_query_var('paged'));
+        }
     }
 }
 
