@@ -25,7 +25,7 @@
 
 - `$ npm run build`: Build the application<% if (wp) { %>
 - `$ npm run build:production`: Build the production version of the app. If you set `WP_DEV` (in functions.php) to false you can test the production version locally.<% } %>
-- `$ npm run dev`: Watches files and proxies your development environment
+- `$ npm run watch`: Watches files<% if (typo3 || wp) { %> and proxies server url<% } %>
 - `$ npm run deploy`: Build the application and deploy it to the server<% if (typo3 || wp) { %>
   - Make sure [`PRODUCTION_WEBROOT`](.env) has correct root and [`package.json`](package.json) has correct `repository` set<% } if (html) { %>
 - `$ npm run dist`: Build the application and start a local server for testing purposes<% } %>

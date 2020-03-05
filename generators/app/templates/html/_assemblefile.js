@@ -9,7 +9,6 @@ const browserify = require('browserify');
 const browserSync = require('browser-sync').create();
 const handlebarsHelpers = require('handlebars-helpers')();
 const notifier = require('node-notifier');
-const path = require('path');
 const prettyHrtime = require('pretty-hrtime');
 const rimraf = require('rimraf');
 const source = require('vinyl-source-stream');
@@ -19,6 +18,8 @@ const watchify = require('watchify');
 const $ = require('gulp-load-plugins')();
 const uglify = require('gulp-uglify-es').default;
 const production = process.env.NODE_ENV === 'production';
+const postcss = require('gulp-postcss');
+const cssnano = require('cssnano');
 
 /* ======
  * Config
@@ -126,7 +127,15 @@ app.task('stylesheets', function() {
     return (pipeline = pipeline
       .pipe($.replace('../', config.buildPath + 'assets/'))
       .pipe($.combineMq({ beautify: false }))
-      .pipe($.cssnano({ mergeRules: false, zindex: false }))
+      .pipe(
+        postcss([
+          cssnano({
+            mergeRules: false,
+            zindex: false,
+            discardComments: { removeAll: true },
+          }),
+        ]),
+      )
       .pipe(app.dest(config.stylesheets.dest)));
   } else {
     return (pipeline = pipeline
@@ -339,7 +348,7 @@ app.task('build', function() {
 
 app.task('default', ['build']);
 
-app.task('dev', function() {
+app.task('watch', function() {
   rimraf.sync(config.dest);
   app.build(tasks.concat(['html']), app.parallel(['server', 'watch']));
 });

@@ -15,6 +15,8 @@ const through = require('through2');
 const watchify = require('watchify');
 const $ = require('gulp-load-plugins')();
 const uglify = require('gulp-uglify-es').default;
+const postcss = require('gulp-postcss');
+const cssnano = require('cssnano');
 
 const production = process.env.NODE_ENV === 'production';
 
@@ -62,11 +64,13 @@ gulp.task('stylesheets', function() {
       )
       .pipe($.combineMq({ beautify: false }))
       .pipe(
-        $.cssnano({
-          mergeRules: false,
-          zindex: false,
-          discardComments: { removeAll: true },
-        }),
+        postcss([
+          cssnano({
+            mergeRules: false,
+            zindex: false,
+            discardComments: { removeAll: true },
+          }),
+        ]),
       )
       .pipe(gulp.dest('Resources/Public/Assets/')));
   } else {
@@ -126,7 +130,7 @@ gulp.task('javascripts', function(callback) {
     };
 
     if (!production) {
-      if (!process.env.DISABLE_WATCH) {
+      if (process.env.ENABLE_WATCH) {
         pipeline = watchify(pipeline).on('update', bundle);
       }
     }
@@ -197,20 +201,18 @@ gulp.task('watch', function(callback) {
   gulp
     .watch('Resources/Private/' + '**/*.html')
     .on('change', browserSync.reload);
-  gulp.watch('Assets/**/**/*.scss', ['stylesheets']);
-  gulp.watch('Assets/fonts/*.{eot,svg,ttf,woff,woff2}', ['fonts']);
-  gulp.watch('Assets/images/*.{jpg,jpeg,png,gif,webp,svg}', ['images']);
+  gulp.watch('Assets/**/**/*.scss', gulp.series('stylesheets'));
+  gulp.watch('Assets/fonts/*.{eot,svg,ttf,woff,woff2}', gulp.series('fonts'));
+  gulp.watch(
+    'Assets/images/*.{jpg,jpeg,png,gif,webp,svg}',
+    gulp.series('images'),
+  );
 });
-
-/**
- * Tasks
- */
-let tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
 
 /**
  * Create dist files and inline <head> css/js
  */
-gulp.task('createDistPartials', tasks, function() {
+gulp.task('createDistPartials', function() {
   return gulp
     .src(
       [
@@ -236,7 +238,7 @@ gulp.task('createDistPartials', tasks, function() {
 /**
  * Revision
  */
-gulp.task('rev', tasks.concat(['createDistPartials']), function() {
+gulp.task('rev', function() {
   rimraf.sync('Resources/Public/Assets/*.css');
   rimraf.sync('Resources/Public/Assets/head.js');
   rimraf.sync('Resources/Public/Assets/vendors/');
@@ -263,7 +265,7 @@ gulp.task('rev', tasks.concat(['createDistPartials']), function() {
 /**
  * Update references
  */
-gulp.task('updateReferences', tasks.concat(['rev']), function() {
+gulp.task('updateReferences', function() {
   let manifest = gulp.src('./rev-manifest.json');
 
   return gulp
@@ -288,14 +290,44 @@ gulp.task('updateReferences', tasks.concat(['rev']), function() {
  * Main collected tasks
  * ====== */
 
-gulp.task('build', function() {
+gulp.task('clean', function(cb) {
   rimraf.sync('Resources/Public/Assets');
-
-  gulp.start(tasks.concat(['createDistPartials', 'rev', 'updateReferences']));
+  cb();
 });
 
-gulp.task('default', tasks);
-gulp.task('dev', tasks.concat(['watch', 'server']));
+gulp.task(
+  'build',
+  gulp.series(
+    'clean',
+    gulp.parallel('stylesheets', 'javascripts', 'images', 'fonts'),
+    'createBuildPartials',
+    'rev',
+    'updateReferences',
+  ),
+);
+
+gulp.task(
+  'default',
+  gulp.series(
+    'clean',
+    gulp.parallel('stylesheets', 'javascripts', 'images', 'fonts'),
+  ),
+);
+
+gulp.task(
+  'watch',
+  gulp.series(
+    'clean',
+    gulp.parallel(
+      'stylesheets',
+      'javascripts',
+      'images',
+      'fonts',
+      'watch',
+      'server',
+    ),
+  ),
+);
 
 /* ======
  * Utilities

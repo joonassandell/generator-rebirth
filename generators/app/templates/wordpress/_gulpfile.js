@@ -15,6 +15,8 @@ const through = require('through2');
 const watchify = require('watchify');
 const $ = require('gulp-load-plugins')();
 const uglify = require('gulp-uglify-es').default;
+const postcss = require('gulp-postcss');
+const cssnano = require('cssnano');
 
 const production = process.env.NODE_ENV === 'production';
 
@@ -62,11 +64,13 @@ gulp.task('stylesheets', function() {
       )
       .pipe($.combineMq({ beautify: false }))
       .pipe(
-        $.cssnano({
-          mergeRules: false,
-          zindex: false,
-          discardComments: { removeAll: true },
-        }),
+        postcss([
+          cssnano({
+            mergeRules: false,
+            zindex: false,
+            discardComments: { removeAll: true },
+          }),
+        ]),
       )
       .pipe(gulp.dest('build/assets/')));
   } else {
@@ -124,7 +128,7 @@ gulp.task('javascripts', function(callback) {
     };
 
     if (!production) {
-      if (!process.env.DISABLE_WATCH) {
+      if (process.env.ENABLE_WATCH) {
         pipeline = watchify(pipeline).on('update', bundle);
       }
     }
@@ -191,22 +195,20 @@ gulp.task('server', function() {
 /**
  * Watch
  */
-gulp.task('watch', function(callback) {
+gulp.task('watch', function() {
   gulp.watch('**/*.{php,twig}').on('change', browserSync.reload);
-  gulp.watch('assets/**/**/*.scss', ['stylesheets']);
-  gulp.watch('assets/fonts/*.{eot,svg,ttf,woff,woff2}', ['fonts']);
-  gulp.watch('assets/images/*.{jpg,jpeg,png,gif,webp,svg}', ['images']);
+  gulp.watch('assets/**/**/*.scss', gulp.series('stylesheets'));
+  gulp.watch('assets/fonts/*.{eot,svg,ttf,woff,woff2}', gulp.series('fonts'));
+  gulp.watch(
+    'assets/images/*.{jpg,jpeg,png,gif,webp,svg}',
+    gulp.series('images'),
+  );
 });
-
-/**
- * Combined tasks
- */
-let tasks = ['stylesheets', 'javascripts', 'images', 'fonts'];
 
 /**
  * Create build files and inline <head> css/js
  */
-gulp.task('createBuildPartials', tasks, function() {
+gulp.task('createBuildPartials', function() {
   return gulp
     .src(
       ['partials/head.twig', 'partials/foot.twig', 'components/Icon.ref.twig'],
@@ -228,7 +230,7 @@ gulp.task('createBuildPartials', tasks, function() {
 /**
  * Revision and remove unneeded files
  */
-gulp.task('rev', tasks.concat(['createBuildPartials']), function() {
+gulp.task('rev', function() {
   rimraf.sync('build/assets/' + '*.css');
   rimraf.sync('build/assets/' + 'head.js');
   rimraf.sync('build/assets/' + 'vendors/');
@@ -252,7 +254,7 @@ gulp.task('rev', tasks.concat(['createBuildPartials']), function() {
 /**
  * Update references
  */
-gulp.task('updateReferences', tasks.concat(['rev']), function() {
+gulp.task('updateReferences', function() {
   let manifest = gulp.src('./rev-manifest.json');
 
   return gulp
@@ -278,13 +280,44 @@ gulp.task('updateReferences', tasks.concat(['rev']), function() {
  * Main collected tasks
  * ====== */
 
-gulp.task('build', function() {
+gulp.task('clean', function(cb) {
   rimraf.sync('build/');
-  gulp.start(tasks.concat(['createBuildPartials', 'rev', 'updateReferences']));
+  cb();
 });
 
-gulp.task('default', tasks);
-gulp.task('dev', tasks.concat(['watch', 'server']));
+gulp.task(
+  'build',
+  gulp.series(
+    'clean',
+    gulp.parallel('stylesheets', 'javascripts', 'images', 'fonts'),
+    'createBuildPartials',
+    'rev',
+    'updateReferences',
+  ),
+);
+
+gulp.task(
+  'default',
+  gulp.series(
+    'clean',
+    gulp.parallel('stylesheets', 'javascripts', 'images', 'fonts'),
+  ),
+);
+
+gulp.task(
+  'watch',
+  gulp.series(
+    'clean',
+    gulp.parallel(
+      'stylesheets',
+      'javascripts',
+      'images',
+      'fonts',
+      'watch',
+      'server',
+    ),
+  ),
+);
 
 /* ======
  * Utilities
