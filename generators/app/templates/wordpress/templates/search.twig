@@ -1,0 +1,28 @@
+{% extends "App.twig" %}
+
+{% set template_class = 'Template--default Template--default--search' %}
+
+{% block content %}
+  <section class="Container">
+    <div class="Wrap">
+      <h1>
+        {% if results.found_posts %}
+          {{ _e('Search results', 'app') }}: "{{ search_query }}"
+          <small class="Text -s">({{ results.found_posts }})</small>
+        {% else %}
+          {{ _e('No search results.', 'app') }}
+        {% endif %}
+      </h1>
+      {% for post in results %}
+        {% include 'Article.twig' with {
+          date: post.date,
+          cat: post.category,
+          cat_link: post.category.link,
+          link: post.guid,
+          heading: post.post_title,
+          excerpt: post.post_excerpt ? : post.post_content|excerpt(15),
+        } %}
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}
