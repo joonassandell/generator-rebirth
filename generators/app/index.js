@@ -307,7 +307,8 @@ module.exports = class Rebirth extends Generator {
       );
       copy(`wordpress/_style.css`, `style.css`, this);
       copy(`wordpress/header.php`, `header.php`, this);
-      copy(`wordpress/category.php`, `category.php`, this);
+      copy(`wordpress/archive.php`, `archive.php`, this);
+      copy(`wordpress/search.php`, `search.php`, this);
       copy(`wordpress/footer.php`, `footer.php`, this);
       copy(`wordpress/index.php`, `index.php`, this);
       copy(`wordpress/page.php`, `page.php`, this);
@@ -340,6 +341,14 @@ module.exports = class Rebirth extends Generator {
         'components/Navbar/_Navbar.scss',
         'components/Navbar/_Navbar.config.scss',
         'components/Navbar/_Navbar--default.scss',
+        'components/Breadcrumb/_index.scss',
+        'components/Breadcrumb/_Breadcrumb.scss',
+        'components/Breadcrumb/_Breadcrumb.config.scss',
+        'components/Breadcrumb/_Breadcrumb--default.scss',
+        'components/Pagination/_index.scss',
+        'components/Pagination/_Pagination.scss',
+        'components/Pagination/_Pagination.config.scss',
+        'components/Pagination/_Pagination--default.scss',
         'containers/Aside/_Aside.scss',
         'containers/Aside/_Aside.config.scss',
         'containers/Aside/_index.scss',
@@ -348,11 +357,13 @@ module.exports = class Rebirth extends Generator {
       });
 
       [
-        'components/ArticleDefault.twig',
+        'components/Article.twig',
+        'components/Breadcrumb.twig',
         'components/Icon.ref.twig',
         'components/Icon.twig',
-        'components/ListDefault.twig',
-        'components/NavDefault.twig',
+        'components/List.twig',
+        'components/Nav.twig',
+        'components/Pagination.twig',
       ].forEach((file) => {
         copy(`${rebirthWordPressSrc}${file}`, `${file}`, this);
       });
