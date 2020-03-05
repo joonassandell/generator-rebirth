@@ -3,4 +3,5 @@ Theme Name: <%= appNameHumanize %>
 Author: <%= appAuthor %>
 Description: <%= appDescription %>
 Version: 1.0
+Text Domain: <%= textDomain %>
 */

@@ -84,6 +84,13 @@ module.exports = class Rebirth extends Generator {
       },
       {
         type: 'input',
+        name: 'textDomain',
+        message: 'Text Domain:',
+        default: () => 'app',
+        when: () => this.wp,
+      },
+      {
+        type: 'input',
         name: 'url',
         message: 'Homepage (production):',
         default: (props) => `https://${_.slugify(props.name)}.com`,
@@ -119,6 +126,7 @@ module.exports = class Rebirth extends Generator {
       this.appAuthor = props.author;
       this.appAuthorDasherize = _.slugify(this.appAuthor);
       this.appNameSpace = _.capitalize(_.camelize(props.appNameSpace));
+      this.textDomain = _.underscored(this.textDomain);
       this.appURL = props.url;
       this.appDescription = props.description;
       this.appRepositoryURL = props.repositoryURL;
@@ -278,7 +286,7 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/lib/clean-up.php`, `lib/clean-up.php`, this);
       copy(`wordpress/lib/utility.php`, `lib/utility.php`, this);
       copy(`wordpress/lib/_plugins.php`, `lib/plugins.php`, this);
-      copy(`wordpress/lib/setup.php`, `lib/setup.php`, this);
+      copy(`wordpress/lib/_setup.php`, `lib/setup.php`, this);
       copy(`wordpress/lib/acf.php`, `lib/acf.php`, this);
       copy(`wordpress/lib/gutenberg.php`, `lib/gutenberg.php`, this);
       copy(`wordpress/lib/roles.php`, `lib/roles.php`, this);
@@ -299,7 +307,7 @@ module.exports = class Rebirth extends Generator {
       );
       copy(`wordpress/_style.css`, `style.css`, this);
       copy(`wordpress/header.php`, `header.php`, this);
-      copy(`wordpress/category.php`, `header.php`, this);
+      copy(`wordpress/category.php`, `category.php`, this);
       copy(`wordpress/footer.php`, `footer.php`, this);
       copy(`wordpress/index.php`, `index.php`, this);
       copy(`wordpress/page.php`, `page.php`, this);

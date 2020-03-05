@@ -38,5 +38,5 @@ add_action('after_setup_theme', function() {
     /**
      * Make theme available for translation
      */
-    load_theme_textdomain('app', get_template_directory() . '/languages');
+    load_theme_textdomain('<%= textDomain %>', get_template_directory() . '/languages');
 });
