@@ -195,9 +195,9 @@ gulp.task('server', function() {
 });
 
 /**
- * Watch
+ * Watch files
  */
-gulp.task('watch', function(callback) {
+gulp.task('watch-files', function() {
   gulp
     .watch('Resources/Private/' + '**/*.html')
     .on('change', browserSync.reload);
@@ -323,7 +323,7 @@ gulp.task(
       'javascripts',
       'images',
       'fonts',
-      'watch',
+      'watch-files',
       'server',
     ),
   ),

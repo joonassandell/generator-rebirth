@@ -193,9 +193,9 @@ gulp.task('server', function() {
 });
 
 /**
- * Watch
+ * Watch files
  */
-gulp.task('watch', function() {
+gulp.task('watch-files', function() {
   gulp.watch('**/*.{php,twig}').on('change', browserSync.reload);
   gulp.watch('assets/**/**/*.scss', gulp.series('stylesheets'));
   gulp.watch('assets/fonts/*.{eot,svg,ttf,woff,woff2}', gulp.series('fonts'));
@@ -313,7 +313,7 @@ gulp.task(
       'javascripts',
       'images',
       'fonts',
-      'watch',
+      'watch-files',
       'server',
     ),
   ),
