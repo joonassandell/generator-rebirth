@@ -6,7 +6,7 @@
 require __DIR__ . '/lib/plugins.php';
 require __DIR__ . '/lib/utility.php';
 
-Timber::$dirname = array('containers', 'components', 'partials', 'templates');
+Timber::$dirname = ['containers', 'components', 'partials', 'templates'];
 
 class App extends TimberSite {
     function __construct() {

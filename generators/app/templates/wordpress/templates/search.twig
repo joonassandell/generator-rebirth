@@ -5,24 +5,30 @@
 {% block content %}
   <section class="Container">
     <div class="Wrap">
-      <h1>
-        {% if results.found_posts %}
-          {{ _e('Search results', 'app') }}: "{{ search_query }}"
-          <small class="Text -s">({{ results.found_posts }})</small>
-        {% else %}
-          {{ _e('No search results.', 'app') }}
-        {% endif %}
-      </h1>
-      {% for post in results %}
-        {% include 'Article.twig' with {
-          date: post.date,
-          cat: post.category,
-          cat_link: post.category.link,
-          link: post.guid,
-          heading: post.post_title,
-          excerpt: post.post_excerpt ? : post.post_content|excerpt(15),
-        } %}
-      {% endfor %}
+      <div class="Grid -l">
+        <div class="Grid-cell Width--8/12@m">
+          <h1>
+            {% if results.found_posts %}
+              {{ _e('Search results for', 'app') }} "{{ search_query }}"
+            {% else %}
+              {{ _e('No search results.', 'app') }}
+            {% endif %}
+          </h1>
+          {% for post in results %}
+            {% include 'Article.twig' with {
+              date: post.date,
+              cat: post.category,
+              cat_link: post.category.link,
+              link: post.guid,
+              heading: post.post_title,
+              excerpt: post.post_excerpt ? : post.post_content|excerpt(15),
+            } %}
+          {% endfor %}
+        </div>
+        <div class="Grid-cell Width--4/12@m">
+          {% include 'Aside.twig' %}
+        </div>
+      </div>
     </div>
   </section>
 {% endblock %}

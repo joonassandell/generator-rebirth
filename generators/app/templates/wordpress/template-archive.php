@@ -1,6 +1,6 @@
 <?php
 /*
- * Template Name: Archive
+ * Template Name: Archive (Latest news etc.)
  */
 $context = Timber::get_context();
 $post = Timber::query_post();
