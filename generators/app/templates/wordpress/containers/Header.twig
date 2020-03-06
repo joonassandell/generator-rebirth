@@ -4,6 +4,21 @@
       {{ site.name }}
     </a>
     <div class="Navbar-ctrl">
+      <div aria-role="button" class="Navbar-ctrl-button Button js-ButtonDropdown">
+        <div class="Button-icon">
+          {% include 'Icon.twig' with { name: 'search' } %}
+        </div>
+        <div class="Button-dropdown">
+          <form class="Form Form--default -s" method="get" action="{{ site.url }}">
+            <div class="Form-cell">
+              <input class="Form-item" type="search" placeholder='{{ _e('Search something...', 'app') }}' name="s">
+              <button class="Form-button Button Button--primary -block" type="submit">
+                <span class="Button-icon">{% include 'Icon.twig' with { name: 'arrowRight' } %}</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
       <div class="Navbar-ctrl-trigger js-NavbarDefaultTrigger">
         <i class="Navbar-ctrl-trigger-icon"></i>
       </div>
@@ -11,14 +26,18 @@
     <ul>
       {% for item in nav_primary.items %}
         <li class="Navbar-item {{ item.classes.4 in ['current-menu-ancestor',
-          'current-page-ancestor'] or item.current ? 'is-active' }}
-          {{ item.classes | join(' ') }}">
+          'current-page-ancestor'] or item.current ? 'is-active' }}">
           <a href="{{ item.get_link }}" class="Navbar-link">
             {{ item.title }}
           </a>
           {% if item.get_children %}
             <span class="Navbar-trigger"><i class="Navbar-trigger-icon"></i></span>
             <ul class="Navbar-sub">
+              <li class="Navbar-item -touchOnly">
+                <a href="{{ item.get_link }}" class="Navbar-link">
+                  {{ item.title }}
+                </a>
+              </li>
               {% for child in item.get_children %}
                 <li class="Navbar-item {{ child.current ? 'is-active' }}">
                   <a class="Navbar-link" href="{{ child.link }}">
