@@ -1,0 +1,21 @@
+{% set template_class = 'Template--404' %}
+
+{% extends "App.twig" %}
+
+{% block content %}
+  <div class="Container">
+    <div class="Wrap">
+      <div class="Grid -l">
+        <div class="Grid-cell Width--8/12@m">
+          <h1 class="Heading -m">{{ options.heading_404 ? : __('Page not found', 'app') }}</h1>
+          <div class="Content">
+            {{ options.content_404 }}
+          </div>
+        </div>
+        <div class="Grid-cell Width--4/12@m">
+          {% include 'Aside.twig' %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
