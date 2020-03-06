@@ -16,7 +16,7 @@
     "deploy": "npm run build && dploy production",
     "dist": "npm run build && assemble server",
     "start": "npm run dist",
-    "watch": "assemble dev"
+    "watch": "assemble watch"
   },
   "husky": {
     "hooks": {

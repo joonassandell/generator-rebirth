@@ -18,7 +18,7 @@ const uglify = require('gulp-uglify-es').default;
 const postcss = require('gulp-postcss');
 const cssnano = require('cssnano');
 
-const production = process.env.NODE_ENV === 'production';
+const PRODUCTION = process.env.NODE_ENV === 'production';
 
 /* ======
  * Config
@@ -49,7 +49,7 @@ gulp.task('stylesheets', function() {
     .on('error', $.sass.logError)
     .pipe($.autoprefixer());
 
-  if (production) {
+  if (PRODUCTION) {
     return (pipeline = pipeline
       .pipe(
         $.replace(
@@ -98,7 +98,7 @@ gulp.task('javascripts', function(callback) {
   let browserifyBundle = function(entry) {
     let pipeline = browserify({
       entries: 'Assets/' + entry.fileName,
-      debug: !production,
+      debug: !PRODUCTION,
       paths: ['Assets'],
     });
 
@@ -110,7 +110,7 @@ gulp.task('javascripts', function(callback) {
         .on('error', handleError)
         .pipe(source(entry.fileName));
 
-      if (!production) {
+      if (!PRODUCTION) {
         collect = collect.pipe(browserSync.stream());
       } else {
         collect = collect.pipe(
@@ -129,10 +129,8 @@ gulp.task('javascripts', function(callback) {
         .on('end', reportFinished);
     };
 
-    if (!production) {
-      if (process.env.ENABLE_WATCH) {
-        pipeline = watchify(pipeline).on('update', bundle);
-      }
+    if (!PRODUCTION && process.env.ENABLE_WATCH) {
+      pipeline = watchify(pipeline).on('update', bundle);
     }
 
     let reportFinished = function() {

@@ -17,9 +17,10 @@ const watch = require('base-watch');
 const watchify = require('watchify');
 const $ = require('gulp-load-plugins')();
 const uglify = require('gulp-uglify-es').default;
-const production = process.env.NODE_ENV === 'production';
 const postcss = require('gulp-postcss');
 const cssnano = require('cssnano');
+
+const PRODUCTION = process.env.NODE_ENV === 'production';
 
 /* ======
  * Config
@@ -86,7 +87,7 @@ app.preLayout(/\.hbs$/, function(view, next) {
 });
 
 app.task('html', function() {
-  app.data({ dev: !production });
+  app.data({ dev: !PRODUCTION });
   app.layouts(config.html.containers);
   app.partials(config.html.partials);
 
@@ -123,7 +124,7 @@ app.task('stylesheets', function() {
     .on('error', $.sass.logError)
     .pipe($.autoprefixer());
 
-  if (production) {
+  if (PRODUCTION) {
     return (pipeline = pipeline
       .pipe($.replace('../', config.buildPath + 'assets/'))
       .pipe($.combineMq({ beautify: false }))
@@ -156,7 +157,7 @@ app.task('javascripts', function(callback) {
       packageCache: {},
       fullPaths: false,
       entries: config.javascripts.src + bundleConfig.fileName,
-      debug: !production,
+      debug: !PRODUCTION,
     });
 
     let bundle = function() {
@@ -167,7 +168,7 @@ app.task('javascripts', function(callback) {
         .on('error', handleError)
         .pipe(source(bundleConfig.fileName));
 
-      if (!production) {
+      if (!PRODUCTION) {
         collect = collect.pipe(browserSync.stream());
       } else {
         collect = collect.pipe(
@@ -186,7 +187,7 @@ app.task('javascripts', function(callback) {
         .on('end', reportFinished);
     };
 
-    if (!production) {
+    if (!PRODUCTION) {
       pipeline = watchify(pipeline).on('update', bundle);
     }
 
