@@ -126,7 +126,7 @@ module.exports = class Rebirth extends Generator {
       this.appAuthor = props.author;
       this.appAuthorDasherize = _.slugify(this.appAuthor);
       this.appNameSpace = _.capitalize(_.camelize(props.appNameSpace));
-      this.textDomain = _.underscored(this.textDomain);
+      this.textDomain = _.underscored(props.textDomain);
       this.appURL = props.url;
       this.appDescription = props.description;
       this.appRepositoryURL = props.repositoryURL;
@@ -187,6 +187,7 @@ module.exports = class Rebirth extends Generator {
       '_config.scss',
       'config.js',
       'head.js',
+      'images/',
       'javascripts/feature.js',
       'javascripts/polyfill.js',
       'javascripts/utility.js',
@@ -194,7 +195,6 @@ module.exports = class Rebirth extends Generator {
       copy(`${this.rebirthSrc}${file}`, `${assetsPath}${file}`, this);
     });
 
-    copy(`shared/gitkeep`, `${assetsPath}images/.gitkeep`, this);
     copy(`shared/gitkeep`, `${assetsPath}fonts/.gitkeep`, this);
   }
 
@@ -279,6 +279,11 @@ module.exports = class Rebirth extends Generator {
       const assetsPath = this.config.get('assetsPath');
 
       copy(`wordpress/assets/index.scss`, `assets/index.scss`, this);
+      copy(
+        `wordpress/assets/stylesheets/vendors/gutenberg.scss`,
+        `assets/stylesheets/vendors/gutenberg.scss`,
+        this,
+      );
       copy(`wordpress/assets/index.js`, `assets/index.js`, this);
       copy(`wordpress/_package.json`, `package.json`, this);
       copy(`wordpress/_gulpfile.js`, `gulpfile.js`, this);
@@ -311,6 +316,7 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/search.php`, `search.php`, this);
       copy(`wordpress/footer.php`, `footer.php`, this);
       copy(`wordpress/index.php`, `index.php`, this);
+      copy(`wordpress/404.php`, `404.php`, this);
       copy(`wordpress/page.php`, `page.php`, this);
       copy(`wordpress/template-archive.php`, `template-archive.php`, this);
       copy(`wordpress/template-home.php`, `template-home.php`, this);
@@ -323,7 +329,7 @@ module.exports = class Rebirth extends Generator {
       copy(`wordpress/containers`, `containers`, this);
       copy(`wordpress/partials`, `partials`, this);
       copy(`wordpress/templates`, `templates`, this);
-      copy(`shared/gitkeep`, `languages/.gitkeep`, this);
+      copy(`wordpress/languages`, `languages`, this);
       copy(`shared/gitkeep`, `acf-json/.gitkeep`, this);
       copy(`wordpress/_shipitfile.js`, `shipitfile.js`, this);
       copy(`wordpress/_env`, `.env`, this);
@@ -341,14 +347,20 @@ module.exports = class Rebirth extends Generator {
         'components/Navbar/_Navbar.scss',
         'components/Navbar/_Navbar.config.scss',
         'components/Navbar/_Navbar--default.scss',
-        'components/Breadcrumb/_index.scss',
-        'components/Breadcrumb/_Breadcrumb.scss',
-        'components/Breadcrumb/_Breadcrumb.config.scss',
-        'components/Breadcrumb/_Breadcrumb--default.scss',
-        'components/Pagination/_index.scss',
-        'components/Pagination/_Pagination.scss',
-        'components/Pagination/_Pagination.config.scss',
-        'components/Pagination/_Pagination--default.scss',
+        'components/Button/_index.scss',
+        'components/Button/index.js',
+        'components/Button/Button.js',
+        'components/Button/_Button.scss',
+        'components/Button/_Button.config.scss',
+        'components/Button/_Button--default.scss',
+        'components/Button/_Button--primary.scss',
+        'components/Form/_index.scss',
+        'components/Form/_Form.scss',
+        'components/Form/_Form.config.scss',
+        'components/Form/_Form--default.scss',
+        'components/Form/_Form-grid.scss',
+        'components/Breadcrumb/',
+        'components/Pagination/',
         'containers/Aside/_Aside.scss',
         'containers/Aside/_Aside.config.scss',
         'containers/Aside/_index.scss',
