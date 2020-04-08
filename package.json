@@ -1,6 +1,6 @@
 {
   "name": "generator-rebirth",
-  "version": "0.6.49",
+  "version": "0.6.5",
   "description": "Rebirth Yeoman generator for new TYPO3, WordPress or HTML projects.",
   "license": "MIT",
   "main": "generators/app/index.js",
@@ -29,7 +29,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
     "moment": "^2.24.0",
-    "rebirth-ui": "^0.6.21",
+    "rebirth-ui": "^0.6.22",
     "rebirth-wordpress": "^0.0.2",
     "underscore.string": "^3.3.5",
     "yeoman-generator": "^4.4.0",
