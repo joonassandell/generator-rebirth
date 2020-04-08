@@ -24,6 +24,7 @@ add_filter('allowed_block_types', function($allowed_blocks) {
         'core/separator',
         'core/shortcode',
         'core/embed',
+        'core/video',
         'core-embed/twitter',
         'core-embed/facebook',
         'core-embed/instagram',
