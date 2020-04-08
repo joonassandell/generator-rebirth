@@ -10,16 +10,26 @@ All notable changes to this project will be documented in this file. The format 
   - ACF: Allow shortcodes in textareas
   - Isolated setup material (gutenberg.php, plugins.php etc)
   - Added initial modified role settings for editor
-  - Slightly better starting point with new containers comps
+  - Slightly better starting point with new containers comps and templates (404, Archives, Breadcrumb, Pagination, Search etc.)
+  - Add translations
   - Load required plugins automatically
   - Add macros to encourage their usage
   - Added some twig funcs/filter: display template name, merge_object
-  - Build (`$ npm run build`) is now dev build. Use `$ npm run build:production` to create production build.
   - Add `THEME_DIR` to inform the deployment script where the theme dir is located
+  - Allow videos/embeds
   - Fix: Install composer vendors in deployment
+  - Add missing text domain
+  - Add gutenberg css & block examples
+  - Add initial placeholder to fix custom posts à page in custom post type archives
 - Typo3:
   - Add `EXT_DIR` to inform the deployment script where the ext dir is located
   - Fix: Install composer vendors in deployment
+- Gulp
+  - Build (`$ npm run build`) is now dev build. Use `$ npm run build:production` to create production build.
+  - Remove deprecated gulp-util and use other libs
+  - Update dependencies / vulnerabilities
+  - New gulp version
+  - Clarify gulp func names and clean up
 
 ## [0.6.3x]
 
