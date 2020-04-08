@@ -9,7 +9,12 @@
         <div class="Grid-cell Width--8/12@m">
           <h1 class="Heading -m">{{ options.heading_404 ? : __('Page not found', 'app') }}</h1>
           <div class="Content">
-            {{ options.content_404 }}
+            {% if options.content_404 %}
+              {{ options.content_404 }}
+            {% else %}
+              {{ _e('If you entered a web address please check it was correct.', 'app')  }}
+              <a href="{{ site.url }}">{{ _e('Go to homepage.', 'app')  }}</a>
+            {% endif %}
           </div>
         </div>
         <div class="Grid-cell Width--4/12@m">
