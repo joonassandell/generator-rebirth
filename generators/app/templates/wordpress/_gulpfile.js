@@ -2,21 +2,23 @@
  * Gulpfile
  * ======================================= */
 
-const fs = require('fs');
 const browserify = require('browserify');
 const browserSync = require('browser-sync').create();
+const color = require('ansi-colors');
+const cssnano = require('cssnano');
+const fs = require('fs');
 const gulp = require('gulp');
+const log = require('fancy-log');
 const notifier = require('node-notifier');
 const path = require('path');
+const postcss = require('gulp-postcss');
 const prettyHrtime = require('pretty-hrtime');
 const rimraf = require('rimraf');
 const source = require('vinyl-source-stream');
 const through = require('through2');
+const uglify = require('gulp-uglify-es').default;
 const watchify = require('watchify');
 const $ = require('gulp-load-plugins')();
-const uglify = require('gulp-uglify-es').default;
-const postcss = require('gulp-postcss');
-const cssnano = require('cssnano');
 
 const PRODUCTION = process.env.NODE_ENV === 'production';
 
@@ -45,7 +47,6 @@ gulp.task('stylesheets', function() {
         outputStyle: 'expanded',
       }),
     )
-    .on('error', handleError)
     .on('error', $.sass.logError)
     .pipe($.autoprefixer());
 
@@ -81,7 +82,7 @@ gulp.task('stylesheets', function() {
 });
 
 /**
- * Javascripts
+ * JavaScripts
  */
 gulp.task('javascripts', function(callback) {
   let scripts = [
@@ -95,15 +96,15 @@ gulp.task('javascripts', function(callback) {
 
   let bundleQueue = scripts.length;
 
-  let browserifyBundle = function(entry) {
+  const browserifyBundle = (entry) => {
     let pipeline = browserify({
-      entries: 'assets/' + entry.fileName,
+      entries: `assets/${entry.fileName}`,
       debug: !PRODUCTION,
       paths: ['assets'],
     });
 
-    let bundle = function() {
-      bundleLogger.start(entry.fileName);
+    const bundle = () => {
+      bundleLog.start(entry.fileName);
 
       let collect = pipeline
         .bundle()
@@ -127,14 +128,12 @@ gulp.task('javascripts', function(callback) {
       return collect.pipe(gulp.dest('build/assets/')).on('end', reportFinished);
     };
 
-    if (!PRODUCTION) {
-      if (process.env.ENABLE_WATCH) {
-        pipeline = watchify(pipeline).on('update', bundle);
-      }
+    if (!PRODUCTION && process.env.ENABLE_WATCH) {
+      pipeline = watchify(pipeline).on('update', bundle);
     }
 
-    let reportFinished = function() {
-      bundleLogger.end(entry.fileName);
+    const reportFinished = () => {
+      bundleLog.end(entry.fileName);
 
       if (bundleQueue) {
         bundleQueue--;
@@ -214,16 +213,8 @@ gulp.task('createBuildPartials', function() {
       ['partials/head.twig', 'partials/foot.twig', 'components/Icon.ref.twig'],
       { base: './' },
     )
-    .pipe(
-      $.replace(inline({ matchFile: 'index.css' }), function() {
-        return inline({ file: 'index.css' });
-      }),
-    )
-    .pipe(
-      $.replace(inline({ matchFile: 'head.js' }), function() {
-        return inline({ file: 'head.js' });
-      }),
-    )
+    .pipe($.replace(findFile('index.css'), () => inlineFile('index.css')))
+    .pipe($.replace(findFile('head.js'), () => inlineFile('head.js')))
     .pipe(gulp.dest('build/'));
 });
 
@@ -231,15 +222,15 @@ gulp.task('createBuildPartials', function() {
  * Revision and remove unneeded files
  */
 gulp.task('rev', function() {
-  rimraf.sync('build/assets/' + '*.css');
-  rimraf.sync('build/assets/' + 'head.js');
-  rimraf.sync('build/assets/' + 'vendors/');
+  rimraf.sync('build/assets/*.css');
+  rimraf.sync('build/assets/head.js');
+  rimraf.sync('build/assets/vendors/');
 
   return gulp
     .src(['build/assets/*.js', 'build/assets/{images,fonts}/**'])
     .pipe($.rev())
     .pipe(
-      $.rename(function(path) {
+      $.rename((path) => {
         if (path.basename.indexOf('index-') > -1) {
           path.basename = path.basename.replace('index-', '');
         }
@@ -324,8 +315,7 @@ gulp.task(
  * ====== */
 
 function handleError(err) {
-  $.util.log(err);
-  $.util.beep();
+  log.error(err);
   notifier.notify({
     title: 'Compile Error',
     message: err.message,
@@ -333,52 +323,35 @@ function handleError(err) {
   return this.emit('end');
 }
 
-function inline(opts) {
-  opts = opts || {};
-
-  if (opts.matchFile) {
-    if (opts.matchFile.match(/.js/)) {
-      return new RegExp(
-        '<script(.*?)src="(.*?)' + opts.matchFile + '"(.*?)>(.*?)</script>',
-      );
-    }
-    return new RegExp('<link(.*?)href="(.*?)' + opts.matchFile + '"(.*?)>');
-  }
-
-  if (opts.file) {
-    let content;
-    let tagBegin = '<script>';
-    let tagEnd = '</script>';
-
-    if (opts.file.match(/.js/)) {
-      content = fs.readFileSync('build/assets/' + opts.file, 'utf8');
-    } else {
-      tagBegin = '<style>';
-      tagEnd = '</style>';
-      content = fs.readFileSync('build/assets/' + opts.file, 'utf8');
-    }
-
-    return tagBegin + content + tagEnd;
+function inlineFile(file) {
+  if (file.match(/.js/)) {
+    const content = fs.readFileSync(`build/assets/${file}`, 'utf8');
+    return `<script>${content}</script>`;
+  } else {
+    const content = fs.readFileSync(`build/assets/${file}`, 'utf8');
+    return `<style>${content}</style>`;
   }
 }
 
-let startTime,
-  bundleLogger = {
-    start: function(filepath) {
-      startTime = process.hrtime();
-      $.util.log('Bundling', $.util.colors.green(filepath));
-    },
-    end: function(filepath) {
-      let taskTime = process.hrtime(startTime);
-      let prettyTime = prettyHrtime(taskTime);
-      $.util.log(
-        'Bundled',
-        $.util.colors.green(filepath),
-        'after',
-        $.util.colors.magenta(prettyTime),
-      );
-    },
-  };
+function findFile(file) {
+  if (file.match(/.js/)) {
+    return new RegExp(`<script(.*?)src="(.*?)${file}"(.*?)>(.*?)</script>`);
+  }
+  return new RegExp(`<link(.*?)href="(.*?)${file}"(.*?)>`);
+}
+
+let startTime;
+const bundleLog = {
+  start: (filepath) => {
+    startTime = process.hrtime();
+    log('Bundling', color.green(filepath));
+  },
+  end: (filepath) => {
+    let taskTime = process.hrtime(startTime);
+    let prettyTime = prettyHrtime(taskTime);
+    log(`Bundled ${color.green(filepath)} after ${color.magenta(prettyTime)}`);
+  },
+};
 
 function rmOriginalFiles() {
   return through.obj(function(file, enc, cb) {
