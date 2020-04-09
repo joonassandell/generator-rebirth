@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file. The format 
 
 - WordPress:
   - Copy translations (po/mo) correctly with variables
+- Fix: Remove `"targets": { "node": "current" }` which has accidentally overriden browserslist
 
 ## [0.6.4x]
 

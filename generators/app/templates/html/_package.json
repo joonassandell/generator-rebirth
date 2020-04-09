@@ -85,9 +85,6 @@
                 "useBuiltIns": "entry",
                 "corejs": {
                   "version": "3"
-                },
-                "targets": {
-                  "node": "current"
                 }
               }
             ]
