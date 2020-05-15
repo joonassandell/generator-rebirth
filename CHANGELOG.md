@@ -4,8 +4,15 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [0.6.5x]
 
+- Add import 'regenerator-runtime/runtime'; ready for uncommenting to use async functions.
 - WordPress:
   - Copy translations (po/mo) correctly with variables
+  - Polyfill external SVG spritemaps with svg4everybody
+  - Generate icons with `gulp-svg-symbols`
+  - Use timber from theme location with composer
+  - Add better dump logging with hellonico/timber-dump-extension
+  - Remove h1 from gutenberg heading settings
+  - Add search form to 404/search
 - Fix: Remove `"targets": { "node": "current" }` which has accidentally overriden browserslist
 
 ## [0.6.4x]
