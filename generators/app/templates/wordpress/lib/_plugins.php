@@ -6,10 +6,22 @@
 include_once (ABSPATH . 'wp-admin/includes/plugin.php');
 
 /**
+ * This ensures that Timber is loaded and available as a PHP class
+ */
+if (class_exists('Timber\Timber')) {
+    $timber = new \Timber\Timber();
+} else {
+	add_action('admin_notices', function() {
+            echo '<div class="error"><p>Timber not activated. Make sure you
+            have installed composer dependencies.</p></div>';
+		}
+    );
+}
+
+/**
  * Automatically activate required plugins
  */
 foreach ([
-    'timber-library/timber.php',
     'advanced-custom-fields-pro/acf.php',<% if (pluginWPML) { %>
     'sitepress-multilingual-cms/sitepress.php',<% } %>
 ] as $plugin) {

@@ -3,8 +3,10 @@
  * Functions
  * ======================================= */
 
-require __DIR__ . '/lib/plugins.php';
-require __DIR__ . '/lib/utility.php';
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/lib/plugins.php';
+require_once __DIR__ . '/lib/utility.php';
+if (!class_exists('Timber')) return;
 
 Timber::$dirname = ['containers', 'components', 'partials', 'templates'];
 
@@ -59,6 +61,7 @@ class App extends TimberSite {
     function add_to_twig($twig) {
         $twig->addFunction(new Timber\Twig_Function('display_template_file', [$this, 'display_template_file']));
         $twig->addFilter(new Timber\Twig_Filter('merge_object', [$this, 'merge_object']));
+        class_exists('HelloNico\Twig') && $twig->addExtension(new HelloNico\Twig\DumpExtension());
         return $twig;
     }
 

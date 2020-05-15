@@ -3,5 +3,9 @@
   "description": "<%= appDescription %>",
   "homepage": "<%= appURL %>",
   "type": "wordpress-theme",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "require": {
+    "timber/timber": "^1.15",
+    "hellonico/timber-dump-extension": "^1.0"
+  }
 }
