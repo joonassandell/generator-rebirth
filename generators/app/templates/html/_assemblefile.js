@@ -256,7 +256,7 @@ app.task('server', function() {
 /**
  * Watch
  */
-app.task('watch-files', function() {
+app.task('watch:files', function() {
   app.watch(config.html.watch, ['html'], function(cb) {
     setTimeout(function() {
       browserSync.reload();
@@ -343,7 +343,7 @@ app.task('default', ['build']);
 
 app.task('watch', function() {
   rimraf.sync(config.dest);
-  app.build(tasks.concat(['html']), app.parallel(['server', 'watch-files']));
+  app.build(tasks.concat(['html']), app.parallel(['server', 'watch:files']));
 });
 
 /* ======

@@ -196,7 +196,7 @@ gulp.task('server', function() {
 /**
  * Watch files
  */
-gulp.task('watch-files', function() {
+gulp.task('watch:files', function() {
   gulp
     .watch('Resources/Private/' + '**/*.html')
     .on('change', browserSync.reload);
@@ -314,7 +314,7 @@ gulp.task(
       'javascripts',
       'images',
       'fonts',
-      'watch-files',
+      'watch:files',
       'server',
     ),
   ),

@@ -12,9 +12,9 @@ add_action('after_setup_theme', function() {
     /**
      * Register navigations
      */
-    register_nav_menus(array(
+    register_nav_menus([
         'nav-primary' => 'Primary navigation',
-    ));
+    ]);
 
     /**
      * Add featured image support
@@ -33,7 +33,7 @@ add_action('after_setup_theme', function() {
      * Create cropped default image sizes
      */
     add_image_size('large_crop', 960, 960, true);
-    set_post_thumbnail_size(168, 168, array('center', 'center'));
+    set_post_thumbnail_size(168, 168, ['center', 'center']);
 
     /**
      * Make theme available for translation
