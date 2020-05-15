@@ -24,7 +24,6 @@ module.exports = (shipit) => {
         'shipitfile.js',
         './assets/',
         'node_modules/',
-        'selection.json',
         'package-lock.json',
       ],
       keepReleases: 5,

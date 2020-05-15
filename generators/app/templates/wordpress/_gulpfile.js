@@ -154,13 +154,32 @@ gulp.task('javascripts', function(callback) {
  */
 gulp.task('images', function() {
   return gulp
-    .src('assets/images/*.{jpg,jpeg,png,gif,webp,svg}')
+    .src('assets/images/*.{jpg,jpeg,png,gif,webp}')
     .pipe($.changed('build/assets/images/'))
+    .on('error', handleError)
+    .pipe(gulp.dest('build/assets/images/'));
+});
+
+gulp.task('images:icon-svg', function() {
+  return gulp
+    .src('assets/images/*.svg')
     .pipe(
-      $.imagemin({
-        svgoPlugins: [{ cleanupIDs: false }],
+      $.imagemin([
+        $.imagemin.svgo({
+          plugins: [{ removeViewBox: false }, { cleanupIDs: false }],
+        }),
+      ]),
+    )
+    .pipe(
+      $.svgSymbols({
+        id: 'Icon--%f',
+        class: '.Icon--%f',
+        title: `%f icon`,
+        slug: (name) => name,
+        templates: ['default-svg'],
       }),
     )
+
     .on('error', handleError)
     .pipe(gulp.dest('build/assets/images/'));
 });
@@ -194,7 +213,7 @@ gulp.task('server', function() {
 /**
  * Watch files
  */
-gulp.task('watch-files', function() {
+gulp.task('watch:files', function() {
   gulp.watch('**/*.{php,twig}').on('change', browserSync.reload);
   gulp.watch('assets/**/**/*.scss', gulp.series('stylesheets'));
   gulp.watch('assets/fonts/*.{eot,svg,ttf,woff,woff2}', gulp.series('fonts'));
@@ -224,7 +243,7 @@ gulp.task('createBuildPartials', function() {
 gulp.task('rev', function() {
   rimraf.sync('build/assets/*.css');
   rimraf.sync('build/assets/head.js');
-  rimraf.sync('build/assets/vendors/');
+  rimraf.sync('build/assets/images/svg-symbols.scss');
 
   return gulp
     .src(['build/assets/*.js', 'build/assets/{images,fonts}/**'])
@@ -280,7 +299,13 @@ gulp.task(
   'build',
   gulp.series(
     'clean',
-    gulp.parallel('stylesheets', 'javascripts', 'images', 'fonts'),
+    gulp.parallel(
+      'stylesheets',
+      'javascripts',
+      'images',
+      'images:icon-svg',
+      'fonts',
+    ),
     'createBuildPartials',
     'rev',
     'updateReferences',
@@ -291,7 +316,13 @@ gulp.task(
   'default',
   gulp.series(
     'clean',
-    gulp.parallel('stylesheets', 'javascripts', 'images', 'fonts'),
+    gulp.parallel(
+      'stylesheets',
+      'javascripts',
+      'images',
+      'images:icon-svg',
+      'fonts',
+    ),
   ),
 );
 
@@ -303,8 +334,9 @@ gulp.task(
       'stylesheets',
       'javascripts',
       'images',
+      'images:icon-svg',
       'fonts',
-      'watch-files',
+      'watch:files',
       'server',
     ),
   ),
