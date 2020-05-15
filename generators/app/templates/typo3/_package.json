@@ -28,9 +28,9 @@
     "*.{js,json,md}": ["prettier --write", "git add"]
   },
   "devDependencies": {
-    "ansi-colors": "^4.1.1",
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
+    "ansi-colors": "^4.1.1",
     "babelify": "^10.0.0",
     "browser-sync": "^2.23.2",
     "browserify": "^16.2.3",
