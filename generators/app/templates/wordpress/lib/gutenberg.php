@@ -36,7 +36,7 @@ add_filter('allowed_block_types', function($allowed_blocks) {
 });
 
 /**
- * Remove advanced metabox.
+ * Remove advanced metabox & h1 from heading settings
  */
 add_action('admin_head', function() {
     echo '
@@ -44,12 +44,15 @@ add_action('admin_head', function() {
             .editor-block-inspector__advanced {
                 display: none;
             }
+            .components-button[aria-label="Heading 1"] {
+                display: none;
+            }
         </style>
     ';
 });
 
 /**
- * Remove colors from Gutenberg
+ * Remove colors
  */
 add_action('after_setup_theme', function() {
     add_theme_support('editor-color-palette');
