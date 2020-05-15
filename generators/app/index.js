@@ -350,6 +350,7 @@ module.exports = class Rebirth extends Generator {
         'components/Button/_index.scss',
         'components/Button/index.js',
         'components/Button/Button.js',
+        'components/Button/_Button.mixins.scss',
         'components/Button/_Button.scss',
         'components/Button/_Button.config.scss',
         'components/Button/_Button--default.scss',
@@ -361,16 +362,15 @@ module.exports = class Rebirth extends Generator {
         'components/Form/_Form-grid.scss',
         'components/Breadcrumb/',
         'components/Pagination/',
-        'containers/Aside/_Aside.scss',
-        'containers/Aside/_Aside.config.scss',
-        'containers/Aside/_index.scss',
+        'containers/Aside/',
+        'components/Content/_index.scss',
       ].forEach((file) => {
         copy(`${this.rebirthSrc}${file}`, `${assetsPath}${file}`, this);
       });
 
       copy(
-        `${this.rebirthSrc}Content/_Content.wordpress.scss`,
-        `${assetsPath}Content/_Content.scss`,
+        `${this.rebirthSrc}components/Content/_Content.wordpress.scss`,
+        `${assetsPath}components/Content/_Content.scss`,
         this,
       );
 
@@ -394,10 +394,21 @@ module.exports = class Rebirth extends Generator {
       skipInstall: this.options['skip-install'],
       bower: false,
       npm: true,
-      callback: () => {
-        this._end();
-      },
     });
+
+    if (this.options['skip-install']) {
+      this._end();
+    } else {
+      this.on('end', () => {
+        if (this.wp || this.typo3) {
+          this.spawnCommand('composer', ['install']).on('close', () => {
+            this._end();
+          });
+        } else {
+          this._end();
+        }
+      });
+    }
   }
 
   _end() {
