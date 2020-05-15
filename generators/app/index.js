@@ -169,7 +169,6 @@ module.exports = class Rebirth extends Generator {
       'components/Icon/',
       'components/Text/_index.scss',
       'components/Text/_Text.scss',
-      'components/Text/_Text.config.scss',
       'components/Text/_Text.mixins.scss',
       'containers/Container/',
       'containers/Width/',
@@ -188,7 +187,7 @@ module.exports = class Rebirth extends Generator {
       'config.js',
       'head.js',
       'images/',
-      'javascripts/feature.js',
+      'javascripts/detect.js',
       'javascripts/polyfill.js',
       'javascripts/utility.js',
     ].forEach((file) => {
@@ -368,6 +367,12 @@ module.exports = class Rebirth extends Generator {
       ].forEach((file) => {
         copy(`${this.rebirthSrc}${file}`, `${assetsPath}${file}`, this);
       });
+
+      copy(
+        `${this.rebirthSrc}Content/_Content.wordpress.scss`,
+        `${assetsPath}Content/_Content.scss`,
+        this,
+      );
 
       [
         'components/Article.twig',
