@@ -7,7 +7,7 @@
     <div class="Wrap">
       <div class="Grid -l">
         <div class="Grid-cell Width--8/12@m">
-          <h1>
+          <h1 class="Heading -m">
             {% if results.found_posts %}
               {{ _e('Search results for', 'app') }} "{{ search_query }}"
             {% else %}
@@ -24,6 +24,7 @@
               excerpt: post.post_excerpt ? : post.post_content|excerpt(15),
             } %}
           {% endfor %}
+          {% include 'FormSearch.twig' %}
         </div>
         <div class="Grid-cell Width--4/12@m">
           {% include 'Aside.twig' %}
