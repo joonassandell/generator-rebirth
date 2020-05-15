@@ -1,3 +1,6 @@
+{#
+ # Category navigation
+ #}
 {% macro CategoryNav() %}
   {% set nav_links = [] %}
   {% set all_categories = fn('Timber::get_terms', 'categories', {
@@ -16,10 +19,13 @@
   {% endfor %}
 
   {% include "Nav.twig" with {
-    nav_links: nav_links,
+    links: nav_links,
   } %}
 {% endmacro %}
 
+{#
+ # Latest posts list
+ #}
 {% macro LatestPosts(params) %}
   {% set vars = {
     'post_type': 'post',
@@ -27,7 +33,7 @@
   } %}
 
   {% if params is iterable %}
-    {% set params = vars|merge(params) %}
+    {% set vars = vars|merge(params) %}
   {% endif %}
 
   {% set list_items = [] %}
@@ -44,6 +50,6 @@
   {% endfor %}
 
   {% include "List.twig" with {
-    list_items: list_items,
+    items: list_items,
   } %}
 {% endmacro %}
