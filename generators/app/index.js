@@ -377,6 +377,7 @@ module.exports = class Rebirth extends Generator {
       [
         'components/Article.twig',
         'components/Breadcrumb.twig',
+        'components/FormSearch.twig',
         'components/Icon.ref.twig',
         'components/Icon.twig',
         'components/List.twig',

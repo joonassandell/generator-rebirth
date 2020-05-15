@@ -37,6 +37,8 @@ call_user_func(function() {
         'hierarchical' => true,
         'publicly_queryable' => false,
         'show_in_nav_menus' => false,
+        'show_in_quick_edit' => false,
+        'meta_box_cb' => false,
         'show_in_menu' => is_admin(),
     );
 
