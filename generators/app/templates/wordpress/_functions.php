@@ -6,7 +6,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/lib/plugins.php';
 require_once __DIR__ . '/lib/utility.php';
-if (!class_exists('Timber')) return;
+if (!class_exists('Timber') || !class_exists('ACF')) return;
 
 Timber::$dirname = ['containers', 'components', 'partials', 'templates'];
 

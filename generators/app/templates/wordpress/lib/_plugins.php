@@ -19,19 +19,14 @@ if (class_exists('Timber\Timber')) {
 }
 
 /**
- * Automatically activate required plugins
+ * Notify about Advanced Custom Fields
  */
-foreach ([
-    'advanced-custom-fields-pro/acf.php',<% if (pluginWPML) { %>
-    'sitepress-multilingual-cms/sitepress.php',<% } %>
-] as $plugin) {
-    if (!is_plugin_active($plugin)) {
-        activate_plugin($plugin);
-
-        add_action('admin_notices', function() use ($plugin) {
-            echo '<div class="updated"><p>' . sprintf('<strong>%s</strong> plugin is required and auto-enabled by the current theme.', $plugin) . '</p></div>';
-        });
-    }
+if (!class_exists('ACF')) {
+    add_action('admin_notices', function() {
+        echo '<div class="error"><p>Advanced custom fields not activated. Make sure you activate
+        the plugins in <a href="' . esc_url(admin_url('plugins.php')) . '">' .
+        esc_url(admin_url('plugins.php')) . '</a></p></div>';
+    });
 }
 
 /**
