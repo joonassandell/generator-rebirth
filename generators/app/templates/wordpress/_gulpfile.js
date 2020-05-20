@@ -11,7 +11,6 @@ const gulp = require('gulp');
 const log = require('fancy-log');
 const notifier = require('node-notifier');
 const path = require('path');
-const postcss = require('gulp-postcss');
 const prettyHrtime = require('pretty-hrtime');
 const rimraf = require('rimraf');
 const source = require('vinyl-source-stream');
@@ -63,14 +62,14 @@ gulp.task('stylesheets', function() {
           ),
         ),
       )
-      .pipe($.combineMq({ beautify: false }))
       .pipe(
-        postcss([
+        $.postcss([
           cssnano({
+            autoprefixer: false,
             mergeRules: false,
-            zindex: false,
-            discardComments: { removeAll: true },
           }),
+          require('postcss-discard-comments')({ removeAll: true }),
+          require('postcss-sort-media-queries')(),
         ]),
       )
       .pipe(gulp.dest('build/assets/')));

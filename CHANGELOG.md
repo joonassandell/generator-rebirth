@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [0.6.5x]
 
+- gulp-combine-mq -> postcss-sort-media-queries
+- FIX: Remove comments correctly in build
 - Add import 'regenerator-runtime/runtime'; ready for uncommenting to use async functions.
 - WordPress:
+  - Remove loading of plugins automatically. This may have side effects e.g. with multisite installing.
   - Copy translations (po/mo) correctly with variables
   - Polyfill external SVG spritemaps with svg4everybody
   - Generate icons with `gulp-svg-symbols`

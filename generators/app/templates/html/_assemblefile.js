@@ -12,7 +12,6 @@ const fs = require('fs');
 const log = require('fancy-log');
 const handlebarsHelpers = require('handlebars-helpers')();
 const notifier = require('node-notifier');
-const postcss = require('gulp-postcss');
 const prettyHrtime = require('pretty-hrtime');
 const rimraf = require('rimraf');
 const source = require('vinyl-source-stream');
@@ -128,14 +127,14 @@ app.task('stylesheets', function() {
   if (PRODUCTION) {
     return (pipeline = pipeline
       .pipe($.replace(`../${config.buildPath}assets/`))
-      .pipe($.combineMq({ beautify: false }))
       .pipe(
-        postcss([
+        $.postcss([
           cssnano({
+            autoprefixer: false,
             mergeRules: false,
-            zindex: false,
-            discardComments: { removeAll: true },
           }),
+          require('postcss-discard-comments')({ removeAll: true }),
+          require('postcss-sort-media-queries')(),
         ]),
       )
       .pipe(app.dest(config.stylesheets.dest)));
