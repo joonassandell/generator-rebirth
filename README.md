@@ -1,6 +1,6 @@
 # Rebirth Yeoman generator
 
-Yeoman generator for [Rebirth](https://github.com/joonasy/rebirth.git). Scaffold a new WordPress theme, TYPO3 extension, static HTML or custom (TODO) project. Learn more in [Docs](https://joonasy.github.io/rebirth/docs/getting-started/generator/).
+Yeoman generator for [Rebirth](https://github.com/joonassandell/rebirth.git). Scaffold a new WordPress theme, TYPO3 extension, static HTML or custom (TODO) project. Learn more in [Docs](https://joonassandell.github.io/rebirth/docs/getting-started/generator/).
 
 ## Quick start
 
@@ -15,8 +15,8 @@ If you are building a _Typo3 project_ all special characters are removed from th
 
 ## Documentation
 
-Rebirths documentation is built with Assemble and publicly hosted on GitHub Pages at [https://joonasy.github.io/rebirth](https://joonasy.github.io/rebirth).
+Rebirths documentation is built with Assemble and publicly hosted on GitHub Pages at [https://joonassandell.github.io/rebirth](https://joonassandell.github.io/rebirth).
 
 ## License
 
-Copyright (c) 2020 Joonas Ylitalo (Twitter: [@joonasy](https://twitter.com/joonasy)). Licensed under the MIT license.
+Copyright (c) 2020 Joonas Sandell (Twitter: [@joonassandell](https://twitter.com/joonassandell)). Licensed under the MIT license.
