@@ -10,8 +10,8 @@ All notable changes to this project will be documented in this file. The format 
 - WordPress:
   - Remove loading of plugins automatically. This may have side effects e.g. with multisite installing.
   - Copy translations (po/mo) correctly with variables
-  - Polyfill external SVG spritemaps with svg4everybody
-  - Generate icons with `gulp-svg-symbols`
+  - Polyfill external SVG spritemaps with svg4everybody.
+  - Generate icons with `gulp-svg-symbols`. Add svg symbols into their own dir.
   - Use timber from theme location with composer
   - Add better dump logging with hellonico/timber-dump-extension
   - Remove h1 from gutenberg heading settings

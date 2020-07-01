@@ -153,15 +153,15 @@ gulp.task('javascripts', function(callback) {
  */
 gulp.task('images', function() {
   return gulp
-    .src('assets/images/*.{jpg,jpeg,png,gif,webp}')
+    .src('assets/images/*.{jpg,jpeg,png,gif,webp,svg}')
     .pipe($.changed('build/assets/images/'))
     .on('error', handleError)
     .pipe(gulp.dest('build/assets/images/'));
 });
 
-gulp.task('images:icon-svg', function() {
+gulp.task('images:svgSymbols', function() {
   return gulp
-    .src('assets/images/*.svg')
+    .src('assets/images/symbols/*.svg')
     .pipe(
       $.imagemin([
         $.imagemin.svgo({
@@ -220,6 +220,7 @@ gulp.task('watch:files', function() {
     'assets/images/*.{jpg,jpeg,png,gif,webp,svg}',
     gulp.series('images'),
   );
+  gulp.watch('assets/images/symbols/*.svg', gulp.series('images:svgSymbols'));
 });
 
 /**
@@ -302,7 +303,7 @@ gulp.task(
       'stylesheets',
       'javascripts',
       'images',
-      'images:icon-svg',
+      'images:svgSymbols',
       'fonts',
     ),
     'createBuildPartials',
@@ -319,7 +320,7 @@ gulp.task(
       'stylesheets',
       'javascripts',
       'images',
-      'images:icon-svg',
+      'images:svgSymbols',
       'fonts',
     ),
   ),
@@ -333,7 +334,7 @@ gulp.task(
       'stylesheets',
       'javascripts',
       'images',
-      'images:icon-svg',
+      'images:svgSymbols',
       'fonts',
       'watch:files',
       'server',

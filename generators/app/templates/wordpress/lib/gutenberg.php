@@ -67,7 +67,7 @@ add_action('after_setup_theme', function() {
 //         'name'            => 'gutenberg_block_name',
 //         'title'           => __('Gutenberg block name', 'app'),
 //         'description'     => __('Gutenberg block name', 'app'),
-//         'render_callback' => 'gutengerg_block',
+//         'render_callback' => 'gutenberg_block',
 //         'category'        => 'common',
 //         'icon'            => 'yes',
 //         'keywords'        => ['list'],

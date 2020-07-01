@@ -6,14 +6,14 @@
     <div class="Navbar-ctrl">
       <div aria-role="button" class="Navbar-ctrl-button Button js-ButtonDropdown">
         <div class="Button-icon">
-          {% include 'Icon.twig' with { name: 'search' } %}
+          {% include 'Icon.twig' with { name: 'search-solid' } %}
         </div>
         <div class="Button-dropdown">
           <form class="Form Form--default -s" method="get" action="{{ site.url }}">
             <div class="Form-cell">
               <input class="Form-item" type="search" placeholder='{{ _e('Search something...', 'app') }}' name="s">
               <button class="Form-button Button Button--primary -block" type="submit">
-                <span class="Button-icon">{% include 'Icon.twig' with { name: 'arrowRight' } %}</span>
+                <span class="Button-icon">{% include 'Icon.twig' with { name: 'arrow-right-solid' } %}</span>
               </button>
             </div>
           </form>
