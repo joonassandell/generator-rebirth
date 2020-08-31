@@ -9,7 +9,7 @@
         <div class="Grid-cell Width--8/12@m">
           {% include 'Breadcrumb.twig' %}
           {% if heading %}
-            <h1 class="Heading -m">{{ heading }}</h1>
+            <h1>{{ heading }}</h1>
           {% endif %}
           <div class="Articles Articles--default">
             {% for post in posts %}
@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="Grid-cell Width--4/12@m">
-          {% include 'Aside.twig' %}
+          {% include 'templates/partials/Template-aside.twig' %}
         </div>
       </div>
     </div>

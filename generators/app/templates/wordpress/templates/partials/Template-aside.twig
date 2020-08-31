@@ -1,0 +1,23 @@
+<aside class="Template-aside">
+  {% set categories = get_terms('categories', {
+    heading: 'name',
+  } ) %}
+
+  {% if categories %}
+    {% include "Nav.twig" with {
+      items: categories,
+    } %}
+  {% endif %}
+
+  {% set posts = get_posts('post', 10, {
+    heading: 'post_title',
+    meta: 'date',
+  }) %}
+
+  {% if posts %}
+    <hr>
+    {% include "List.twig" with {
+      items: posts,
+    } %}
+  {% endif %}
+</aside>

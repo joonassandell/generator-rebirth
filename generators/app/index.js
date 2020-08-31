@@ -361,7 +361,6 @@ module.exports = class Rebirth extends Generator {
         'components/Form/_Form-grid.scss',
         'components/Breadcrumb/',
         'components/Pagination/',
-        'containers/Aside/',
         'components/Content/_index.scss',
       ].forEach((file) => {
         copy(`${this.rebirthSrc}${file}`, `${assetsPath}${file}`, this);

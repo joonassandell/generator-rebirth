@@ -36,8 +36,8 @@ class App extends TimberSite {
     }
 
     function add_to_context($context) {
-        $context['WP_DEV'] = getenv('WORDPRESS_ENV') == 'development';<% if (pluginWPML) { %>
-        $context['lang'] = ICL_LANGUAGE_CODE;<% } %>
+        $context['WP_DEV'] = getenv('WORDPRESS_ENV') == 'development';
+        $context['lang'] = !empty($GLOBALS['sitepress']) ? ICL_LANGUAGE_CODE : get_locale();
         $context['nav_primary'] = new TimberMenu('nav-primary');
         $context['options'] = get_fields('option');
         $context['site'] = $this;
@@ -60,7 +60,8 @@ class App extends TimberSite {
 
     function add_to_twig($twig) {
         $twig->addFunction(new Timber\Twig_Function('display_template_file', [$this, 'display_template_file']));
-        $twig->addFilter(new Timber\Twig_Filter('merge_object', [$this, 'merge_object']));
+        $twig->addFunction(new Timber\Twig_Function('get_posts', [$this, 'get_posts']));
+        $twig->addFunction(new Timber\Twig_Function('get_terms', [$this, 'get_terms']));
         class_exists('HelloNico\Twig') && $twig->addExtension(new HelloNico\Twig\DumpExtension());
         return $twig;
     }
@@ -74,9 +75,55 @@ class App extends TimberSite {
         }
     }
 
-    function merge_object($origObj, $newObj) {
-        $merged = (object) array_merge((array) $origObj, (array) $newObj);
-        return $merged;
+    function get_posts($post_type = 'post', $posts_per_page = 10,
+        $addKeysFromValue = null, $additionalArgs = []) {
+        $posts = Timber::get_posts(array_merge([
+            'post_type' => $post_type,
+            'posts_per_page' => $posts_per_page,
+        ], $additionalArgs));
+
+        if (is_array($addKeysFromValue)) {
+            $newPosts = [];
+            foreach ($posts as $key => $post) {
+                foreach ($addKeysFromValue as $newKey => $fromKey) {
+                    $post->$newKey = $post->$fromKey;
+                }
+                $newPosts[$key] = $post;
+            }
+            return $newPosts;
+        }
+
+        return $posts;
+    }
+
+    function get_terms($taxonomy = 'categories', $addKeysFromValue = null, $additionalArgs = []) {
+        $terms = Timber::get_terms(array_merge([
+            'taxonomy' => $taxonomy,
+            'hide_empty' => false,
+        ], $additionalArgs));
+
+        $queried_object = get_queried_object();
+
+        if ($queried_object) {
+            foreach ($terms as $term) {
+                if ($term->id == $queried_object->term_id) {
+                    $term->active = true;
+                }
+            }
+        }
+
+        if (is_array($addKeysFromValue)) {
+            $newTerms = [];
+            foreach ($terms as $key => $term) {
+                foreach ($addKeysFromValue as $newKey => $fromKey) {
+                    $term->$newKey = $term->$fromKey;
+                }
+                $newTerms[$key] = $term;
+            }
+            return $newTerms;
+        }
+
+        return $terms;
     }
 
 
