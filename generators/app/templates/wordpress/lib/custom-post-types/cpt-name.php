@@ -9,12 +9,18 @@ call_user_func(function() {
         'has_archive'  => true,
         'hierarchical' => false,
         'labels' => [
-            'name' => __('Post types name', 'app'),
-            'menu_name' => __('Post types name', 'app'),
-            'singular_name' => __('Post type name', 'app'),
+            'add_new_item' => __('Add New Post Type', 'app'),
+            'edit_item' => __('Edit Post Type', 'app'),
+            'menu_name' => __('Post Types', 'app'),
+            'name' => __('Post Type', 'app'),
+            'new_item' => __('New Post Type', 'app'),
+            'singular_name' => __('Post Type', 'app'),
+            'view_item' => __('View Post Type', 'app'),
+            'view_items' => __('View Post Types', 'app'),
         ],
         'menu_position' => 30,
         'public' => true,
+        'rewrite' => ['slug' => 'cpt-slug'],
         'show_in_rest' => true,
         'supports' => [
             'author',
@@ -33,11 +39,17 @@ call_user_func(function() {
     $args = [
         'hierarchical' => true,
         'labels' => [
-            'name' => __('Taxonomys name', 'app'),
-            'menu_name' => __('Taxonomys name', 'app'),
-            'singular_name' => __('Taxonomy name', 'app'),
+            'add_new_item' => __('Add New Taxonomy', 'app'),
+            'edit_item' => __('Edit Taxonomy', 'app'),
+            'menu_name' => __('Taxonomies', 'app'),
+            'name' => __('Taxonomy', 'app'),
+            'new_item' => __('New Taxonomy', 'app'),
+            'singular_name' => __('Taxonomy', 'app'),
+            'view_item' => __('View Taxonomy', 'app'),
+            'view_items' => __('View Taxonomies', 'app'),
         ],
-        'rewrite' => ['slug' => 'name/taxonomy'],
+        'rewrite' => ['slug' => 'cpt-slug/taxonomy-slug'],
+        'show_in_rest' => true,
     ];
 
     register_taxonomy('taxonomy_name', 'post_type_name', $args);

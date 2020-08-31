@@ -27,26 +27,26 @@
       {% for item in nav_primary.items %}
         <li class="Navbar-item {{ item.classes.4 in ['current-menu-ancestor',
           'current-page-ancestor'] or item.current ? 'is-active' }}">
-          <a href="{{ item.get_link }}" class="Navbar-link">
+          <a href="{{ item.link }}" class="Navbar-link">
             {{ item.title }}
           </a>
-          {% if item.get_children %}
+          {% if item.children %}
             <span class="Navbar-trigger"><i class="Navbar-trigger-icon"></i></span>
             <ul class="Navbar-sub">
               <li class="Navbar-item -touchOnly">
-                <a href="{{ item.get_link }}" class="Navbar-link">
+                <a href="{{ item.link }}" class="Navbar-link">
                   {{ item.title }}
                 </a>
               </li>
-              {% for child in item.get_children %}
+              {% for child in item.children %}
                 <li class="Navbar-item {{ child.current ? 'is-active' }}">
                   <a class="Navbar-link" href="{{ child.link }}">
                     {{ child.title }}
                   </a>
-                  {% if child.get_children %}
+                  {% if child.children %}
                     <span class="Navbar-trigger"><i class="Navbar-trigger-icon"></i></span>
                     <ul class="Navbar-sub">
-                      {% for child in child.get_children %}
+                      {% for child in child.children %}
                         <li class="Navbar-item {{ child.current ? 'is-active' }}">
                           <a class="Navbar-link" href="{{ child.link }}">
                             {{ child.title }}
