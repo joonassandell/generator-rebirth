@@ -12,5 +12,5 @@ EXT_DIR=./web/wp-content/themes/<%= dir %>
 # =======================================
 
 
-PRODUCTION_WEBROOT=/var/www/webroot/ROOT
+PRODUCTION_WEBROOT=/var/www/html
 PRODUCTION_SSH=xxxxx-xxx@gate.fi.cloudplatform.fi:3022

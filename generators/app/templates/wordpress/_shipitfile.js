@@ -5,7 +5,7 @@
 require('dotenv').config();
 const pkg = require('./package.json');
 const WEBROOT = process.env.WEBROOT || process.env.PRODUCTION_WEBROOT;
-const WORKSPACE = process.env.WORKSPACE;
+const WORKSPACE = process.env.WORKSPACE || '/tmp/<%= dir %>';
 const THEME_DIR = process.env.THEME_DIR;
 
 module.exports = (shipit) => {
@@ -79,7 +79,7 @@ module.exports = (shipit) => {
   shipit.blTask('setup', () => {
     shipit.log('Running setup...');
     shipit.remote(`
-      if [ ! -e "${WEBROOT}/wp-content/themes/<%= dir %>" ]
+      if [ ! -d "${WEBROOT}/wp-content/themes/<%= dir %>" ]
         then
           mkdir -p ${WEBROOT}/wp-content/themes \
           mkdir -p ${WEBROOT}/wp-content/releases/<%= dir %> \

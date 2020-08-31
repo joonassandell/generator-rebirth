@@ -5,7 +5,7 @@
 require('dotenv').config();
 const pkg = require('./package.json');
 const WEBROOT = process.env.WEBROOT || process.env.PRODUCTION_WEBROOT;
-const WORKSPACE = process.env.WORKSPACE;
+const WORKSPACE = process.env.WORKSPACE || '/tmp/<%= dir %>';
 const EXT_DIR = process.env.EXT_DIR;
 
 module.exports = (shipit) => {
@@ -80,7 +80,7 @@ module.exports = (shipit) => {
   shipit.blTask('setup', () => {
     shipit.log('Running setup...');
     shipit.remote(`
-      if [ ! -e "${WEBROOT}/typo3conf/ext/<%= dir %>" ]
+      if [ ! -d "${WEBROOT}/typo3conf/ext/<%= dir %>" ]
         then
           mkdir -p ${WEBROOT}/typo3conf/ext/<%= dir %> \
           mkdir -p ${WEBROOT}/typo3conf/releases/<%= dir %> \
