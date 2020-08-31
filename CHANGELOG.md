@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.56]
+
+- Remove media query combining which causes specifity issues.
+- Update node version & links
+- Remove heading comp by default, try to manage with h1
+- Copy new fluid font size comp
+- Fix symlink bug in deployment
+- WordPress:
+  - Add proper ratio based image sizes
+  - Simplify/alphabetize bunch of templates/files
+  - Camelize icon names
+
 ## [0.6.5x]
 
 - gulp-combine-mq -> postcss-sort-media-queries

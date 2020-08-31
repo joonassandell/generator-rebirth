@@ -98,7 +98,6 @@ gulp.task('javascripts', function(callback) {
     let pipeline = browserify({
       entries: `assets/${entry.fileName}`,
       debug: !PRODUCTION,
-      paths: ['assets'],
     });
 
     const bundle = () => {
