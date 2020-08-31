@@ -165,7 +165,6 @@ module.exports = class Rebirth extends Generator {
     const assetsPath = this.config.get('assetsPath');
 
     [
-      'components/Heading/',
       'components/Icon/',
       'components/Text/_index.scss',
       'components/Text/_Text.scss',
