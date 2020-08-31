@@ -69,7 +69,6 @@ gulp.task('stylesheets', function() {
             mergeRules: false,
           }),
           require('postcss-discard-comments')({ removeAll: true }),
-          require('postcss-sort-media-queries')(),
         ]),
       )
       .pipe(gulp.dest('Resources/Public/Assets/')));

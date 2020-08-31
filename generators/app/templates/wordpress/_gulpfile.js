@@ -69,7 +69,6 @@ gulp.task('stylesheets', function() {
             mergeRules: false,
           }),
           require('postcss-discard-comments')({ removeAll: true }),
-          require('postcss-sort-media-queries')(),
         ]),
       )
       .pipe(gulp.dest('build/assets/')));
@@ -174,7 +173,7 @@ gulp.task('images:svgSymbols', function() {
         id: 'Icon--%f',
         class: '.Icon--%f',
         title: `%f icon`,
-        slug: (name) => name,
+        slug: (name) => camelize(name),
         templates: ['default-svg'],
       }),
     )
@@ -395,3 +394,9 @@ function rmOriginalFiles() {
     return cb();
   });
 }
+
+const camelize = (str) => {
+  return str
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
+};
