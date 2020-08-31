@@ -4,11 +4,11 @@
   "description": "Rebirth Yeoman generator for new TYPO3, WordPress or HTML projects.",
   "license": "MIT",
   "main": "generators/app/index.js",
-  "repository": "https://github.com/joonasy/generator-rebirth.git",
+  "repository": "https://github.com/joonassandell/generator-rebirth.git",
   "keywords": "yeoman-generator",
   "author": {
     "name": "Joonas Y.",
-    "url": "http://joonasy.com"
+    "url": "https://joonassandell.com"
   },
   "husky": {
     "hooks": {
@@ -41,6 +41,6 @@
     "prettier": "^1.19.1"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=12.18.2"
   }
 }

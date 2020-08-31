@@ -39,4 +39,4 @@
 
 ---
 
-You may learn about the project structure in [Rebirth docs](https://joonasy.github.io/rebirth)
+You may learn about the project structure in [Rebirth docs](https://joonassandell.github.io/rebirth)

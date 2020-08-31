@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file. The format 
 
 - WordPress:
   - Added/renamed following templates: template-flexible-layout.twig/.php, template-archive.twig/.php, home.twig -> template-home.twig
-  - Moved WordPress components to [rebirth-wordpress](https://github.com/joonasy/rebirth-wordpress)
+  - Moved WordPress components to [rebirth-wordpress](https://github.com/joonassandell/rebirth-wordpress)
   - ACF: Allow shortcodes in textareas
   - Isolated setup material (gutenberg.php, plugins.php etc)
   - Added initial modified role settings for editor
@@ -72,14 +72,14 @@ All notable changes to this project will be documented in this file. The format 
   - Add App class to `<body class="App">`
   - Rename build folder from `dist/` to `build/`
   - Add .nvmrc
-- Updated to Rebirth 0.6.0 ([Rebirth CHANGELOG]([https://github.com/joonasy/rebirth/blob/master/CHANGELOG.md))
+- Updated to Rebirth 0.6.0 ([Rebirth CHANGELOG]([https://github.com/joonassandell/rebirth/blob/master/CHANGELOG.md))
 
 ## [0.6.2x]
 
 - **Removed development environment generation!**. We are now using plain git repos to create our dev envs:
-  - WordPress [rebirth-wordpress-dev](https://github.com/joonasy/rebirth-wordpress-dev.git)
-  - TYPO3 [rebirth-typo3-dev](https://github.com/joonasy/rebirth-typo3-dev.git)
-- Updated to Rebirth 0.5.4 ([Rebirth CHANGELOG]([https://github.com/joonasy/rebirth/blob/master/CHANGELOG.md))
+  - WordPress [rebirth-wordpress-project](https://github.com/joonassandell/rebirth-wordpress-project.git)
+  - TYPO3 [rebirth-typo3-project](https://github.com/joonassandell/rebirth-typo3-project.git)
+- Updated to Rebirth 0.5.4 ([Rebirth CHANGELOG]([https://github.com/joonassandell/rebirth/blob/master/CHANGELOG.md))
 - Added initial docs
 - Add .nvmrc
 - Added prettier
@@ -104,7 +104,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [0.5.5x]
 
-- Updated to Rebirth 0.5.3 ([Rebirth CHANGELOG]([https://github.com/joonasy/rebirth/blob/master/CHANGELOG.md))
+- Updated to Rebirth 0.5.3 ([Rebirth CHANGELOG]([https://github.com/joonassandell/rebirth/blob/master/CHANGELOG.md))
 - Add iconfile for referencing SVG icons ([#55]([../../issues/55) [#28]([../../issues/28))
 - Use localhost (127.0.0.1:8000) rather than generated dev address ([#48]([../../issues/48))
 - Simplify gulpfile ([#28]([../../issues/28))
@@ -165,7 +165,7 @@ All notable changes to this project will be documented in this file. The format 
 ## [0.5.0]
 
 - Project renamed to generator-rebirth
-- Starters are now in [Rebirth](https://github.com/joonasy/rebirth.git)
+- Starters are now in [Rebirth](https://github.com/joonassandell/rebirth.git)
 - Old npm package deprecated
 
 ## [0.4.3x] 2016-12-21
