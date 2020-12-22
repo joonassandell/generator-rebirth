@@ -104,7 +104,7 @@ class App extends TimberSite {
 
         $queried_object = get_queried_object();
 
-        if ($queried_object) {
+        if (isset($queried_object->term_id)) {
             foreach ($terms as $term) {
                 if ($term->id == $queried_object->term_id) {
                     $term->active = true;

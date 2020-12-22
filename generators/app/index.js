@@ -92,7 +92,7 @@ module.exports = class Rebirth extends Generator {
       {
         type: 'input',
         name: 'url',
-        message: 'Homepage (production):',
+        message: 'Site URL (production):',
         default: (props) => `https://${_.slugify(props.name)}.com`,
       },
       {
@@ -168,7 +168,6 @@ module.exports = class Rebirth extends Generator {
       'components/Icon/',
       'components/Text/_index.scss',
       'components/Text/_Text.scss',
-      'components/Text/_Text.mixins.scss',
       'containers/Container/',
       'containers/Width/',
       'containers/Wrap/',
@@ -188,6 +187,7 @@ module.exports = class Rebirth extends Generator {
       'images/',
       'javascripts/detect.js',
       'javascripts/polyfill.js',
+      'javascripts/scripts.js',
       'javascripts/utility.js',
     ].forEach((file) => {
       copy(`${this.rebirthSrc}${file}`, `${assetsPath}${file}`, this);

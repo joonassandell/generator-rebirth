@@ -5,7 +5,7 @@
   "type": "wordpress-theme",
   "version": "1.0.0",
   "require": {
-    "timber/timber": "^1.15",
+    "timber/timber": "^2.0.0-alpha.1",
     "hellonico/timber-dump-extension": "^1.0"
   }
 }

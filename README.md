@@ -17,6 +17,14 @@ If you are building a _Typo3 project_ all special characters are removed from th
 
 Rebirths documentation is built with Assemble and publicly hosted on GitHub Pages at [https://joonassandell.github.io/rebirth](https://joonassandell.github.io/rebirth).
 
+## Development
+
+Remember to link this package, rebirth and rebirth-wordpress:
+
+1. `$ npm link`
+2. `$ npm link rebirth-ui`
+3. `$ npm link rebirth-wordpress`
+
 ## License
 
 Copyright (c) 2020 Joonas Sandell (Twitter: [@joonassandell](https://twitter.com/joonassandell)). Licensed under the MIT license.

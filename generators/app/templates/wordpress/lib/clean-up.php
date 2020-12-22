@@ -155,6 +155,16 @@ add_action('wp_footer', function() {
 });
 
 /**
+ * Hide unnecessary description forms
+ */
+// function hide_description_row() {
+//     echo '<style>.term-description-wrap { display:none; }</style>';
+// }
+
+// add_action('category_add_form', 'hide_description_row');
+// add_action('category_edit_form', 'hide_description_row');
+
+/**
  * Tweak admin menu so that wider custom post type names stay in a single line
  */
 add_action('admin_head', function() {

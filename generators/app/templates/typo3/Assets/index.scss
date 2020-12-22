@@ -12,12 +12,12 @@
 @import 'stylesheets/mixins/fontSize';
 @import 'stylesheets/mixins/fontSizeFluid';
 @import 'stylesheets/mixins/position';
-@import 'stylesheets/mixins/mixins';
 @import 'stylesheets/mixins/shapeArrow';
 @import 'stylesheets/mixins/shapeMenu';
 @import 'stylesheets/mixins/shapeTriangle';
 @import 'stylesheets/mixins/text';
 @import 'stylesheets/mixins/utility';
+@import 'stylesheets/mixins/various';
 @import 'stylesheets/mixins/quantityQuery';
 
 // Vendors
@@ -25,7 +25,6 @@
 @import 'sass-mq/mq';
 
 // Component specific mixins
-@import 'components/Text/Text.mixins';
 @import 'containers/Wrap/Wrap.mixins';
 
 // Generic
